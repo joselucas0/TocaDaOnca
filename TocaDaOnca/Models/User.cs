@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TocaDaOnca.Models
 {
     [Table("users")]
-    public class Users
+    public class User
     {
         [Column("id")]
         [Key]
@@ -47,6 +47,15 @@ namespace TocaDaOnca.Models
         [Column("plan")]
         [Required]
         [StringLength(1)]
-        public char Plan { get; set; } = 'F';
+        public string Plan { get; set; } = "F";
+
+        [Column("created_at")]
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        [Column("updated_at")]
+        [Required]
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
     }
 }
