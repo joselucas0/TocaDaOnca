@@ -4,12 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace TocaDaOnca.ContextDb
+namespace TocaDaOnca.AppDbContext
 {
-    public class Context : DbContext
+    public class Context(DbContextOptions<Context> options) : DbContext(options)
     {
-        // public Context(DbContextOptions<Context> options) : base(options) {}
-
-
     }
 }

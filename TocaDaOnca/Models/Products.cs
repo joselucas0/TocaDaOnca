@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TocaDaOnca.Properties.Models
+namespace TocaDaOnca.Models
 {
     public class Products
     {
