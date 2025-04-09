@@ -1,6 +1,5 @@
 # TocaDaOnca
 
-```markdown
 # 🐆 TOCA DA ONÇA - Sistema de Gestão para Balneário  
 
 ## 🚀 Introdução  
@@ -23,7 +22,7 @@ O sistema é dividido em **Frontend** (interface do usuário) e **Backend** (API
 Cada funcionalidade/tela deve ser desenvolvida em uma **branch específica**, seguindo o padrão:  
 ```bash
 feature/<tipo>/<nome-da-funcionalidade>  # Ex: feature/front/tela-login
-```  
+
 
 ### Fluxo de Desenvolvimento:  
 1. **Crie sua branch** a partir de `developer`:  
@@ -136,7 +135,8 @@ curl -X GET https://localhost:5001/api/quiosques
 ## 🔗 Links do Projeto  
 - [Quadro no Trello](https://trello.com/invite/b/67f6b300afe50dd31f552fff/ATTI61c4b60fd6926267b41f52e5a44c7fc6E8F94865/toca-da-onca)  
 - [Documentação do ASP.NET Core](https://docs.microsoft.com/pt-br/aspnet/core/)  
-- [Guia do Entity Framework](https://docs.microsoft.com/pt-br/ef/core/)  
+- [Guia do Entity Framework](https://docs.microsoft.com/pt-br/ef/core/)
+- [Figma do projeto em alto nível](https://www.figma.com/design/0JhUqmtc8EYWbJABtmBDch/Untitled?node-id=0-1&p=f)
 
 ---
 
