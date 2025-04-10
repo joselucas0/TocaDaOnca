@@ -22,7 +22,6 @@ namespace TocaDaOnca.Models
 
         [Column("cpf")]
         [Required]
-        [StringLength(15)]
         public string Cpf { get; set; } = string.Empty;
         
         [Column("birth_date")]
@@ -44,9 +43,9 @@ namespace TocaDaOnca.Models
         [StringLength(20)]
         public string Phone { get; set;} = string.Empty;
 
-        [Column("plan")]
+        [Column("premium")]
         [Required]
-        public char Plan { get; set; } = 'F';
+        public bool Premium { get; set; } = false;
 
         [Column("created_at")]
         [Required]

@@ -12,17 +12,15 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<User> Users { get; set; }
         public DbSet<Kiosk> Kiosks { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region USER
-
+            
             modelBuilder.Entity<User>()
-                .ToTable("users", u => u.HasCheckConstraint("ck_user_plan_valid_values", "plan IN ('F', 'P')"))
-                .Property(u => u.Plan)
-                .HasColumnType("char(1)")
-                .HasDefaultValueSql("'F'");
-
+                .Property(u => u.Cpf)
+                .HasColumnType("char(15)");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.CreatedAt)
@@ -67,6 +65,28 @@ namespace TocaDaOnca.AppDbContext
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
+
+            #endregion
+
+            #region EMPLOYEE
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Cpf)
+                .HasColumnType("char(15)");
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Manager)
+                .HasDefaultValueSql("false");
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.UpdatedAt)
                 .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
                 .HasDefaultValueSql("now()");
 
