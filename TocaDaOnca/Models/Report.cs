@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TocaDaOnca.Models
 {
-    public class Employees
+    public class Report
     {
         
     }

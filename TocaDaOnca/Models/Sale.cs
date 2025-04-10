@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TocaDaOnca.Models
 {
-    public class Sales
+    public class Sale
     {
         
     }

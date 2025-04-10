@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TocaDaOnca.Models
 {
-    public class Products
+    public class Kiosk
     {
         [Column("id")]
         [Key]
@@ -18,31 +18,21 @@ namespace TocaDaOnca.Models
         [Required]
         [StringLength(150)]
         public string Name { get; set; } = string.Empty;
-        
+
+        [Column("max_people")]
+        [Required]
+        public int Max_people { get; set; }
+
         [Column("description")]
         [Required]
-        [StringLength(512)]
-        public string Description { get; set; } = string.Empty;
-        
-        [Column("cost")]
-        [Required]
-        public float Cost { get; set; }
-        
-        [Column("price")]
-        [Required]
-        public float Price { get; set; }
-
-        [Column("stock")]
-        [Required]
-        public int Stock { get; set; }
+        public string Description { get; set;} = string.Empty;
 
         [Column("created_at")]
         [Required]
-        public DateTime Created_at { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         
         [Column("updated_at")]
         [Required]
-        public DateTime Updated_at { get; set; } = DateTime.Now;
-        
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

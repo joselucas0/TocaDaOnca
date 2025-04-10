@@ -46,8 +46,7 @@ namespace TocaDaOnca.Models
 
         [Column("plan")]
         [Required]
-        [StringLength(1)]
-        public string Plan { get; set; } = "F";
+        public char Plan { get; set; } = 'F';
 
         [Column("created_at")]
         [Required]
