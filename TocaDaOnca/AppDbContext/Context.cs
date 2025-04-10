@@ -13,6 +13,7 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<Kiosk> Kiosks { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Visitor> Visitors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,6 +90,18 @@ namespace TocaDaOnca.AppDbContext
                 .Property(e => e.UpdatedAt)
                 .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
                 .HasDefaultValueSql("now()");
+
+            #endregion
+
+            #region VISITOR
+
+            modelBuilder.Entity<Visitor>()
+            .Property(v => v.CreatedAt)
+            .HasColumnType("timestamp with time zone");
+
+            modelBuilder.Entity<Visitor>()
+            .Property(v => v.UpdatedAt)
+            .HasColumnType("timestamp with time zone");  // TODO: Create trigger or function before saveChanges() to set this value on update
 
             #endregion
         }
