@@ -46,7 +46,7 @@ namespace TocaDaOnca.Models
         [ForeignKey("KioskId")]
         public Kiosk? Kiosk { get; set; }
         public List<Sale> Sales { get; set;} = [];
-        public List<Reservation> Reservations { get; set;} = [];
+        public List<ReservationVisitor> ReservationVisitors { get; set; } = [];
 
     }
 }

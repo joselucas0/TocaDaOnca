@@ -35,5 +35,8 @@ namespace TocaDaOnca.Models
         [Column("updated_at")]
         [Required]
         public DateTime UpdatedAt { get; set; }
+
+        // Navigation
+        public List<ReservationVisitor> ReservationVisitors { get; set; } = [];
     }
 }
