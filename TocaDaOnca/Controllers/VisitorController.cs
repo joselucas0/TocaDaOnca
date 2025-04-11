@@ -80,7 +80,7 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhum visitante encontrado.");
                 }
-                existente.Name = visitor.Name;
+                existente.FullName = visitor.FullName;
                 existente.BirthDate = visitor.BirthDate;
                 existente.Phone = visitor.Phone;
                 existente.CreatedAt = visitor.CreatedAt;

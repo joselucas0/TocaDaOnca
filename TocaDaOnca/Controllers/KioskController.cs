@@ -79,7 +79,7 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhum quiosque encontrado.");
                 }
-                existente.Name = kiosk.Name;
+                existente.Title = kiosk.Title;
                 existente.Max_people = kiosk.Max_people;
                 existente.Description = kiosk.Description;
                 existente.CreatedAt = kiosk.CreatedAt;
