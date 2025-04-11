@@ -6,8 +6,6 @@
 # dotenv files
 .env
 
-Migrations/
-
 # User-specific files
 *.rsuser
 *.suo
