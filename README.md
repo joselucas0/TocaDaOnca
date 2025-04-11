@@ -22,7 +22,7 @@ O sistema é dividido em **Frontend** (interface do usuário) e **Backend** (API
 Cada funcionalidade/tela deve ser desenvolvida em uma **branch específica**, seguindo o padrão:  
 ```bash
 feature/<tipo>/<nome-da-funcionalidade>  # Ex: feature/front/tela-login
-
+```
 
 ### Fluxo de Desenvolvimento:  
 1. **Crie sua branch** a partir de `developer`:  
@@ -78,11 +78,23 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
 2. **Configure o banco de dados**:  
    - Crie um arquivo `appsettings.json` com:  
      ```json
-     {
-       "ConnectionStrings": {
-         "DefaultConnection": "Host=localhost;Database=toca_da_onca;Username=postgres;Password=sua_senha"
-       }
-     }
+      {
+      "ConnectionStrings": {
+         "DefaultConnection": "Host=localhost;Database=TocaDaOnca;Username=postgres;Password=olszewski"
+      },
+      "Jwt": {
+         "Key": "tocadaonca_supersecret_key_for_jwt_auth_2025",
+         "Issuer": "TocaDaOnca.API",
+         "Audience": "TocaDaOnca.Client"
+      },
+      "Logging": {
+         "LogLevel": {
+         "Default": "Information",
+         "Microsoft.AspNetCore": "Warning"
+         }
+      },
+      "AllowedHosts": "*"
+   }
      ```  
 
 3. **Restaure as dependências**:  
