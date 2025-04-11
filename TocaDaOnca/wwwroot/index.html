@@ -1,15 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toca da Onça</title>
+    <title>Área do Cliente - Toca da Onça</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header></header>
-    <aside id="left-aside"></aside>
-    <main></main>
-    <aside id="right-aside"></aside>
-    <footer></footer>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Toca da <span>Onça</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/cliente" class="active">Área do Cliente</a></li>
+                <li><a href="/funcionario">Área do Funcionário</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-content">
+            <h1>Área do Cliente</h1>
+            <p>Agende seu quiosque, conheça nossas instalações e saiba como chegar</p>
+        </div>
+    </header>
+
+    <div class="client-container">
+        <div class="client-tabs">
+            <div class="client-tab active" onclick="openTab(event, 'gallery')">Galeria</div>
+            <div class="client-tab" onclick="openTab(event, 'location')">Localização</div>
+            <div class="client-tab" onclick="openTab(event, 'booking')">Agendamento</div>
+            <div class="client-tab" onclick="openTab(event, 'kiosks')">Nossos Quiosques</div>
+        </div>
+        
+        
+        <div id="gallery" class="tab-content active">
+            <h2>Galeria de Fotos</h2>
+            <p>Conheça nossas instalações e as belezas naturais que nos cercam.</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Piscina natural">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurante">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1539667468225-eebb663053e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Natureza">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cachoeira">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosques">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Área de camping">
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="location" class="tab-content">
+            <h2>Como Chegar</h2>
+            <p>Estamos localizados em um paraíso natural de fácil acesso. Veja no mapa como chegar até nós.</p>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.678901234567!2d-46.12345678901234!3d-23.123456789012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDA3JzI0LjgiUyA0NsKwMDcnMjQuOCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <div style="margin-top: 30px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                <h3>Endereço</h3>
+                <p>Rodovia BR-XXX, Km 123 - Cidade/Estado</p>
+                <p>CEP: 12345-678</p>
+                
+                <h3 style="margin-top: 20px;">Horário de Funcionamento</h3>
+                <p>Terça a Domingo: 08:00 às 18:00</p>
+            </div>
+        </div>
+        
+        
+        <div id="booking" class="tab-content">
+            <h2>Agende seu Quiosque</h2>
+            <p>Preencha o formulário abaixo para reservar seu quiosque no Balneário Toca da Onça.</p>
+            
+            <div class="booking-form">
+                <form id="reservation-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nome Completo</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpf">CPF</label>
+                            <input type="text" id="cpf" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reservation-email">E-mail</label>
+                            <input type="email" id="reservation-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reservation-phone">Telefone</label>
+                            <input type="tel" id="reservation-phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reservation-date">Data</label>
+                            <input type="date" id="reservation-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reservation-kiosk">Quiosque</label>
+                            <select id="reservation-kiosk" required>
+                                <option value="">Selecione um quiosque</option>
+                                <option value="1">Quiosque 1 (Até 6 pessoas)</option>
+                                <option value="2">Quiosque 2 (Até 8 pessoas)</option>
+                                <option value="3">Quiosque 3 (Até 10 pessoas)</option>
+                                <option value="4">Quiosque 4 (Até 12 pessoas)</option>
+                                <option value="5">Quiosque 5 (Até 15 pessoas)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reservation-visitors">Visitantes (Nomes e CPFs)</label>
+                        <textarea id="reservation-visitors" placeholder="Liste os nomes e CPFs dos visitantes que estarão com você, separados por vírgula"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reservation-notes">Observações</label>
+                        <textarea id="reservation-notes" placeholder="Alguma necessidade especial ou informação adicional"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Solicitar Reserva</button>
+                </form>
+            </div>
+        </div>
+        
+        
+        <div id="kiosks" class="tab-content">
+            <h2>Nossos Quiosques</h2>
+            <p>Conheça nossas opções de quiosques e escolha o ideal para seu grupo.</p>
+            
+            <div class="kiosks-grid">
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 1">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque 1</h3>
+                        <p>Quiosque padrão com mesa, bancos e churrasqueira.</p>
+                        <div class="kiosk-price">R$ 150,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 6 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 2">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque 2</h3>
+                        <p>Quiosque amplo com mesa de madeira rústica.</p>
+                        <div class="kiosk-price">R$ 180,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 8 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                            <span>Vista para o rio</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 3">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque Premium</h3>
+                        <p>Nosso quiosque mais exclusivo, com área privativa.</p>
+                        <div class="kiosk-price">R$ 250,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 10 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                            <span>Vista privilegiada</span>
+                            <span>Próximo ao bar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="logo">
+            <h1>Toca da <span>Onça</span></h1>
+            <p>Balneário & Pousada</p>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+        </div>
+        
+        <p class="copyright">© 2025 Toca da Onça. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Esconde todos os conteúdos de tab
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove a classe active de todas as tabs
+            var tabLinks = document.getElementsByClassName("client-tab");
+            for (var i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+            
+            // Mostra a tab atual e adiciona a classe active ao botão
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Formulário de reserva
+        document.getElementById('reservation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Sua solicitação de reserva foi enviada com sucesso! Entraremos em contato para confirmação.');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
