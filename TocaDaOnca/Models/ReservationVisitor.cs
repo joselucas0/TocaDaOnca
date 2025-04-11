@@ -7,34 +7,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TocaDaOnca.Models
 {
-    [Table("products")]
-    public class Product
+    [Table("reservations_visitors")]
+    public class ReservationVisitor
     {
         [Column("id")]
         [Key]
         [Required]
         public int Id { get; set; }
 
-        [Column("product_name")]
+        [Column("reservation_id")]
         [Required]
-        [StringLength(150)]
-        public string ProductName { get; set; } = string.Empty;
-        
-        [Column("description")]
-        [Required]
-        public string Description { get; set; } = string.Empty;
-        
-        [Column("cost")]
-        [Required]
-        public float Cost { get; set; }
-        
-        [Column("price")]
-        [Required]
-        public float Price { get; set; }
+        public int ReservationId { get; set; }
 
-        [Column("stock")]
+        [Column("visitor_id")]
         [Required]
-        public int Stock { get; set; }
+        public int VisitorId { get; set; }
 
         [Column("created_at")]
         [Required]
@@ -45,7 +32,11 @@ namespace TocaDaOnca.Models
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation
-        public List<SaleProduct> SaleProducts { get; set; } = [];
-        
+
+        [ForeignKey(nameof(ReservationId))]
+        public Reservation? Reservation { get; set; }
+
+        [ForeignKey(nameof(VisitorId))]
+        public Visitor? Visitor { get; set;}
     }
 }

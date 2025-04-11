@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TocaDaOnca.AppDbContext;
@@ -11,17 +12,15 @@ using TocaDaOnca.AppDbContext;
 namespace TocaDaOnca.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250411195422_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-<<<<<<< HEAD
-                .HasAnnotation("ProductVersion", "9.0.4")
-=======
                 .HasAnnotation("ProductVersion", "9.0.3")
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -52,30 +51,18 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("email");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
                         .HasColumnName("full_name");
 
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                     b.Property<bool>("Manager")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasColumnName("manager")
                         .HasDefaultValueSql("false");
 
-<<<<<<< HEAD
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("name");
-
-=======
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -117,19 +104,11 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("max_people");
 
-<<<<<<< HEAD
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("name");
-=======
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
                         .HasColumnName("title");
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -166,28 +145,16 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-<<<<<<< HEAD
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("name");
-
-=======
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                     b.Property<float>("Price")
                         .HasColumnType("real")
                         .HasColumnName("price");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
                         .HasColumnName("product_name");
 
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                     b.Property<int>("Stock")
                         .HasColumnType("integer")
                         .HasColumnName("stock");
@@ -200,10 +167,7 @@ namespace TocaDaOnca.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
                     b.ToTable("Products");
-=======
-                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("TocaDaOnca.Models.Report", b =>
@@ -433,7 +397,6 @@ namespace TocaDaOnca.Migrations
                     b.HasIndex("SaleId");
 
                     b.ToTable("sales_products");
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                 });
 
             modelBuilder.Entity("TocaDaOnca.Models.User", b =>
@@ -513,16 +476,6 @@ namespace TocaDaOnca.Migrations
                         .HasColumnName("birth_date");
 
                     b.Property<DateTime>("CreatedAt")
-<<<<<<< HEAD
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("name");
-=======
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
@@ -533,7 +486,6 @@ namespace TocaDaOnca.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
                         .HasColumnName("full_name");
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -542,14 +494,6 @@ namespace TocaDaOnca.Migrations
                         .HasColumnName("phone");
 
                     b.Property<DateTime>("UpdatedAt")
-<<<<<<< HEAD
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Visitors");
-=======
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
@@ -557,7 +501,7 @@ namespace TocaDaOnca.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("visitors");
+                    b.ToTable("Visitors");
                 });
 
             modelBuilder.Entity("TocaDaOnca.Models.Reservation", b =>
@@ -666,7 +610,6 @@ namespace TocaDaOnca.Migrations
             modelBuilder.Entity("TocaDaOnca.Models.Visitor", b =>
                 {
                     b.Navigation("ReservationVisitors");
->>>>>>> 50c3a2dfd079d49cc55d2a6858d7e6d1c695b76a
                 });
 #pragma warning restore 612, 618
         }

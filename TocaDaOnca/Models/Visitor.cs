@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TocaDaOnca.Models
 {
+    [Table("visitors")]
     public class Visitor
     {
         [Column("id")]

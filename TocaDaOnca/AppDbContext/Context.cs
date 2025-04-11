@@ -7,7 +7,7 @@ using TocaDaOnca.Models;
 
 namespace TocaDaOnca.AppDbContext
 {
-    public class Context(DbContextOptions<Context> options) : DbContext(options)
+    public class Context : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Kiosk> Kiosks { get; set; }
@@ -19,6 +19,17 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReservationVisitor> ReservationVisitors { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // Configurações do banco de dados
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
