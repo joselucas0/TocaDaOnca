@@ -39,15 +39,15 @@ namespace TocaDaOnca.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
 
-        // Navigation
+        // Navigations
         [ForeignKey("UserId")]
         public User? User { get; set; }
 
         [ForeignKey("KioskId")]
         public Kiosk? Kiosk { get; set; }
 
-        public List<Reservation> Reservations { get; set;} = [];
         public List<Sale> Sales { get; set;} = [];
+        public List<Reservation> Reservations { get; set;} = [];
 
     }
 }
