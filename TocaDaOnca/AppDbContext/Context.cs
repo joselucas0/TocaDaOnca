@@ -171,6 +171,20 @@ namespace TocaDaOnca.AppDbContext
                 .HasDefaultValueSql("now()");
 
             #endregion
+
+            #region RESERVATION
+
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<Reservation>()
+                .Property(r => r.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
+                
+            #endregion
         }
     }
 }
