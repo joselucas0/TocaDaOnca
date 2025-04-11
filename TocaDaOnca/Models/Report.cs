@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TocaDaOnca.Properties.Models
+namespace TocaDaOnca.Models
 {
-    public class Koisks
+    public class Report
     {
         
     }
