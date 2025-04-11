@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using TocaDaOnca.Models;
 using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace TocaDaOnca.Controllers
 {
@@ -14,6 +16,33 @@ namespace TocaDaOnca.Controllers
         public UserController(Context context)
         {
             _context = context;
+        }
+
+        // GET: api/User/profile
+        [HttpGet("profile")]
+        [Authorize] // Esta rota requer autenticação
+        public async Task<ActionResult<User>> GetUserProfile()
+        {
+            // Obtém o ID do usuário autenticado
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int id))
+            {
+                return BadRequest("ID de usuário inválido ou não encontrado no token");
+            }
+
+            // Busca o usuário pelo ID
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Não retornar a senha no resultado
+            user.Password = string.Empty;
+
+            return user;
         }
 
         // GET: api/User
@@ -46,8 +75,7 @@ namespace TocaDaOnca.Controllers
             user.CreatedAt = DateTime.UtcNow;
             user.UpdatedAt = DateTime.UtcNow;
 
-            // todo: adicionar lógica para hash da senha antes de salvar
-            // exemplo: user.Password = HashPassword(user.Password);
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
