@@ -14,6 +14,7 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<Product> Products { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
+        public DbSet<Sale> Sales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -97,11 +98,27 @@ namespace TocaDaOnca.AppDbContext
 
             modelBuilder.Entity<Visitor>()
             .Property(v => v.CreatedAt)
-            .HasColumnType("timestamp with time zone");
+            .HasColumnType("timestamp with time zone")
+            .HasDefaultValueSql("now()");
 
             modelBuilder.Entity<Visitor>()
             .Property(v => v.UpdatedAt)
-            .HasColumnType("timestamp with time zone");  // TODO: Create trigger or function before saveChanges() to set this value on update
+            .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+            .HasDefaultValueSql("now()");
+
+            #endregion
+
+            #region SALE
+
+            modelBuilder.Entity<Sale>()
+            .Property(s => s.CreatedAt)
+            .HasColumnType("timestamp with time zone")
+            .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<Sale>()
+            .Property(s => s.UpdatedAt)
+            .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+            .HasDefaultValueSql("now()");
 
             #endregion
         }

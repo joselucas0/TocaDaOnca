@@ -14,10 +14,10 @@ namespace TocaDaOnca.Models
         [Required]
         public int Id { get; set; }
         
-        [Column("name")]
+        [Column("full_name")]
         [Required]
         [StringLength(150)]
-        public string Name { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
         
         [Column("birth_date")]
         [Required]

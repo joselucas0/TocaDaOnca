@@ -55,5 +55,7 @@ namespace TocaDaOnca.Models
         [Required]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
+        public List<Reservation> Reservations { get; set; } = [];
+
     }
 }

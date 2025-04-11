@@ -15,10 +15,10 @@ namespace TocaDaOnca.Models
         [Required]
         public int Id { get; set; }
 
-        [Column("name")]
+        [Column("full_name")]
         [Required]
         [StringLength(150)]
-        public string Name { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
 
         [Column("cpf")]
         [Required]
@@ -45,5 +45,8 @@ namespace TocaDaOnca.Models
         [Column("updated_at")]
         [Required]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        // Navigation
+        public List<Sale> Sales { get; set; } = [];
     }
 }
