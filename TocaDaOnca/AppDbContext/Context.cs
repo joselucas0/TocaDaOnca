@@ -19,7 +19,7 @@ namespace TocaDaOnca.AppDbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region USER
-            
+
             modelBuilder.Entity<User>()
                 .Property(u => u.Cpf)
                 .HasColumnType("char(15)");
@@ -41,7 +41,7 @@ namespace TocaDaOnca.AppDbContext
             modelBuilder.Entity<Kiosk>()
                 .Property(k => k.Description)
                 .HasColumnType("text");
-            
+
             modelBuilder.Entity<Kiosk>()
                 .Property(k => k.CreatedAt)
                 .HasColumnType("timestamp with time zone")
@@ -59,7 +59,7 @@ namespace TocaDaOnca.AppDbContext
             modelBuilder.Entity<Product>()
                 .Property(p => p.Description)
                 .HasColumnType("text");
-            
+
             modelBuilder.Entity<Product>()
                 .Property(p => p.CreatedAt)
                 .HasColumnType("timestamp with time zone")
@@ -97,28 +97,54 @@ namespace TocaDaOnca.AppDbContext
             #region VISITOR
 
             modelBuilder.Entity<Visitor>()
-            .Property(v => v.CreatedAt)
-            .HasColumnType("timestamp with time zone")
-            .HasDefaultValueSql("now()");
+                .Property(v => v.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
 
             modelBuilder.Entity<Visitor>()
-            .Property(v => v.UpdatedAt)
-            .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
-            .HasDefaultValueSql("now()");
+                .Property(v => v.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
 
             #endregion
 
             #region SALE
 
             modelBuilder.Entity<Sale>()
-            .Property(s => s.CreatedAt)
-            .HasColumnType("timestamp with time zone")
-            .HasDefaultValueSql("now()");
+                .Property(s => s.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
 
             modelBuilder.Entity<Sale>()
-            .Property(s => s.UpdatedAt)
-            .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
-            .HasDefaultValueSql("now()");
+                .Property(s => s.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
+
+            #endregion
+
+            #region SALE_PRODUCT
+
+            modelBuilder.Entity<SaleProduct>()
+                .HasOne(sp => sp.Sale)
+                .WithMany(s => s.SaleProducts) // ← você precisa adicionar essa propriedade em Sale
+                .HasForeignKey(sp => sp.SaleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SaleProduct>()
+                .HasOne(sp => sp.Product)
+                .WithMany(p => p.SaleProducts) // ← você precisa adicionar essa propriedade em Product
+                .HasForeignKey(sp => sp.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleProduct>()
+                .Property(sp => sp.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<SaleProduct>()
+                .Property(sp => sp.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
 
             #endregion
         }

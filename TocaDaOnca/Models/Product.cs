@@ -42,6 +42,9 @@ namespace TocaDaOnca.Models
         [Column("updated_at")]
         [Required]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        // Navigation
+        public List<SaleProduct> SaleProducts { get; set; } = [];
         
     }
 }

@@ -35,8 +35,7 @@ namespace TocaDaOnca.Models
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation
-
-         [ForeignKey(nameof(ReservationId))]
+        [ForeignKey(nameof(ReservationId))]
         public Reservation? Reservation { get; set; }
 
         [ForeignKey(nameof(EmployeeId))]
