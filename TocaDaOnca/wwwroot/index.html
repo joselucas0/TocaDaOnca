@@ -6,12 +6,13 @@
     <title>Área do Cliente - Toca da Onça</title>
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="imagex/png" href="./img_logo.png">
 </head>
 <body>
+    <!-- Cabeçalho -->
     <header>
         <nav>
             <div class="logo">
-                <!-- <img src="img_logo.png" alt="logo" style="width: 75px; height: auto;"> -->
                 <h1>Toca da <span>Onça</span></h1>
             </div>
             <ul class="nav-links">
@@ -27,15 +28,15 @@
         </div>
     </header>
 
+    <!-- Conteúdo Principal -->
     <div class="client-container">
         <div class="client-tabs">
             <div class="client-tab active" onclick="openTab(event, 'gallery')">Galeria</div>
             <div class="client-tab" onclick="openTab(event, 'location')">Localização</div>
-            <div class="client-tab" onclick="openTab(event, 'booking')">Agendamento</div>
             <div class="client-tab" onclick="openTab(event, 'kiosks')">Nossos Quiosques</div>
         </div>
         
-        
+        <!-- Seção Galeria -->
         <div id="gallery" class="tab-content active">
             <h2>Galeria de Fotos</h2>
             <p>Conheça nossas instalações e as belezas naturais que nos cercam.</p>
@@ -62,7 +63,7 @@
             </div>
         </div>
         
-        
+        <!-- Seção Localização -->
         <div id="location" class="tab-content">
             <h2>Como Chegar</h2>
             <p>Estamos localizados em um paraíso natural de fácil acesso. Veja no mapa como chegar até nós.</p>
@@ -81,69 +82,7 @@
             </div>
         </div>
         
-        
-        <div id="booking" class="tab-content">
-            <h2>Agende seu Quiosque</h2>
-            <p>Preencha o formulário abaixo para reservar seu quiosque no Balneário Toca da Onça.</p>
-            
-            <div class="booking-form">
-                <form id="reservation-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Nome Completo</label>
-                            <input type="text" id="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cpf">CPF</label>
-                            <input type="text" id="cpf" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="reservation-email">E-mail</label>
-                            <input type="email" id="reservation-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Telefone</label>
-                            <input type="number" id="phone" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="date">Data</label>
-                            <input type="date" id="date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reservation-kiosk">Quiosque</label>
-                            <select id="reservation-kiosk" required>
-                                <option value="">Selecione um quiosque</option>
-                                <option value="1">Quiosque 1 (Até 6 pessoas)</option>
-                                <option value="2">Quiosque 2 (Até 8 pessoas)</option>
-                                <option value="3">Quiosque 3 (Até 10 pessoas)</option>
-                                <option value="4">Quiosque 4 (Até 12 pessoas)</option>
-                                <option value="5">Quiosque 5 (Até 15 pessoas)</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="reservation-visitors">Visitantes (Nomes e CPFs)</label>
-                        <textarea id="reservation-visitors" placeholder="Liste os nomes e CPFs dos visitantes que estarão com você, separados por vírgula"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="reservation-notes">Observações</label>
-                        <textarea id="reservation-notes" placeholder="Alguma necessidade especial ou informação adicional"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Solicitar Reserva</button>
-                </form>
-            </div>
-        </div>
-        
-        
+        <!-- Seção Quiosques -->
         <div id="kiosks" class="tab-content">
             <h2>Nossos Quiosques</h2>
             <p>Conheça nossas opções de quiosques e escolha o ideal para seu grupo.</p>
@@ -162,6 +101,7 @@
                             <span>Churrasqueira</span>
                             <span>Área coberta</span>
                         </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque 1', 150)">Reservar</button>
                     </div>
                 </div>
                 
@@ -179,6 +119,7 @@
                             <span>Área coberta</span>
                             <span>Vista para o rio</span>
                         </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque 2', 180)">Reservar</button>
                     </div>
                 </div>
                 
@@ -197,15 +138,81 @@
                             <span>Vista privilegiada</span>
                             <span>Próximo ao bar</span>
                         </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque Premium', 250)">Reservar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal de Agendamento -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2>Agendar <span id="modalKioskName"></span></h2>
+            <p>Preencha o formulário abaixo para reservar seu quiosque no Balneário Toca da Onça.</p>
+            
+            <form id="reservation-form">
+                <input type="hidden" id="kiosk-type">
+                <input type="hidden" id="kiosk-price">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-name">Nome Completo</label>
+                        <input type="text" id="reservation-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-cpf">CPF</label>
+                        <input type="text" id="reservation-cpf" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-email">E-mail</label>
+                        <input type="email" id="reservation-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-phone">Telefone</label>
+                        <input type="tel" id="reservation-phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-date">Data</label>
+                        <input type="date" id="reservation-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-people">Número de Pessoas</label>
+                        <input type="number" id="reservation-people" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reservation-visitors">Visitantes (Nomes e CPFs)</label>
+                    <textarea id="reservation-visitors" placeholder="Liste os nomes e CPFs dos visitantes que estarão com você, separados por vírgula"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reservation-notes">Observações</label>
+                    <textarea id="reservation-notes" placeholder="Alguma necessidade especial ou informação adicional"></textarea>
+                </div>
+                
+                <div class="form-group" style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                    <p><strong>Resumo da Reserva:</strong></p>
+                    <p>Quiosque: <span id="reservation-summary-kiosk"></span></p>
+                    <p>Valor: <span id="reservation-summary-price"></span></p>
+                </div>
+                
+                <button type="submit" class="submit-btn">Solicitar Reserva</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
     <footer>
         <div class="logo">
-            <img src="img_logo.png" alt="logo" style="width: 75px; height: auto;">
             <h1>Toca da <span>Onça</span></h1>
             <p>Balneário & Pousada</p>
         </div>
@@ -217,10 +224,11 @@
             <a href="#"><i class="fab fa-tripadvisor"></i></a>
         </div>
         
-        <p class="copyright">© 2025 Toca da Onça. Todos os direitos reservados.</p>
+        <p class="copyright">© 2023 Toca da Onça. Todos os direitos reservados.</p>
     </footer>
 
     <script>
+        // Função para abrir as abas
         function openTab(evt, tabName) {
             // Esconde todos os conteúdos de tab
             var tabContents = document.getElementsByClassName("tab-content");
@@ -239,11 +247,43 @@
             evt.currentTarget.classList.add("active");
         }
         
+        // Funções para o modal
+        function openModal(kioskName, kioskPrice) {
+            document.getElementById('modalKioskName').textContent = kioskName;
+            document.getElementById('kiosk-type').value = kioskName;
+            document.getElementById('kiosk-price').value = kioskPrice;
+            document.getElementById('reservation-summary-kiosk').textContent = kioskName;
+            document.getElementById('reservation-summary-price').textContent = 'R$ ' + kioskPrice.toFixed(2);
+            
+            // Configurar a data mínima como hoje
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('reservation-date').min = today;
+            
+            document.getElementById('reservationModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('reservationModal').style.display = 'none';
+        }
+        
+        // Fechar modal ao clicar fora do conteúdo
+        window.onclick = function(event) {
+            var modal = document.getElementById('reservationModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
         // Formulário de reserva
         document.getElementById('reservation-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Sua solicitação de reserva foi enviada com sucesso! Entraremos em contato para confirmação.');
             this.reset();
+            closeModal();
         });
     </script>
 </body>
