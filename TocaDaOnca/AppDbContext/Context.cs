@@ -15,6 +15,9 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleProduct> SalesProducts { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -143,6 +146,27 @@ namespace TocaDaOnca.AppDbContext
 
             modelBuilder.Entity<SaleProduct>()
                 .Property(sp => sp.UpdatedAt)
+                .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
+                .HasDefaultValueSql("now()");
+
+            #endregion
+
+            #region REPORT
+
+            modelBuilder.Entity<Report>()
+                .ToTable(t => t.HasCheckConstraint("CK_Report_ReportType", "report_type IN ('S', 'M', 'A')"))   // S: Semanal; M: Mensal; A: Anual
+                .Property(r => r.ReportType)
+                .HasColumnType("char(1)")
+                .HasDefaultValueSql("'S'");
+
+
+            modelBuilder.Entity<Report>()
+                .Property(r => r.CreatedAt)
+                .HasColumnType("timestamp with time zone")
+                .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<Report>()
+                .Property(r => r.UpdatedAt)
                 .HasColumnType("timestamp with time zone")  // TODO: Create trigger or function before saveChanges() to set this value on update
                 .HasDefaultValueSql("now()");
 
