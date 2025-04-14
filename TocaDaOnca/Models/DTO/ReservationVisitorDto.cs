@@ -16,4 +16,16 @@ namespace TocaDaOnca.Models.DTO
         public VisitorReadDto Visitor { get; set; }
     }
 
+    public class ReservationVisitorCreateDto
+    {
+        public int ReservationId { get; set; }
+        public int VisitorId { get; set; }
+    }
+
+    public class ReservationVisitorUpdateDto
+    {
+        public int ReservationId { get; set; }
+        public int VisitorId { get; set; }
+    }
+
 }

@@ -17,4 +17,17 @@ namespace TocaDaOnca.Models.DTO
         public ProductReadDto Product { get; set; }
     }
 
+    public class SaleProductCreateDto
+    {
+        public int SaleId { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    public class SaleProductUpdateDto
+    {
+        public int SaleId { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+    }
 }
