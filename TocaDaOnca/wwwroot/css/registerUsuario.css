@@ -1,0 +1,164 @@
+/* Variáveis e reset */
+:root {
+    --marrom-primario: #8B4513;
+    --verde-secundario: #2E8B57;
+    --amarelo-destaque: #FFD700;
+    --cinza-fundo: #F5F5F5;
+    --cinza-texto: #333333;
+    --branco: #FFFFFF;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Estilização geral do body */
+  body {
+    background: var(--cinza-fundo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  /* Container principal do cadastro */
+  .register-container {
+    background: var(--branco);
+    width: 90%;
+    max-width: 500px;
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Logo e título */
+  .register-container .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .register-container .logo h1 {
+    color: var(--marrom-primario);
+    font-size: 2.5rem;
+  }
+  
+  .register-container .logo p {
+    color: var(--cinza-texto);
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Formulário de cadastro */
+  .register-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--cinza-texto);
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--verde-secundario);
+    outline: none;
+  }
+  
+  /* Botão de cadastro */
+  .register-btn {
+    background-color: var(--amarelo-destaque);
+    color: #000;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+  
+  .register-btn:hover {
+    background-color: #e6c200;
+    border: 2px solid var(--marrom-primario);
+    transform: translateY(-2px);
+  }
+  
+  /* Link para fazer login */
+  .login-link {
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    color: var(--cinza-texto);
+    text-align: center;
+  }
+  
+  .login-link a {
+    color: var(--marrom-primario);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .login-link a:hover {
+    color: var(--verde-secundario);
+  }
+  
+  /* Footer */
+  .footer {
+    font-size: 0.9rem;
+    color: var(--cinza-texto);
+    text-align: center;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding-top: 1rem;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .register-container {
+      padding: 1.5rem;
+    }
+    
+    .register-container .logo h1 {
+      font-size: 2rem;
+    }
+    
+    .register-form input,
+    .register-form select {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+    
+    .register-btn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  }
+  
