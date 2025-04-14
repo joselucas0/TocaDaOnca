@@ -37,6 +37,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Adicionar política de autorização para acessar endpoints protegidos
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsManager", policy =>
+        policy.RequireClaim("IsManager", "true"));
+});
+
 // Registrar serviços de autenticação e token
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TokenService>();
