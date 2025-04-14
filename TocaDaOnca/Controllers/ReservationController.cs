@@ -136,7 +136,7 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhuma reserva encontrada.");
                 }
-                
+
                 // Checa o Kiosk
                 if (dto.KioskId.HasValue)
                 {
@@ -155,17 +155,17 @@ namespace TocaDaOnca.Controllers
                 }
 
                 existente.UpdatedAt = DateTime.UtcNow;
-                
+
                 await _context.SaveChangesAsync();
 
                 var readDto = new ReservationReadDto
                 {
-                UserId = existente.UserId,
-                KioskId = existente.KioskId,
-                StartTime = existente.StartTime,
-                EndTime = existente.EndTime,
-                CreatedAt = existente.CreatedAt,
-                UpdatedAt = existente.UpdatedAt
+                    UserId = existente.UserId,
+                    KioskId = existente.KioskId,
+                    StartTime = existente.StartTime,
+                    EndTime = existente.EndTime,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
                 };
 
                 return Ok(readDto);

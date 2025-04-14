@@ -116,7 +116,7 @@ namespace TocaDaOnca.Controllers
         #endregion
         #region Put
         [HttpPut("{id}")]
-        public async Task<ActionResult<Kiosk>> Put(int id, [FromBody] KioskUpdateDto dto)
+        public async Task<ActionResult<KioskReadDto>> Put(int id, [FromBody] KioskUpdateDto dto)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace TocaDaOnca.Controllers
                 {
                     existente.Description = dto.Description;
                 }
-                
+
                 existente.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
@@ -153,7 +153,7 @@ namespace TocaDaOnca.Controllers
                 UpdatedAt = existente.UpdatedAt
                 };
 
-                return Ok(existente);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
