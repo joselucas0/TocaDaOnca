@@ -298,14 +298,14 @@ namespace TocaDaOnca.Controllers
             });
         }
 
-        // GET: api/Employee/test/manager-access
+        //GET: api/Employee/test/manager-access
         [HttpGet("test/manager-access")]
         [Authorize(Policy = "IsManager")] // Only managers can access
         public IActionResult TestManagerAccess()
         {
             return Ok(new
             {
-                message = "Você tem acesso de gerente",
+                message = "Você tem acesso de gerentes",
                 employeeId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                 name = User.FindFirst(ClaimTypes.Name)?.Value
             });
