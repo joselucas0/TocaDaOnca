@@ -4,6 +4,7 @@ using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using TocaDaOnca.Models.DTO;
 
 namespace TocaDaOnca.Controllers
 {
@@ -25,7 +26,7 @@ namespace TocaDaOnca.Controllers
         {
             // Obtém o ID do usuário autenticado
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
+
             if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int id))
             {
                 return BadRequest("ID de usuário inválido ou não encontrado no token");
@@ -39,81 +40,170 @@ namespace TocaDaOnca.Controllers
                 return NotFound();
             }
 
-            // Não retornar a senha no resultado
-            user.Password = string.Empty;
+            var dto = new UserReadDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Cpf = user.Cpf,
+                BirthDate = user.BirthDate,
+                Email = user.Email,
+                Phone = user.Phone,
+                Premium = user.Premium,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
+            };
 
-            return user;
+            return Ok(dto);
         }
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserReadDto>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            try
+            {
+                var user = await _context.Users.ToListAsync();
+                if (user == null || !user.Any())
+                {
+                    return NotFound("nenhum usuario encontrado.");
+                }
+
+                var dtoList = user.Select(u => new UserReadDto
+                {
+                    Id = u.Id,
+                    FullName = u.FullName,
+                    Cpf = u.Cpf,
+                    BirthDate = u.BirthDate,
+                    Email = u.Email,
+                    Phone = u.Phone,
+                    Premium = u.Premium,
+                    CreatedAt = u.CreatedAt,
+                    UpdatedAt = u.UpdatedAt
+                });
+
+                return Ok(dtoList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro os usuarios: {ex.Message}");
+            }
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserReadDto>> GetById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
+            try
             {
-                return NotFound();
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound("Nenhum usuario encontrado");
+                }
+
+                var dto = new UserReadDto
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Cpf = user.Cpf,
+                    BirthDate = user.BirthDate,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Premium = user.Premium,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt
+                };
+
+                return Ok(dto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao obter o usuario: {ex.Message}");
             }
 
-            return user;
+
         }
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserCreateDto>> Post([FromBody] UserCreateDto dto)
         {
-            // Garante que os DateTimes estejam em UTC
-            user.BirthDate = DateTime.SpecifyKind(user.BirthDate, DateTimeKind.Utc);
-            user.CreatedAt = DateTime.UtcNow;
-            user.UpdatedAt = DateTime.UtcNow;
+            try
+            {
+                var entity = new User
+                {
+                    FullName = dto.FullName,
+                    Cpf = dto.Cpf,
+                    BirthDate = dto.BirthDate,
+                    Email = dto.Email,
+                    Phone = dto.Phone,
+                    Premium = dto.Premium,
+                    Password = dto.Password,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Users.Add(entity);
+                await _context.SaveChangesAsync();
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+                var result = new UserReadDto
+                {
+                    Id = entity.Id,
+                    FullName = entity.FullName,
+                    Cpf = entity.Cpf,
+                    BirthDate = entity.BirthDate,
+                    Email = entity.Email,
+                    Phone = entity.Phone,
+                    Premium = entity.Premium,
+                    CreatedAt = entity.CreatedAt,
+                    UpdatedAt = entity.UpdatedAt
+                };
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao criar usuario: {ex.Message}");
+            }
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> Put(int id, UserUpdateDto dto)
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            user.BirthDate = DateTime.SpecifyKind(user.BirthDate, DateTimeKind.Utc);
-            user.UpdatedAt = DateTime.UtcNow;
-
-            _context.Entry(user).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var existente = await _context.Users.FindAsync(id);
+                if (existente == null)
+                {
+                    return NotFound("Nenhum usuario encontrado.");
+                }
+
+                existente.FullName = dto.FullName ?? existente.FullName;
+                existente.Phone = dto.Phone ?? existente.Phone;
+                existente.Premium = dto.Premium ?? existente.Premium;
+                existente.BirthDate = dto.BirthDate ?? existente.BirthDate;
+                existente.UpdatedAt = DateTime.UtcNow;
+
+                var result = new UserReadDto
+                {
+                    Id = existente.Id,
+                    FullName = existente.FullName,
+                    Cpf = existente.Cpf,
+                    BirthDate = existente.BirthDate,
+                    Email = existente.Email,
+                    Phone = existente.Phone,
+                    Premium = existente.Premium,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+
+                return Ok(result);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, $"Erro ao atualizar usuario: {ex.Message}");
             }
 
-            return NoContent();
         }
 
         // DELETE: api/User/5

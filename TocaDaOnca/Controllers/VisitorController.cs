@@ -4,6 +4,7 @@ using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using TocaDaOnca.Models.DTO;
 
 namespace TocaDaOnca.Controllers
 {
@@ -19,7 +20,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Visitor>>> Get()
+        public async Task<ActionResult<IEnumerable<VisitorReadDto>>> Get()
         {
             try
             {
@@ -30,7 +31,17 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhum visitante encontrado.");
                 }
 
-                return Ok(visitors);
+                var dtoList = visitors.Select(s => new VisitorReadDto
+                {
+                    Id = s.Id,
+                    FullName = s.FullName,
+                    BirthDate = s.BirthDate,
+                    Phone = s.Phone,
+                    CreatedAt = s.CreatedAt,
+                    UpdatedAt = s.UpdatedAt
+                });
+
+                return Ok(dtoList);
             }
             catch (Exception ex)
             {
@@ -39,7 +50,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Visitor>> GetById(int id)
+        public async Task<ActionResult<VisitorReadDto>> GetById(int id)
         {
             try
             {
@@ -47,7 +58,17 @@ namespace TocaDaOnca.Controllers
                 if (visitor == null)
                     return NotFound("Nenhum visitante encontrado.");
 
-                return Ok(visitor);
+                var dto = new VisitorReadDto
+                {
+                    Id = visitor.Id,
+                    FullName = visitor.FullName,
+                    BirthDate = visitor.BirthDate,
+                    Phone = visitor.Phone,
+                    CreatedAt = visitor.CreatedAt,
+                    UpdatedAt = visitor.UpdatedAt
+                };
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -56,13 +77,31 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Visitor>> Post([FromBody] Visitor visitors)
+        public async Task<ActionResult<VisitorCreateDto>> Post([FromBody] VisitorCreateDto dto)
         {
             try
             {
-                _context.Visitors.Add(visitors);
+                var entity = new Visitor
+                {
+                    FullName = dto.FullName,
+                    BirthDate = dto.BirthDate,
+                    Phone = dto.Phone,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Visitors.Add(entity);
                 await _context.SaveChangesAsync();
-                return Ok(visitors);
+
+                var result = new VisitorReadDto
+                {
+                    Id = entity.Id,
+                    FullName = entity.FullName,
+                    BirthDate = entity.BirthDate,
+                    Phone = entity.Phone,
+                    CreatedAt = entity.CreatedAt,
+                    UpdatedAt = entity.UpdatedAt
+                };
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
             }
             catch (Exception ex)
             {

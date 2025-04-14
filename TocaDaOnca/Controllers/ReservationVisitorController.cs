@@ -4,6 +4,8 @@ using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using TocaDaOnca.Models.DTO;
+
 
 namespace TocaDaOnca.Controllers
 {
@@ -19,35 +21,51 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReservationVisitor>>> Get()
+        public async Task<ActionResult<IEnumerable<ReservationVisitorReadDto>>> Get()
         {
             try
             {
-                var reservationVisitor = await _context.ReservationVisitors.ToListAsync();
+                var reservationVisitors = await _context.ReservationVisitors.ToListAsync();
 
-                if (reservationVisitor == null || !reservationVisitor.Any())
-                {
+                if (reservationVisitors == null || !reservationVisitors.Any())
                     return NotFound("Nenhuma reserva de visitante encontrada.");
-                }
 
-                return Ok(reservationVisitor);
+                var dtoList = reservationVisitors.Select(rv => new ReservationVisitorReadDto
+                {
+                    Id = rv.Id,
+                    ReservationId = rv.ReservationId,
+                    VisitorId = rv.VisitorId,
+                    CreatedAt = rv.CreatedAt,
+                    UpdatedAt = rv.UpdatedAt,
+                });
+
+                return Ok(dtoList);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro ao obter a reservas de visitante: {ex.Message}");
+                return StatusCode(500, $"Erro ao obter as reservas de visitante: {ex.Message}");
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ReservationVisitor>> GetById(int id)
+        public async Task<ActionResult<ReservationVisitorReadDto>> GetById(int id)
         {
             try
             {
-                var reservationVisitor = await _context.ReservationVisitors.FindAsync(id);
-                if (reservationVisitor == null)
+                var rv = await _context.ReservationVisitors.FindAsync(id);
+                if (rv == null)
                     return NotFound("Nenhuma reserva de visitante encontrada.");
 
-                return Ok(reservationVisitor);
+                var dto = new ReservationVisitorReadDto
+                {
+                    Id = rv.Id,
+                    ReservationId = rv.ReservationId,
+                    VisitorId = rv.VisitorId,
+                    CreatedAt = rv.CreatedAt,
+                    UpdatedAt = rv.UpdatedAt
+                };
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -56,13 +74,31 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReservationController>> Post([FromBody] ReservationVisitor reservationVisitor)
+        public async Task<ActionResult<ReservationVisitorCreateDto>> Post([FromBody] ReservationVisitorCreateDto dto)
         {
             try
             {
-                _context.ReservationVisitors.Add(reservationVisitor);
+                var entity = new ReservationVisitor
+                {
+                    ReservationId = dto.ReservationId,
+                    VisitorId = dto.VisitorId,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                _context.ReservationVisitors.Add(entity);
                 await _context.SaveChangesAsync();
-                return Ok(reservationVisitor);
+
+                var result = new ReservationVisitorReadDto
+                {
+                    Id = entity.Id,
+                    ReservationId = entity.ReservationId,
+                    VisitorId = entity.VisitorId,
+                    CreatedAt = entity.CreatedAt,
+                    UpdatedAt = entity.UpdatedAt
+                };
+
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
             }
             catch (Exception ex)
             {
@@ -71,25 +107,37 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ReservationController>> Put(int id, [FromBody] ReservationVisitor reservationVisitor)
+        public async Task<ActionResult<ReservationVisitorUpdateDto>> Put(int id, [FromBody] ReservationVisitorUpdateDto dto)
         {
             try
             {
                 var existente = await _context.ReservationVisitors.FindAsync(id);
                 if (existente == null)
-                {
                     return NotFound("Nenhuma reserva de visitante encontrada.");
-                }
-                existente.ReservationId = reservationVisitor.ReservationId;
-                existente.VisitorId = reservationVisitor.VisitorId;
-                existente.CreatedAt = reservationVisitor.CreatedAt;
-                existente.UpdatedAt = reservationVisitor.UpdatedAt;
+
+                if (dto.ReservationId.HasValue)
+                    existente.ReservationId = dto.ReservationId.Value;
+                if (dto.VisitorId.HasValue)
+                    existente.VisitorId = dto.VisitorId.Value;
+
+                existente.UpdatedAt = DateTime.UtcNow;
+
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+
+                var result = new ReservationVisitorReadDto
+                {
+                    Id = existente.Id,
+                    ReservationId = existente.ReservationId,
+                    VisitorId = existente.VisitorId,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Erro ao atualizar a reserva de visitante encontrada: {ex.Message}");
+                return StatusCode(500, $"Erro ao atualizar a reserva de visitante: {ex.Message}");
             }
         }
 
@@ -100,11 +148,11 @@ namespace TocaDaOnca.Controllers
             {
                 var existente = await _context.ReservationVisitors.FindAsync(id);
                 if (existente == null)
-                {
                     return NotFound("Nenhuma reserva de visitante encontrada.");
-                }
+
                 _context.ReservationVisitors.Remove(existente);
                 await _context.SaveChangesAsync();
+
                 return NoContent();
             }
             catch (Exception ex)

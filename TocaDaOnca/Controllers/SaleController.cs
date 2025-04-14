@@ -4,6 +4,7 @@ using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using TocaDaOnca.Models.DTO;
 
 namespace TocaDaOnca.Controllers
 {
@@ -19,7 +20,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sale>>> Get()
+        public async Task<ActionResult<IEnumerable<SaleReadDto>>> Get()
         {
             try
             {
@@ -30,7 +31,17 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhuma venda encontrada.");
                 }
 
-                return Ok(sale);
+                var dtoList = sale.Select(s => new SaleReadDto
+                {
+                    Id = s.Id,
+                    ReservationId = s.ReservationId,
+                    EmployeeId = s.EmployeeId,
+                    Subtotal = s.Subtotal,
+                    CreatedAt = s.CreatedAt,
+                    UpdatedAt = s.UpdatedAt
+                });
+
+                return Ok(dtoList);
             }
             catch (Exception ex)
             {
@@ -39,7 +50,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sale>> GetById(int id)
+        public async Task<ActionResult<SaleReadDto>> GetById(int id)
         {
             try
             {
@@ -47,7 +58,17 @@ namespace TocaDaOnca.Controllers
                 if (sale == null)
                     return NotFound("Nenhuma venda encontrada.");
 
-                return Ok(sale);
+                var dto = new SaleReadDto
+                {
+                    Id = sale.Id,
+                    ReservationId = sale.ReservationId,
+                    EmployeeId = sale.EmployeeId,
+                    Subtotal = sale.Subtotal,
+                    CreatedAt = sale.CreatedAt,
+                    UpdatedAt = sale.UpdatedAt
+                };
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -56,13 +77,32 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Sale>> Post([FromBody] Sale sale)
+        public async Task<ActionResult<SaleCreateDto>> Post([FromBody] SaleCreateDto dto)
         {
             try
             {
-                _context.Sales.Add(sale);
+                var entity = new Sale
+                {
+                    ReservationId = dto.ReservationId,
+                    EmployeeId = dto.EmployeeId,
+                    Subtotal = dto.Subtotal,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.Sales.Add(entity);
                 await _context.SaveChangesAsync();
-                return Ok(sale);
+
+                var result = new SaleReadDto
+                {
+                    Id = entity.Id,
+                    ReservationId = entity.ReservationId,
+                    EmployeeId = entity.EmployeeId,
+                    Subtotal = entity.Subtotal,
+                    CreatedAt = entity.CreatedAt,
+                    UpdatedAt = entity.UpdatedAt
+                };
+
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
             }
             catch (Exception ex)
             {
@@ -71,7 +111,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Sale>> Put(int id, [FromBody] Sale sale)
+        public async Task<ActionResult<SaleUpdateDto>> Put(int id, [FromBody] SaleUpdateDto dto)
         {
             try
             {
@@ -80,16 +120,26 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhuma venda encontrada.");
                 }
-                existente.ReservationId = sale.ReservationId;
-                existente.EmployeeId = sale.EmployeeId;
-                existente.Subtotal = sale.Subtotal;
-                existente.CreatedAt = sale.CreatedAt;
-                existente.UpdatedAt = sale.UpdatedAt;
-                existente.Reservation = sale.Reservation;
-                existente.Employee = sale.Employee;
-                existente.SaleProducts = sale.SaleProducts;
+                if (dto.EmployeeId.HasValue)
+                    existente.EmployeeId = dto.EmployeeId.Value;
+
+                if (dto.Subtotal.HasValue)
+                    existente.Subtotal = dto.Subtotal.Value;
+
+                existente.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+
+                var result = new SaleReadDto
+                {
+                    Id = existente.Id,
+                    ReservationId = existente.ReservationId,
+                    EmployeeId = existente.EmployeeId,
+                    Subtotal = existente.Subtotal,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

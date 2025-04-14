@@ -4,6 +4,7 @@ using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using TocaDaOnca.Models.DTO;
 
 namespace TocaDaOnca.Controllers
 {
@@ -11,7 +12,7 @@ namespace TocaDaOnca.Controllers
     [Route("api/[controller]")]
     public class SaleProductController : ControllerBase
     {
-         private readonly Context _context;
+        private readonly Context _context;
 
         public SaleProductController(Context context)
         {
@@ -19,7 +20,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SaleProduct>>> Get()
+        public async Task<ActionResult<IEnumerable<SaleProductReadDto>>> Get()
         {
             try
             {
@@ -30,7 +31,17 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhuma venda de produto encontrada.");
                 }
 
-                return Ok(saleProduct);
+                var dtoList = saleProduct.Select(s => new SaleProductReadDto
+                {
+                    Id = s.Id,
+                    SaleId = s.SaleId,
+                    ProductId = s.ProductId,
+                    Quantity = s.Quantity,
+                    CreatedAt = s.CreatedAt,
+                    UpdatedAt = s.UpdatedAt
+                });
+
+                return Ok(dtoList);
             }
             catch (Exception ex)
             {
@@ -39,7 +50,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SaleProduct>> GetById(int id)
+        public async Task<ActionResult<SaleProductReadDto>> GetById(int id)
         {
             try
             {
@@ -47,7 +58,17 @@ namespace TocaDaOnca.Controllers
                 if (saleProduct == null)
                     return NotFound("Nenhuma venda de produto encontrada.");
 
-                return Ok(saleProduct);
+                var dto = new SaleProductReadDto
+                {
+                    Id = saleProduct.Id,
+                    SaleId = saleProduct.SaleId,
+                    ProductId = saleProduct.ProductId,
+                    Quantity = saleProduct.Quantity,
+                    CreatedAt = saleProduct.CreatedAt,
+                    UpdatedAt = saleProduct.UpdatedAt
+                };
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -56,13 +77,31 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SaleProduct>> Post([FromBody] SaleProduct saleProduct)
+        public async Task<ActionResult<SaleProductCreateDto>> Post([FromBody] SaleProductCreateDto dto)
         {
             try
             {
-                _context.SalesProducts.Add(saleProduct);
+                var entity = new SaleProduct
+                {
+                    SaleId = dto.SaleId,
+                    ProductId = dto.ProductId,
+                    Quantity = dto.Quantity,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                _context.SalesProducts.Add(entity);
                 await _context.SaveChangesAsync();
-                return Ok(saleProduct);
+
+                var result = new SaleProductReadDto
+                {
+                    Id = entity.Id,
+                    SaleId = entity.SaleId,
+                    ProductId = entity.ProductId,
+                    Quantity = entity.Quantity,
+                    CreatedAt = entity.CreatedAt,
+                    UpdatedAt = entity.UpdatedAt
+                };
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
             }
             catch (Exception ex)
             {
@@ -71,7 +110,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<SaleProduct>> Put(int id, [FromBody] SaleProduct saleProduct)
+        public async Task<ActionResult<SaleProductUpdateDto>> Put(int id, [FromBody] SaleProductUpdateDto dto)
         {
             try
             {
@@ -80,13 +119,24 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhuma venda de produto encontrada.");
                 }
-                existente.SaleId = saleProduct.SaleId;
-                existente.ProductId = saleProduct.ProductId;
-                existente.Quantity = saleProduct.Quantity;
-                existente.CreatedAt = saleProduct.CreatedAt;
-                existente.UpdatedAt = saleProduct.UpdatedAt;
+
+                existente.SaleId = dto.SaleId;
+                existente.ProductId = dto.ProductId;
+                existente.Quantity = dto.Quantity;
+                existente.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+
+                var result = new SaleProductReadDto
+                {
+                    Id = existente.Id,
+                    SaleId = existente.SaleId,
+                    ProductId = existente.ProductId,
+                    Quantity = existente.Quantity,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
