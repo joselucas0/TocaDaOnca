@@ -26,11 +26,11 @@ namespace TocaDaOnca.Models
         
         [Column("cost")]
         [Required]
-        public float Cost { get; set; }
+        public float? Cost { get; set; }
         
         [Column("price")]
         [Required]
-        public float Price { get; set; }
+        public float? Price { get; set; }
 
         [Column("stock")]
         [Required]

@@ -224,9 +224,9 @@ namespace TocaDaOnca.Controllers
                 if (employee.Email != null)
                     existingEmployee.Email = employee.Email;
 
-                employee.UpdatedAt = DateTime.UtcNow;
+                existingEmployee.UpdatedAt = DateTime.UtcNow;
 
-                _context.Entry(employee).State = EntityState.Modified;
+                // _context.Entry(employee).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
                 var readDto = new EmployeeReadDto

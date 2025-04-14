@@ -116,7 +116,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = reservation.UpdatedAt
                 };
 
-                return readDto;
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
