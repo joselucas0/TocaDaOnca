@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using TocaDaOnca.Models;
+using TocaDaOnca.Models.DTO;
 using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Resources;
+
 
 
 namespace TocaDaOnca.Controllers
@@ -20,6 +22,7 @@ namespace TocaDaOnca.Controllers
             _context = context;
         }
 
+        #region Get
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReservationReadDto>>> Get()
         {
@@ -51,9 +54,11 @@ namespace TocaDaOnca.Controllers
                 return StatusCode(500, $"Erro ao obter as reservas: {ex.Message}");
             }
         }
+        #endregion
 
+        #region GetById
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reservation>> GetById(int id)
+        public async Task<ActionResult<ReservationReadDto>> GetById(int id)
         {
             try
             {
@@ -61,7 +66,7 @@ namespace TocaDaOnca.Controllers
                 if (reservation == null)
                     return NotFound("Nenhuma reserva encontrada.");
 
-                var dto = new reservationReadDto
+                var dto = new ReservationReadDto
                 {
                     Id = reservation.Id,
                     UserId = reservation.UserId,
@@ -79,16 +84,16 @@ namespace TocaDaOnca.Controllers
                 return StatusCode(500, $"Erro ao obter a reserva: {ex.Message}");
             }
         }
+        #endregion
 
+        #region Post
         [HttpPost]
-        public async Task<ActionResult<Reservation>> Post([FromBody] ReservationCreateDto dto)
+        public async Task<ActionResult<ReservationReadDto>> Post([FromBody] ReservationCreateDto dto)
         {
             try
             {
-                _context.Reservations.Add(reservation);
-                await _context.SaveChangesAsync();
 
-                var createdDto = new Reservation
+                var reservation = new Reservation
                 {
                     UserId = dto.UserId,
                     KioskId = dto.KioskId,
@@ -97,18 +102,32 @@ namespace TocaDaOnca.Controllers
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
+                _context.Reservations.Add(reservation);
+                await _context.SaveChangesAsync();
 
-                _context.AddAsync(createdDto);
-                return Ok(reservation);
+                var readDto = new ReservationReadDto
+                {
+                    Id = reservation.Id,
+                    UserId = reservation.UserId,
+                    KioskId = reservation.KioskId,
+                    StartTime = reservation.StartTime,
+                    EndTime = reservation.EndTime,
+                    CreatedAt = reservation.CreatedAt,
+                    UpdatedAt = reservation.UpdatedAt
+                };
+
+                return readDto;
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Erro ao criar a reserva: {ex.Message}");
             }
         }
+        #endregion
 
+        #region Put
         [HttpPut("{id}")]
-        public async Task<ActionResult<Reservation>> Put(int id, [FromBody] Reservation reservation)
+        public async Task<ActionResult<ReservationReadDto>> Put(int id, [FromBody] ReservationUpdateDto dto)
         {
             try
             {
@@ -117,21 +136,48 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhuma reserva encontrada.");
                 }
-                existente.UserId = reservation.UserId;
-                existente.KioskId = reservation.KioskId;
-                existente.StartTime = reservation.StartTime;
-                existente.EndTime = reservation.EndTime;
-                existente.CreatedAt = reservation.CreatedAt;
-                existente.UpdatedAt = reservation.UpdatedAt;
+                
+                // Checa o Kiosk
+                if (dto.KioskId.HasValue)
+                {
+                    existente.KioskId = dto.KioskId.Value;
+                }
+
+                // Checa os horários    
+                if (dto.StartTime.HasValue)
+                {
+                    existente.StartTime = dto.StartTime.Value;
+                }
+
+                if (dto.EndTime.HasValue)
+                {
+                    existente.EndTime = dto.EndTime.Value;
+                }
+
+                existente.UpdatedAt = DateTime.UtcNow;
+                
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+
+                var readDto = new ReservationReadDto
+                {
+                UserId = existente.UserId,
+                KioskId = existente.KioskId,
+                StartTime = existente.StartTime,
+                EndTime = existente.EndTime,
+                CreatedAt = existente.CreatedAt,
+                UpdatedAt = existente.UpdatedAt
+                };
+
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Erro ao atualizar a reserva: {ex.Message}");
             }
         }
+        #endregion
 
+        #region Delete
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -151,7 +197,7 @@ namespace TocaDaOnca.Controllers
                 return StatusCode(500, $"Erro ao deletar a reserva: {ex.Message}");
             }
         }
-
+        #endregion
 
     }
 }

@@ -22,7 +22,7 @@ namespace TocaDaOnca.Models
 
         [Column("max_people")]
         [Required]
-        public int Max_people { get; set; }
+        public int MaxPeople { get; set; }
 
         [Column("description")]
         [Required]
@@ -30,10 +30,10 @@ namespace TocaDaOnca.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         
         [Column("updated_at")]
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; }
     }
 }

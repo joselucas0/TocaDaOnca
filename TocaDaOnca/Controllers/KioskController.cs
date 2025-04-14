@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TocaDaOnca.Models;
+using TocaDaOnca.Models.DTO;
 using TocaDaOnca.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -17,9 +18,10 @@ namespace TocaDaOnca.Controllers
         {
             _context = context;
         }
-
+        
+        #region Get
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Kiosk>>> Get()
+        public async Task<ActionResult<IEnumerable<KioskReadDto>>> Get()
         {
             try
             {
@@ -30,15 +32,28 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhum quiosque encontrado.");
                 }
 
-                return Ok(kiosks);
+                var KioskDto = kiosks.Select(k => new KioskReadDto
+                {
+                    Id = k.Id,
+                    Title = k.Title,
+                    MaxPeople = k.MaxPeople,
+                    Description = k.Description,
+                    CreatedAt = k.CreatedAt,
+                    UpdatedAt = k.UpdatedAt
+                });
+
+                return Ok(KioskDto);
+
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Erro ao obter os quiosques: {ex.Message}");
             }
         }
+        #endregion
+        #region GetById
         [HttpGet("{id}")]
-        public async Task<ActionResult<Kiosk>> GetById(int id)
+        public async Task<ActionResult<KioskReadDto>> GetById(int id)
         {
             try
             {
@@ -46,31 +61,62 @@ namespace TocaDaOnca.Controllers
                 if (kiosk == null)
                     return NotFound("Nenhum quiosque encontrado.");
 
-                return Ok(kiosk);
+                var dto = new KioskReadDto
+                {
+                    Id = kiosk.Id,
+                    Title = kiosk.Title,
+                    MaxPeople = kiosk.MaxPeople,
+                    Description = kiosk.Description,
+                    CreatedAt = kiosk.CreatedAt,
+                    UpdatedAt = kiosk.UpdatedAt
+                };
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Erro ao obter o quiosque: {ex.Message}");
             }
         }
-
+        #endregion
+        #region Post
         [HttpPost]
-        public async Task<ActionResult<Kiosk>> Post([FromBody] Kiosk kiosk)
+        public async Task<ActionResult<KioskReadDto>> Post([FromBody] KioskCreateDto dto)
         {
             try
             {
+                var kiosk = new Kiosk
+                {
+                    Title = dto.Title,
+                    MaxPeople = dto.MaxPeople,
+                    Description = dto.Description
+                };
+
                 _context.Kiosks.Add(kiosk);
                 await _context.SaveChangesAsync();
-                return Ok(kiosk);
+
+                var readDto = new KioskReadDto
+                {
+                    Id = kiosk.Id,
+                    Title = kiosk.Title,
+                    MaxPeople = kiosk.MaxPeople,
+                    Description = kiosk.Description,
+                    CreatedAt = kiosk.CreatedAt,
+                    UpdatedAt = kiosk.UpdatedAt
+                };
+                
+                return readDto;
             }
+
             catch (Exception ex)
             {
                 return StatusCode(500, $"Erro ao criar o quiosque: {ex.Message}");
             }
         }
-
+        #endregion
+        #region Put
         [HttpPut("{id}")]
-        public async Task<ActionResult<Kiosk>> Put(int id, [FromBody] Kiosk kiosk)
+        public async Task<ActionResult<Kiosk>> Put(int id, [FromBody] KioskUpdateDto dto)
         {
             try
             {
@@ -79,12 +125,34 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhum quiosque encontrado.");
                 }
-                existente.Title = kiosk.Title;
-                existente.Max_people = kiosk.Max_people;
-                existente.Description = kiosk.Description;
-                existente.CreatedAt = kiosk.CreatedAt;
-                existente.UpdatedAt = kiosk.UpdatedAt;
+
+                if (dto.MaxPeople.HasValue)
+                {
+                    existente.MaxPeople = dto.MaxPeople.Value;
+                }
+                if (dto.Title != null)
+                {
+                    existente.Title = dto.Title;
+                }
+                if (dto.Description != null)
+                {
+                    existente.Description = dto.Description;
+                }
+                
+                existente.UpdatedAt = DateTime.UtcNow;
+
                 await _context.SaveChangesAsync();
+                
+                var readDto = new KioskReadDto
+                {
+
+                Title = existente.Title,
+                MaxPeople = existente.MaxPeople,
+                Description = existente.Description,
+                CreatedAt = existente.CreatedAt,
+                UpdatedAt = existente.UpdatedAt
+                };
+
                 return Ok(existente);
             }
             catch (Exception ex)
@@ -92,7 +160,8 @@ namespace TocaDaOnca.Controllers
                 return StatusCode(500, $"Erro ao atualizar o quiosque: {ex.Message}");
             }
         }
-
+        #endregion
+        #region Post
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -112,6 +181,6 @@ namespace TocaDaOnca.Controllers
                 return StatusCode(500, $"Erro ao deletar o quiosque: {ex.Message}");
             }
         }
-
+        #endregion
     }
 }
