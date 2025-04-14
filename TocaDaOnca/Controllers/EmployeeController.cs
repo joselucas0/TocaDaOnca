@@ -305,7 +305,7 @@ namespace TocaDaOnca.Controllers
         {
             return Ok(new
             {
-                message = "Você tem acesso de gerentes",
+                message = "Você tem acesso de gerente",
                 employeeId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                 name = User.FindFirst(ClaimTypes.Name)?.Value
             });
