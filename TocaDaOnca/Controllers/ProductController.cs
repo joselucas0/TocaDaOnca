@@ -80,7 +80,7 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhum produto encontrado.");
                 }
-                existente.Name = product.Name;
+                existente.ProductName = product.ProductName;
                 existente.Description = product.Description;
                 existente.Cost = product.Cost;
                 existente.Price = product.Price;
