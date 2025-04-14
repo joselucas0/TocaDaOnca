@@ -20,16 +20,18 @@ namespace TocaDaOnca.AppDbContext
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReservationVisitor> ReservationVisitors { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        // Configurações do banco de dados
-        {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // // Configurações do banco de dados
+        // {
+        //     var config = new ConfigurationBuilder()
+        //         .SetBasePath(Directory.GetCurrentDirectory())
+        //         .AddJsonFile("appsettings.json")
+        //         .Build();
 
-            optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnection"));
-        }
+        //     optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+        // }
+
+        public Context(DbContextOptions<Context> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

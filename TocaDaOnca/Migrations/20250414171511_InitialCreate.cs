@@ -49,7 +49,7 @@ namespace TocaDaOnca.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "products",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -64,7 +64,7 @@ namespace TocaDaOnca.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.id);
+                    table.PrimaryKey("PK_products", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +111,7 @@ namespace TocaDaOnca.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visitors",
+                name: "visitors",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -124,7 +124,7 @@ namespace TocaDaOnca.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visitors", x => x.id);
+                    table.PrimaryKey("PK_visitors", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,15 +172,15 @@ namespace TocaDaOnca.Migrations
                 {
                     table.PrimaryKey("PK_reservations_visitors", x => x.id);
                     table.ForeignKey(
-                        name: "FK_reservations_visitors_Visitors_visitor_id",
-                        column: x => x.visitor_id,
-                        principalTable: "Visitors",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_reservations_visitors_reservations_reservation_id",
                         column: x => x.reservation_id,
                         principalTable: "reservations",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_reservations_visitors_visitors_visitor_id",
+                        column: x => x.visitor_id,
+                        principalTable: "visitors",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -230,9 +230,9 @@ namespace TocaDaOnca.Migrations
                 {
                     table.PrimaryKey("PK_sales_products", x => x.id);
                     table.ForeignKey(
-                        name: "FK_sales_products_Products_product_id",
+                        name: "FK_sales_products_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -297,10 +297,10 @@ namespace TocaDaOnca.Migrations
                 name: "sales_products");
 
             migrationBuilder.DropTable(
-                name: "Visitors");
+                name: "visitors");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "products");
 
             migrationBuilder.DropTable(
                 name: "sales");
