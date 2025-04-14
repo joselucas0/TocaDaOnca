@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TocaDaOnca.Models
 {
@@ -55,6 +56,7 @@ namespace TocaDaOnca.Models
         [Required]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
+        // [JsonIgnore]
         public List<Reservation> Reservations { get; set; } = [];
 
     }

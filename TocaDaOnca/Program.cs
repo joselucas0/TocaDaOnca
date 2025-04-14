@@ -14,8 +14,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 // Configure PostgreSQL with Entity Framework
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<Context>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString)
+    .EnableSensitiveDataLogging() // Adiciona mais detalhes ao log
+    .LogTo(Console.WriteLine, LogLevel.Information)); // Exibe logs no console);
 
 // Adicionar configuração JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

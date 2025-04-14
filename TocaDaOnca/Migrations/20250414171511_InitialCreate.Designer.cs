@@ -12,7 +12,7 @@ using TocaDaOnca.AppDbContext;
 namespace TocaDaOnca.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250411195422_InitialCreate")]
+    [Migration("20250414171511_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -167,7 +167,7 @@ namespace TocaDaOnca.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("TocaDaOnca.Models.Report", b =>
@@ -501,7 +501,7 @@ namespace TocaDaOnca.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Visitors");
+                    b.ToTable("visitors");
                 });
 
             modelBuilder.Entity("TocaDaOnca.Models.Reservation", b =>
