@@ -23,8 +23,8 @@ namespace TocaDaOnca.Models.DTO
     {
         public string ProductName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public decimal Cost { get; set; }
-        public decimal Price { get; set; }
+        public float Cost { get; set; }
+        public float Price { get; set; }
         public int Stock { get; set; }
     }
 
@@ -32,8 +32,8 @@ namespace TocaDaOnca.Models.DTO
     {
         public string? ProductName { get; set; }
         public string? Description { get; set; }
-        public decimal? Cost { get; set; }
-        public decimal? Price { get; set; }
+        public float? Cost { get; set; }
+        public float? Price { get; set; }
         public int? Stock { get; set; }
     }
 

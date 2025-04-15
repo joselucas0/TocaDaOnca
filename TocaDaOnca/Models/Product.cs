@@ -38,11 +38,11 @@ namespace TocaDaOnca.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         
         [Column("updated_at")]
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; }
 
         // Navigation
         public List<SaleProduct> SaleProducts { get; set; } = [];

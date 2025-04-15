@@ -50,11 +50,11 @@ namespace TocaDaOnca.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         
         [Column("updated_at")]
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // [JsonIgnore]
         public List<Reservation> Reservations { get; set; } = [];

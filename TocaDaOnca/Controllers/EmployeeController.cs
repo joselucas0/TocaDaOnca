@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using TocaDaOnca.Services;
+using TocaDaOnca.Models.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace TocaDaOnca.Controllers
 {
@@ -21,6 +23,7 @@ namespace TocaDaOnca.Controllers
             _tokenService = tokenService;
         }
 
+        #region GetEmployeeProfile
         // GET: api/Employee/profile
         [HttpGet("profile")]
         [Authorize] // Esta rota requer autenticação
@@ -47,7 +50,9 @@ namespace TocaDaOnca.Controllers
 
             return employee;
         }
+        #endregion
 
+        #region GetDashboard
         // GET: api/Employee/dashboard
         [HttpGet("dashboard")]
         [Authorize(Policy = "IsManager")] // Only managers can access
@@ -76,101 +81,159 @@ namespace TocaDaOnca.Controllers
                 // Adicione aqui os dados que deseja mostrar no dashboard
             });
         }
+        #endregion
 
-
+        #region Get
         // GET: api/Employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeReadDto>>> GetEmployees()
         {
-            var employees = await _context.Employees.ToListAsync();
-
-            // Não retornar as senhas no resultado
-            foreach (var employee in employees)
+            try
             {
-                employee.Password = string.Empty;
+                var employees = await _context.Employees.ToListAsync();
+
+                // Não retornar as senhas no resultado
+                foreach (var employee in employees)
+                {
+                    employee.Password = string.Empty;
+                }
+
+                var readDto = employees.Select(s => new EmployeeReadDto
+                {
+                    Id = s.Id,
+                    FullName = s.FullName,
+                    Cpf = s.Cpf,
+                    Email = s.Email,
+                    Manager = s.Manager,
+                    CreatedAt = s.CreatedAt,
+                    UpdatedAt = s.UpdatedAt,
+                });
+
+
+                return Ok(readDto);
             }
-
-            return employees;
+            catch (Exception ex)
+            {
+                {
+                    return StatusCode(500, $"Erro ao obter os Empregados: {ex.Message}");
+                }
+            }
         }
+        #endregion
 
+        #region GetById
         // GET: api/Employee/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<EmployeeReadDto>> GetEmployee(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
 
             if (employee == null)
             {
-                return NotFound();
+                return NotFound("Nenhum empregado encontrado.");
             }
 
-            // Não retornar a senha no resultado
-            employee.Password = string.Empty;
+            var readDto = new EmployeeReadDto
+            {
+                Id = employee.Id,
+                FullName = employee.FullName,
+                Cpf = employee.Cpf,
+                Email = employee.Email,
+                Manager = employee.Manager,
+                CreatedAt = employee.CreatedAt,
+                UpdatedAt = employee.UpdatedAt
+            };
 
-            return employee;
+            return Ok(readDto);
         }
+        #endregion
 
+        #region POST
         // POST: api/Employee
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<EmployeeReadDto>> PostEmployee(EmployeeCreateDto dto)
         {
-            // Garante que os DateTimes estejam em UTC
-            employee.CreatedAt = DateTime.UtcNow;
-            employee.UpdatedAt = DateTime.UtcNow;
-
-            // Hash da senha
-            employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
-
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-
-            // Não retornar a senha no resultado
-            var returnEmployee = employee;
-            returnEmployee.Password = string.Empty;
-
-            return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, returnEmployee);
-        }
-
-        // PUT: api/Employee/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
-        {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
-
-            // Primeiro, buscar o funcionário existente
-            var existingEmployee = await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
-            if (existingEmployee == null)
-            {
-                return NotFound();
-            }
-
-            // Se a senha estiver vazia, manter a senha atual
-            if (string.IsNullOrWhiteSpace(employee.Password))
-            {
-                employee.Password = existingEmployee.Password;
-            }
-            // Se não, fazer o hash da nova senha
-            else if (employee.Password != existingEmployee.Password)
-            {
-                employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
-            }
-
-            employee.UpdatedAt = DateTime.UtcNow;
-
-            // Se não foram enviadas datas, manter as existentes
-            if (employee.CreatedAt == default)
-            {
-                employee.CreatedAt = existingEmployee.CreatedAt;
-            }
-
-            _context.Entry(employee).State = EntityState.Modified;
-
             try
             {
+                var employee = new Employee
+                {
+                    FullName = dto.FullName,
+                    Cpf = dto.Cpf,
+                    Email = dto.Email,
+                    Manager = dto.Manager
+                };
+                string Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
+
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
+
+                var readDto = new EmployeeReadDto
+                {
+                    Id = employee.Id,
+                    FullName = employee.FullName,
+                    Cpf = employee.Cpf,
+                    Email = employee.Email,
+                    Manager = employee.Manager,
+                    CreatedAt = employee.CreatedAt,
+                    UpdatedAt = employee.UpdatedAt
+                };
+
+                return readDto;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Erro ao criar empregado: " + ex.Message);
+            }
+        }
+        #endregion
+
+        #region PUT
+        [HttpPut("{id}")]
+        public async Task<ActionResult<EmployeeReadDto>> PutEmployee(int id, [FromBody] EmployeeUpdateDto employee)
+        {
+            try
+            {
+                var existingEmployee = await _context.Employees.FindAsync(id);
+                if (existingEmployee == null)
+                    return NotFound("Not found employeer");
+                
+
+                // Se a senha estiver vazia, manter a senha atual
+                if (string.IsNullOrWhiteSpace(employee.Password))
+                {
+                    employee.Password = existingEmployee.Password;
+                }
+                // Se não, fazer o hash da nova senha
+                else if (employee.Password != existingEmployee.Password)
+                {
+                    employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
+                }
+
+                if (employee.FullName != null)
+                    existingEmployee.FullName = employee.FullName;
+                
+                if (employee.Cpf != null)
+                    existingEmployee.Cpf = employee.Cpf;
+
+                if (employee.Email != null)
+                    existingEmployee.Email = employee.Email;
+
+                existingEmployee.UpdatedAt = DateTime.UtcNow;
+
+                // _context.Entry(employee).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                var readDto = new EmployeeReadDto
+                {
+                    FullName = existingEmployee.FullName,
+                    Cpf = existingEmployee.Cpf,
+                    Email = existingEmployee.Email,
+                    Manager = existingEmployee.Manager,
+                    CreatedAt = existingEmployee.CreatedAt,
+                    UpdatedAt = existingEmployee.UpdatedAt
+                };
+
+                return Ok(readDto);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -182,11 +245,15 @@ namespace TocaDaOnca.Controllers
                 {
                     throw;
                 }
+            } catch (Exception ex)
+            {
+                return StatusCode(500, "Erro ao atualizar empregado: " + ex.Message);
             }
 
-            return NoContent();
         }
+        #endregion
 
+        #region Delete
         // DELETE: api/Employee/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
@@ -203,13 +270,15 @@ namespace TocaDaOnca.Controllers
             return NoContent();
         }
 
+        #endregion
+
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
 
+        #region TestEmployeeAccess
         // Add these endpoints to test role-based access
-
         // GET: api/Employee/test/employee-access
         [HttpGet("test/employee-access")]
         [Authorize(Policy = "IsEmployee")] // Both employees and managers can access
@@ -223,7 +292,7 @@ namespace TocaDaOnca.Controllers
             });
         }
 
-        // GET: api/Employee/test/manager-access
+        //GET: api/Employee/test/manager-access
         [HttpGet("test/manager-access")]
         [Authorize(Policy = "IsManager")] // Only managers can access
         public IActionResult TestManagerAccess()
@@ -235,5 +304,6 @@ namespace TocaDaOnca.Controllers
                 name = User.FindFirst(ClaimTypes.Name)?.Value
             });
         }
+        #endregion
     }
 }
