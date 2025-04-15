@@ -30,14 +30,39 @@ namespace TocaDaOnca.Controllers
 
             var token = _tokenService.GenerateToken(user);
 
-            return Ok(new 
-            { 
+            return Ok(new
+            {
                 id = user.Id,
                 name = user.FullName,
                 email = user.Email,
                 premium = user.Premium,
-                token = token 
+                token = token
             });
         }
+
+        [HttpPost("staff")]
+        public async Task<IActionResult> StaffLogin([FromBody] LoginModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Dados de login inválidos", errors = ModelState });
+
+            var employee = await _authService.ValidateEmployeeCredentials(model.Email, model.Password);
+
+            if (employee == null)
+                return Unauthorized(new { message = "Email ou senha incorretos" });
+
+            var token = _tokenService.GenerateEmployeeToken(employee);
+
+            return Ok(new
+            {
+                id = employee.Id,
+                name = employee.FullName,
+                email = employee.Email,
+                role = employee.Manager ? "manager" : "employee",
+                isManager = employee.Manager,
+                token = token
+            });
+        }
+
     }
 }
