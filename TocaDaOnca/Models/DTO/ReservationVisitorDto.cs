@@ -24,8 +24,8 @@ namespace TocaDaOnca.Models.DTO
 
     public class ReservationVisitorUpdateDto
     {
-        public int ReservationId { get; set; }
-        public int VisitorId { get; set; }
+        public int? ReservationId { get; set; }
+        public int? VisitorId { get; set; }
     }
 
 }

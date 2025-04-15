@@ -22,13 +22,13 @@ namespace TocaDaOnca.Models.DTO
     {
         public int ReservationId { get; set; }
         public int EmployeeId { get; set; }
-        public decimal Subtotal { get; set; }
+        public double Subtotal { get; set; }
     }
 
     public class SaleUpdateDto
     {
         public int? EmployeeId { get; set; }
-        public decimal? Subtotal { get; set; }
+        public double? Subtotal { get; set; }
     }
 
 }

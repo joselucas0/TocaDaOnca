@@ -33,7 +33,7 @@ namespace TocaDaOnca.Controllers
             return Ok(new
             {
                 id = user.Id,
-                name = user.Name,
+                name = user.FullName,
                 email = user.Email,
                 premium = user.Premium,
                 token = token

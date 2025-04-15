@@ -94,8 +94,8 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
          }
       },
       "AllowedHosts": "*"
-   }
-     ```  
+      }
+      ```  
 
 3. **Restaure as dependências**:  
    ```bash

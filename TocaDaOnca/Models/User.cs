@@ -19,7 +19,7 @@ namespace TocaDaOnca.Models
         [Column("full_name")]
         [Required]
         [StringLength(150)]
-        public string Name { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
 
         [Column("cpf")]
         [Required]
@@ -50,11 +50,11 @@ namespace TocaDaOnca.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         
         [Column("updated_at")]
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; }
 
         // [JsonIgnore]
         public List<Reservation> Reservations { get; set; } = [];
