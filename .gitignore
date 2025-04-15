@@ -6,6 +6,11 @@
 # dotenv files
 .env
 
+# vscode
+.vscode/
+
+appsettings.json
+
 # User-specific files
 *.rsuser
 *.suo
