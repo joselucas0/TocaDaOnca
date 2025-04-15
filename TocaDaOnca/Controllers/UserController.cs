@@ -139,7 +139,7 @@ namespace TocaDaOnca.Controllers
                     Email = dto.Email,
                     Phone = dto.Phone,
                     Premium = dto.Premium,
-                    Password = dto.Password
+                    Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
                 };
                 _context.Users.Add(entity);
                 await _context.SaveChangesAsync();

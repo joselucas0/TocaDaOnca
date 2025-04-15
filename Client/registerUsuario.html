@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Toca da Onça</title>
-    <link rel="icon" type="imagex/png" href="./assets/img_logo.png">
     <link rel="stylesheet" href="css/registerUsuario.css">
        
 </head>
@@ -46,8 +45,8 @@
                 <label for="plan">Plano de Assinatura</label>
                 <select id="plan" name="plan" required>
                     <option value="" disabled selected>Selecione um plano</option>
-                    <option value="basico">Básico</option>
-                    <option value="intermediario">Com caiaque</option>
+                    <option value="standard">Plano Padrão</option>
+                    <option value="premium">Plano Premium</option>
                 </select>
             </div>
             
@@ -60,7 +59,7 @@
         </form>
         
         <div class="login-link">
-            Já tem uma conta? <a href="loginUsuario.html">Faça login</a>
+            Já tem uma conta? <a href="/Client/loginUsuario.html">Faça login</a>
         </div>
         
         <div class="footer">
@@ -68,29 +67,6 @@
         </div>
     </div>
 
-    <script>
-        // Máscara para CPF
-        document.getElementById('cpf').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            
-            if (value.length > 3) {
-                value = value.substring(0, 3) + '.' + value.substring(3);
-            }
-            if (value.length > 7) {
-                value = value.substring(0, 7) + '.' + value.substring(7);
-            }
-            if (value.length > 11) {
-                value = value.substring(0, 11) + '-' + value.substring(11, 13);
-            }
-            
-            e.target.value = value;
-        });
-
-        // Máscara para telefone (simplificada)
-        document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            e.target.value = value;
-        });
-    </script>
+    <script src="js/registerUsuario.js"></script>
 </body>
 </html>
