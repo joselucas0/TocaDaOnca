@@ -160,9 +160,7 @@ namespace TocaDaOnca.Controllers
                     FullName = dto.FullName,
                     Cpf = dto.Cpf,
                     Email = dto.Email,
-                    Manager = dto.Manager,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
+                    Manager = dto.Manager
                 };
                 string Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
 
