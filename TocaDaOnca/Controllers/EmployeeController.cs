@@ -98,7 +98,7 @@ namespace TocaDaOnca.Controllers
                     employee.Password = string.Empty;
                 }
 
-                var employeeDtos = employees.Select(s => new EmployeeReadDto
+                var readDto = employees.Select(s => new EmployeeReadDto
                 {
                     Id = s.Id,
                     FullName = s.FullName,
@@ -110,7 +110,7 @@ namespace TocaDaOnca.Controllers
                 });
 
 
-                return Ok(employeeDtos);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace TocaDaOnca.Controllers
                 return NotFound("Nenhum empregado encontrado.");
             }
 
-            var dto = new EmployeeReadDto
+            var readDto = new EmployeeReadDto
             {
                 Id = employee.Id,
                 FullName = employee.FullName,
@@ -144,11 +144,7 @@ namespace TocaDaOnca.Controllers
                 UpdatedAt = employee.UpdatedAt
             };
 
-
-            // Não retornar a senha no resultado
-            employee.Password = string.Empty;
-
-            return Ok(employee);
+            return Ok(readDto);
         }
         #endregion
 

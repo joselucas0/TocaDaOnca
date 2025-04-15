@@ -26,11 +26,11 @@ namespace TocaDaOnca.Models
         
         [Column("cost")]
         [Required]
-        public float? Cost { get; set; }
+        public float Cost { get; set; }
         
         [Column("price")]
         [Required]
-        public float? Price { get; set; }
+        public float Price { get; set; }
 
         [Column("stock")]
         [Required]
@@ -38,11 +38,11 @@ namespace TocaDaOnca.Models
 
         [Column("created_at")]
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
         
         [Column("updated_at")]
         [Required]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; }
 
         // Navigation
         public List<SaleProduct> SaleProducts { get; set; } = [];

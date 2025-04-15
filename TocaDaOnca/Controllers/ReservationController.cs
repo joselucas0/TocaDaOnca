@@ -98,9 +98,7 @@ namespace TocaDaOnca.Controllers
                     UserId = dto.UserId,
                     KioskId = dto.KioskId,
                     StartTime = dto.StartTime,
-                    EndTime = dto.EndTime,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    EndTime = dto.EndTime
                 };
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
@@ -144,12 +142,12 @@ namespace TocaDaOnca.Controllers
                 }
 
                 // Checa os horários    
-                if (dto.StartTime.HasValue)
+                if (dto.StartTime.HasValue && dto.StartTime >= DateTime.UtcNow && dto.EndTime >= dto.StartTime)
                 {
                     existente.StartTime = dto.StartTime.Value;
                 }
 
-                if (dto.EndTime.HasValue)
+                if (dto.EndTime.HasValue && dto.StartTime >= DateTime.UtcNow && dto.EndTime >= dto.StartTime)
                 {
                     existente.EndTime = dto.EndTime.Value;
                 }

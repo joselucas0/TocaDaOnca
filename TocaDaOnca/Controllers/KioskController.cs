@@ -105,7 +105,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = kiosk.UpdatedAt
                 };
                 
-                return readDto;
+                return Ok(dto);
             }
 
             catch (Exception ex)

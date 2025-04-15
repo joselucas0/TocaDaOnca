@@ -35,6 +35,7 @@ namespace TocaDaOnca.Controllers
 
                 var productsDto = products.Select(p => new ProductReadDto
                 {
+                    Id = p.Id,
                     ProductName = p.ProductName,
                     Description = p.Description,
                     Cost = p.Cost,
@@ -65,6 +66,7 @@ namespace TocaDaOnca.Controllers
 
                 var productsDto = new ProductReadDto
                 {
+                    Id = id,
                     ProductName = product.ProductName,
                     Description = product.Description,
                     Cost = product.Cost,
@@ -95,21 +97,26 @@ namespace TocaDaOnca.Controllers
                     Description = dto.Description,
                     Cost = dto.Cost,
                     Price = dto.Price,
-                    Stock = dto.Stock,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Stock = dto.Stock
+                    // CreatedAt = DateTime.UtcNow,
+                    // UpdatedAt = DateTime.UtcNow
                 };
+
+                // product.UpdatedAt = product.CreatedAt;
 
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
                 var readDto = new ProductReadDto
                 {
+                    Id = product.Id,
                     ProductName = dto.ProductName,
                     Description = dto.Description,
                     Cost = dto.Cost,
                     Price = dto.Price,
-                    Stock = dto.Stock
+                    Stock = dto.Stock,
+                    CreatedAt = product.CreatedAt,
+                    UpdatedAt = product.UpdatedAt
                 };
                 return Ok(readDto);
             }
@@ -157,8 +164,20 @@ namespace TocaDaOnca.Controllers
 
                 existente.UpdatedAt = DateTime.UtcNow;
 
+                var readDto = new ProductReadDto
+                {
+                    Id = existente.Id,
+                    ProductName = existente.ProductName,
+                    Description = existente.Description,
+                    Cost = existente.Cost,
+                    Price = existente.Price,
+                    Stock = existente.Stock,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
