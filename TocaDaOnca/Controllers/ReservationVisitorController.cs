@@ -30,7 +30,7 @@ namespace TocaDaOnca.Controllers
                 if (reservationVisitors == null || !reservationVisitors.Any())
                     return NotFound("Nenhuma reserva de visitante encontrada.");
 
-                var dtoList = reservationVisitors.Select(rv => new ReservationVisitorReadDto
+                var readDto = reservationVisitors.Select(rv => new ReservationVisitorReadDto
                 {
                     Id = rv.Id,
                     ReservationId = rv.ReservationId,
@@ -39,7 +39,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = rv.UpdatedAt,
                 });
 
-                return Ok(dtoList);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace TocaDaOnca.Controllers
                 if (rv == null)
                     return NotFound("Nenhuma reserva de visitante encontrada.");
 
-                var dto = new ReservationVisitorReadDto
+                var readDto = new ReservationVisitorReadDto
                 {
                     Id = rv.Id,
                     ReservationId = rv.ReservationId,
@@ -65,7 +65,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = rv.UpdatedAt
                 };
 
-                return Ok(dto);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -74,22 +74,20 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReservationVisitorCreateDto>> Post([FromBody] ReservationVisitorCreateDto dto)
+        public async Task<ActionResult<ReservationVisitorReadDto>> Post([FromBody] ReservationVisitorCreateDto dto)
         {
             try
             {
                 var entity = new ReservationVisitor
                 {
                     ReservationId = dto.ReservationId,
-                    VisitorId = dto.VisitorId,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    VisitorId = dto.VisitorId
                 };
 
                 _context.ReservationVisitors.Add(entity);
                 await _context.SaveChangesAsync();
 
-                var result = new ReservationVisitorReadDto
+                var readDto = new ReservationVisitorReadDto
                 {
                     Id = entity.Id,
                     ReservationId = entity.ReservationId,
@@ -98,7 +96,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = entity.UpdatedAt
                 };
 
-                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -107,7 +105,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ReservationVisitorUpdateDto>> Put(int id, [FromBody] ReservationVisitorUpdateDto dto)
+        public async Task<ActionResult<ReservationVisitorReadDto>> Put(int id, [FromBody] ReservationVisitorUpdateDto dto)
         {
             try
             {
@@ -115,16 +113,14 @@ namespace TocaDaOnca.Controllers
                 if (existente == null)
                     return NotFound("Nenhuma reserva de visitante encontrada.");
 
-                if (dto.ReservationId.HasValue)
-                    existente.ReservationId = dto.ReservationId.Value;
-                if (dto.VisitorId.HasValue)
-                    existente.VisitorId = dto.VisitorId.Value;
+                existente.ReservationId = dto.ReservationId ?? existente.ReservationId;
+                existente.VisitorId = dto.VisitorId ?? existente.VisitorId;
 
                 existente.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
 
-                var result = new ReservationVisitorReadDto
+                var readDto = new ReservationVisitorReadDto
                 {
                     Id = existente.Id,
                     ReservationId = existente.ReservationId,
@@ -133,7 +129,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = existente.UpdatedAt
                 };
 
-                return Ok(result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {

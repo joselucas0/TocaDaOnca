@@ -22,7 +22,7 @@ namespace TocaDaOnca.Controllers
         // GET: api/User/profile
         [HttpGet("profile")]
         [Authorize] // Esta rota requer autenticação
-        public async Task<ActionResult<User>> GetUserProfile()
+        public async Task<ActionResult<UserReadDto>> GetUserProfile()
         {
             // Obtém o ID do usuário autenticado
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -40,7 +40,7 @@ namespace TocaDaOnca.Controllers
                 return NotFound();
             }
 
-            var dto = new UserReadDto
+            var readDto = new UserReadDto
             {
                 Id = user.Id,
                 FullName = user.FullName,
@@ -53,7 +53,7 @@ namespace TocaDaOnca.Controllers
                 UpdatedAt = user.UpdatedAt
             };
 
-            return Ok(dto);
+            return Ok(readDto);
         }
 
         // GET: api/User
@@ -68,7 +68,7 @@ namespace TocaDaOnca.Controllers
                     return NotFound("nenhum usuario encontrado.");
                 }
 
-                var dtoList = user.Select(u => new UserReadDto
+                var readDto = user.Select(u => new UserReadDto
                 {
                     Id = u.Id,
                     FullName = u.FullName,
@@ -81,7 +81,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = u.UpdatedAt
                 });
 
-                return Ok(dtoList);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhum usuario encontrado");
                 }
 
-                var dto = new UserReadDto
+                var readDto = new UserReadDto
                 {
                     Id = user.Id,
                     FullName = user.FullName,
@@ -115,7 +115,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = user.UpdatedAt
                 };
 
-                return Ok(dto);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace TocaDaOnca.Controllers
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<UserCreateDto>> Post([FromBody] UserCreateDto dto)
+        public async Task<ActionResult<UserReadDto>> Post([FromBody] UserCreateDto dto)
         {
             try
             {
@@ -139,14 +139,12 @@ namespace TocaDaOnca.Controllers
                     Email = dto.Email,
                     Phone = dto.Phone,
                     Premium = dto.Premium,
-                    Password = dto.Password,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Password = dto.Password
                 };
                 _context.Users.Add(entity);
                 await _context.SaveChangesAsync();
 
-                var result = new UserReadDto
+                var readDto = new UserReadDto
                 {
                     Id = entity.Id,
                     FullName = entity.FullName,
@@ -158,7 +156,7 @@ namespace TocaDaOnca.Controllers
                     CreatedAt = entity.CreatedAt,
                     UpdatedAt = entity.UpdatedAt
                 };
-                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -168,7 +166,7 @@ namespace TocaDaOnca.Controllers
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, UserUpdateDto dto)
+        public async Task<ActionResult<UserReadDto>> Put(int id, UserUpdateDto dto)
         {
             try
             {
@@ -184,7 +182,7 @@ namespace TocaDaOnca.Controllers
                 existente.BirthDate = dto.BirthDate ?? existente.BirthDate;
                 existente.UpdatedAt = DateTime.UtcNow;
 
-                var result = new UserReadDto
+                var readDto = new UserReadDto
                 {
                     Id = existente.Id,
                     FullName = existente.FullName,
@@ -197,7 +195,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = existente.UpdatedAt
                 };
 
-                return Ok(result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {

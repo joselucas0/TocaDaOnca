@@ -31,7 +31,7 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhuma venda encontrada.");
                 }
 
-                var dtoList = sale.Select(s => new SaleReadDto
+                var readDto = sale.Select(s => new SaleReadDto
                 {
                     Id = s.Id,
                     ReservationId = s.ReservationId,
@@ -41,7 +41,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = s.UpdatedAt
                 });
 
-                return Ok(dtoList);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace TocaDaOnca.Controllers
                 if (sale == null)
                     return NotFound("Nenhuma venda encontrada.");
 
-                var dto = new SaleReadDto
+                var readDto = new SaleReadDto
                 {
                     Id = sale.Id,
                     ReservationId = sale.ReservationId,
@@ -68,7 +68,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = sale.UpdatedAt
                 };
 
-                return Ok(dto);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -85,14 +85,12 @@ namespace TocaDaOnca.Controllers
                 {
                     ReservationId = dto.ReservationId,
                     EmployeeId = dto.EmployeeId,
-                    Subtotal = dto.Subtotal,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Subtotal = dto.Subtotal
                 };
                 _context.Sales.Add(entity);
                 await _context.SaveChangesAsync();
 
-                var result = new SaleReadDto
+                var readDto = new SaleReadDto
                 {
                     Id = entity.Id,
                     ReservationId = entity.ReservationId,
@@ -102,7 +100,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = entity.UpdatedAt
                 };
 
-                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -120,16 +118,15 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhuma venda encontrada.");
                 }
-                if (dto.EmployeeId.HasValue)
-                    existente.EmployeeId = dto.EmployeeId.Value;
+                
+                existente.EmployeeId = dto.EmployeeId ?? existente.EmployeeId;
 
-                if (dto.Subtotal.HasValue)
-                    existente.Subtotal = dto.Subtotal.Value;
+                existente.Subtotal = dto.Subtotal ?? existente.Subtotal;
 
                 existente.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
 
-                var result = new SaleReadDto
+                var readDto = new SaleReadDto
                 {
                     Id = existente.Id,
                     ReservationId = existente.ReservationId,
@@ -139,7 +136,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = existente.UpdatedAt
                 };
 
-                return Ok(result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {

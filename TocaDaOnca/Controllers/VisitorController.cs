@@ -31,7 +31,7 @@ namespace TocaDaOnca.Controllers
                     return NotFound("Nenhum visitante encontrado.");
                 }
 
-                var dtoList = visitors.Select(s => new VisitorReadDto
+                var readDto = visitors.Select(s => new VisitorReadDto
                 {
                     Id = s.Id,
                     FullName = s.FullName,
@@ -41,7 +41,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = s.UpdatedAt
                 });
 
-                return Ok(dtoList);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace TocaDaOnca.Controllers
                 if (visitor == null)
                     return NotFound("Nenhum visitante encontrado.");
 
-                var dto = new VisitorReadDto
+                var readDto = new VisitorReadDto
                 {
                     Id = visitor.Id,
                     FullName = visitor.FullName,
@@ -68,7 +68,7 @@ namespace TocaDaOnca.Controllers
                     UpdatedAt = visitor.UpdatedAt
                 };
 
-                return Ok(dto);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<VisitorCreateDto>> Post([FromBody] VisitorCreateDto dto)
+        public async Task<ActionResult<VisitorReadDto>> Post([FromBody] VisitorCreateDto dto)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace TocaDaOnca.Controllers
                 _context.Visitors.Add(entity);
                 await _context.SaveChangesAsync();
 
-                var result = new VisitorReadDto
+                var readDto = new VisitorReadDto
                 {
                     Id = entity.Id,
                     FullName = entity.FullName,
@@ -101,7 +101,7 @@ namespace TocaDaOnca.Controllers
                     CreatedAt = entity.CreatedAt,
                     UpdatedAt = entity.UpdatedAt
                 };
-                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, result);
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace TocaDaOnca.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Visitor>> Put(int id, [FromBody] Visitor visitor)
+        public async Task<ActionResult<VisitorReadDto>> Put(int id, [FromBody] VisitorUpdateDto dto)
         {
             try
             {
@@ -119,13 +119,22 @@ namespace TocaDaOnca.Controllers
                 {
                     return NotFound("Nenhum visitante encontrado.");
                 }
-                existente.FullName = visitor.FullName;
-                existente.BirthDate = visitor.BirthDate;
-                existente.Phone = visitor.Phone;
-                existente.CreatedAt = visitor.CreatedAt;
-                existente.UpdatedAt = visitor.UpdatedAt;
+                existente.FullName = dto.FullName ?? existente.FullName;
+                existente.BirthDate = dto.BirthDate ?? existente.BirthDate;
+                existente.Phone = dto.Phone ?? existente.Phone;
+                existente.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
-                return Ok(existente);
+
+                var readDto = new VisitorReadDto
+                {
+                    Id = existente.Id,
+                    FullName = existente.FullName,
+                    BirthDate = existente.BirthDate,
+                    Phone = existente.Phone,
+                    CreatedAt = existente.CreatedAt,
+                    UpdatedAt = existente.UpdatedAt
+                };
+                return Ok(readDto);
             }
             catch (Exception ex)
             {
