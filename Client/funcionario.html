@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Funcionário - Toca da Onça</title>
+    <link rel="stylesheet" href="./css/funcionario_pag.css">
+    <link rel="icon" type="imagex/png" href="./assets/img_logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Toca da <span>Onça</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="/cliente">Área do Cliente</a></li>
+                <li><a href="/funcionario" class="active">Área do Funcionário</a></li>
+                
+            </ul>
+        </nav>
+        
+        <div class="header-content">
+            <h1>Área do Funcionário</h1>
+            <p>Registro de Reserva e Bar</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="employee-container">
+        <div class="employee-tabs">
+            <div class="employee-tab active" onclick="openTab(event, 'reservations')">Reservas</div>
+            <div class="employee-tab" onclick="openTab(event, 'registro')">Registro</div>
+            <div class="employee-tab" onclick="openTab(event, 'bar')">Bar</div>
+        </div>
+        
+        <!-- Seção Reservas -->
+        <div id="reservations" class="tab-content active">
+            <h2>Reservas do Dia</h2>
+            <p>Confira as reservas confirmadas e gerencie novas solicitações.</p>
+            
+            <div class="reservations-list">
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div>
+                            <span class="reservation-id">#RESERVA-001</span>
+                            <span>Quiosque 3</span>
+                        </div>
+                        <span class="reservation-status status-confirmed">CONFIRMADO</span>
+                    </div>
+                    <div class="reservation-details">
+                        <div class="detail-group">
+                            <h4>Cliente</h4>
+                            <p>João da Silva</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Data</h4>
+                            <p>15/10/2023</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Horário</h4>
+                            <p>09:00 às 18:00</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Valor</h4>
+                            <p>R$ 250,00</p>
+                        </div>
+                    </div>
+                    <div class="reservation-details">
+                        <div class="detail-group">
+                            <h4>Visitantes</h4>
+                            <p>João da Silva, Maria Oliveira, Carlos Souza</p>
+                        </div>
+                    </div>
+                    <div class="reservation-actions">
+                        <button class="action-btn cancel-btn">Cancelar</button>
+                        <button class="action-btn edit-btn">Editar</button>
+                    </div>
+                </div>
+                
+                <div class="reservation-card">
+                    <div class="reservation-header">
+                        <div>
+                            <span class="reservation-id">#RESERVA-002</span>
+                            <span>Quiosque 1</span>
+                        </div>
+                        <span class="reservation-status status-pending">PENDENTE</span>
+                    </div>
+                    <div class="reservation-details">
+                        <div class="detail-group">
+                            <h4>Cliente</h4>
+                            <p>Ana Paula Costa</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Data</h4>
+                            <p>15/10/2023</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Horário</h4>
+                            <p>10:00 às 17:00</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Valor</h4>
+                            <p>R$ 150,00</p>
+                        </div>
+                    </div>
+                    <div class="reservation-details">
+                        <div class="detail-group">
+                            <h4>Visitantes</h4>
+                            <p>Ana Paula Costa, Pedro Henrique, Juliana Santos</p>
+                        </div>
+                    </div>
+                    <div class="reservation-actions">
+                        <button class="action-btn confirm-btn">Confirmar</button>
+                        <button class="action-btn cancel-btn">Cancelar</button>
+                        <button class="action-btn edit-btn">Editar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção Registro do Bar -->
+        <div id="registro" class="tab-content">
+            <h2>Registro do Bar</h2>
+            <p>Cadastre os inten que serão colocados no Bar.</p>
+            
+            <div class="form">
+                <form id="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Preço</label>
+                            <input type="number" id="price" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stock_quantity">Quantidade</label>
+                            <input type="number" id="stock_quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Custo</label>
+                            <input type="text" id="price" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reservation">Descrição</label>
+                        <input type="text" id="reservation" placeholder="Descrição do produto" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Registrar Produto</button>
+                </form>
+            </div>
+
+           
+        </div>
+        
+        <!-- Seção Bar -->
+        <div id="bar" class="tab-content">
+            <h2>Operações do Bar</h2>
+            <p>Registre as vendas de produtos do bar do balneário.</p>
+            <select id="employee-select" style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                <option value="" disabled selected>Selecione o Quiosque</option>
+                <option value="kiosk1">kiosk 1</option>
+                <option value="kiosk2">kiosk 2</option>
+            </select>
+
+            
+            <h3 style="margin-top: 30px;">Produtos Disponíveis</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="" alt="Cerveja">
+                    </div>
+                    <div class="product-name">Cerveja Artesanal</div>
+                    <div class="product-price">R$ 12,00</div>
+                    <div class="product-stock">Estoque: 50 unidades</div>
+                    <form class="sale-form">
+                        <input type="number" min="1" value="1" class="quantity-input">
+                        <button type="button" class="add-to-sale">Adicionar</button>
+                    </form>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="" alt="Refrigerante">
+                    </div>
+                    <div class="product-name">Refrigerante Lata</div>
+                    <div class="product-price">R$ 6,00</div>
+                    <div class="product-stock">Estoque: 100 unidades</div>
+                    <form class="sale-form">
+                        <input type="number" min="1" value="1" class="quantity-input">
+                        <button type="button" class="add-to-sale">Adicionar</button>
+                    </form>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="" alt="Água">
+                    </div>
+                    <div class="product-name">Água Mineral</div>
+                    <div class="product-price">R$ 4,00</div>
+                    <div class="product-stock">Estoque: 80 unidades</div>
+                    <form class="sale-form">
+                        <input type="number" min="1" value="1" class="quantity-input">
+                        <button type="button" class="add-to-sale">Adicionar</button>
+                    </form>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="" alt="Porção">
+                    </div>
+                    <div class="product-name">Porção de Batata</div>
+                    <div class="product-price">R$ 25,00</div>
+                    <div class="product-stock">Estoque: 30 unidades</div>
+                    <form class="sale-form">
+                        <input type="number" min="1" value="1" class="quantity-input">
+                        <button type="button" class="add-to-sale">Adicionar</button>
+                    </form>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="" alt="Gelo">
+                    </div>
+                    <div class="product-name">Saco de Gelo</div>
+                    <div class="product-price">R$ 10,00</div>
+                    <div class="product-stock">Estoque: 40 unidades</div>
+                    <form class="sale-form">
+                        <input type="number" min="1" value="1" class="quantity-input">
+                        <button type="button" class="add-to-sale">Adicionar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="current-sale">
+                <h3>Venda Atual</h3>
+                <div class="sale-items">
+                    <div class="sale-item">
+                        <span>2x Cerveja Artesanal</span>
+                        <span>R$ 24,00</span>
+                    </div>
+                    <div class="sale-item">
+                        <span>1x Porção de Batata</span>
+                        <span>R$ 25,00</span>
+                    </div>
+                </div>
+                <div class="sale-total">
+                    Total: R$ 49,00
+                </div>
+                <button class="complete-sale">Finalizar Venda</button>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="logo">
+            <img src="./img_logo.png" alt="Logo Toca da Onça" style=" width: 100px";>
+            <h1>Toca da <span>Onça</span></h1>
+            <p>Balneário & Pousada</p>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+        </div>
+        
+        <p class="copyright">© 2025 Toca da Onça. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Esconde todos os conteúdos de tab
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove a classe active de todas as tabs
+            var tabLinks = document.getElementsByClassName("employee-tab");
+            for (var i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+            
+            // Mostra a tab atual e adiciona a classe active ao botão
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Formulário de visitante
+        document.getElementById('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Visitante registrado com sucesso!');
+            this.reset();
+        });
+        
+        // Simulação de adicionar produto à venda
+        var addButtons = document.getElementsByClassName('add-to-sale');
+        for (var i = 0; i < addButtons.length; i++) {
+            addButtons[i].addEventListener('click', function() {
+                alert('Produto adicionado à venda atual');
+            });
+        }
+        
+        // Finalizar venda
+        var completeSale = document.querySelector('.complete-sale');
+        if (completeSale) {
+            completeSale.addEventListener('click', function() {
+                if (confirm('Deseja finalizar esta venda?')) {
+                    alert('Venda registrada com sucesso!');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

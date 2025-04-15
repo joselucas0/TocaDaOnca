@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Cliente - Toca da Onça</title>
+    <link rel="stylesheet" href="./css/home_pag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="imagex/png" href="./assets/img_logo.png">
+    
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Toca da <span>Onça</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/cliente" class="active">Área do Cliente</a></li>
+                <li><a href="./funcionario.html">Área do Funcionário</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-content">
+            <h1>Área do Cliente</h1>
+            <p>Agende seu quiosque, conheça nossas instalações e saiba como chegar</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="client-container">
+        <div class="client-tabs">
+            <div class="client-tab active" onclick="openTab(event, 'gallery')">Galeria</div>
+            <div class="client-tab" onclick="openTab(event, 'location')">Localização</div>
+            <div class="client-tab" onclick="openTab(event, 'kiosks')">Nossos Quiosques</div>
+        </div>
+        
+        <!-- Seção Galeria -->
+        <div id="gallery" class="tab-content active">
+            <h2>Galeria de Fotos</h2>
+            <p>Conheça nossas instalações e as belezas naturais que nos cercam.</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Piscina natural">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurante">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1539667468225-eebb663053e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Natureza">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cachoeira">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosques">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Área de camping">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seção Localização -->
+        <div id="location" class="tab-content">
+            <h2>Como Chegar</h2>
+            <p>Estamos localizados em um paraíso natural de fácil acesso. Veja no mapa como chegar até nós.</p>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.678901234567!2d-46.12345678901234!3d-23.123456789012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDA3JzI0LjgiUyA0NsKwMDcnMjQuOCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <div style="margin-top: 30px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                <h3>Endereço</h3>
+                <p>Rodovia BR-XXX, Km 123 - Cidade/Estado</p>
+                <p>CEP: 12345-678</p>
+                
+                <h3 style="margin-top: 20px;">Horário de Funcionamento</h3>
+                <p>Terça a Domingo: 08:00 às 18:00</p>
+            </div>
+        </div>
+        
+        <!-- Seção Quiosques -->
+        <div id="kiosks" class="tab-content">
+            <h2>Nossos Quiosques</h2>
+            <p>Conheça nossas opções de quiosques e escolha o ideal para seu grupo.</p>
+            
+            <div class="kiosks-grid">
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 1">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque 1</h3>
+                        <p>Quiosque padrão com mesa, bancos e churrasqueira.</p>
+                        <div class="kiosk-price">R$ 150,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 6 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                        </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque 1', 150)">Reservar</button>
+                    </div>
+                </div>
+                
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 2">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque 2</h3>
+                        <p>Quiosque amplo com mesa de madeira rústica.</p>
+                        <div class="kiosk-price">R$ 180,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 8 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                            <span>Vista para o rio</span>
+                        </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque 2', 180)">Reservar</button>
+                    </div>
+                </div>
+                
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 3">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>Quiosque Premium</h3>
+                        <p>Nosso quiosque mais exclusivo, com área privativa.</p>
+                        <div class="kiosk-price">R$ 250,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até 10 pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                            <span>Vista privilegiada</span>
+                            <span>Próximo ao bar</span>
+                        </div>
+                        <button class="reserve-btn" onclick="openModal('Quiosque Premium', 250)">Reservar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Agendamento -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2>Agendar <span id="modalKioskName"></span></h2>
+            <p>Preencha o formulário abaixo para reservar seu quiosque no Balneário Toca da Onça.</p>
+            
+            <form id="reservation-form">
+                <input type="hidden" id="kiosk-type">
+                <input type="hidden" id="kiosk-price">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-name">Nome Completo</label>
+                        <input type="text" id="reservation-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-cpf">CPF</label>
+                        <input type="text" id="reservation-cpf" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-email">E-mail</label>
+                        <input type="email" id="reservation-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-phone">Telefone</label>
+                        <input type="tel" id="reservation-phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reservation-date">Data</label>
+                        <input type="date" id="reservation-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-people">Número de Pessoas</label>
+                        <input type="number" id="reservation-people" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reservation-visitors">Visitantes (Nomes e CPFs)</label>
+                    <textarea id="reservation-visitors" placeholder="Liste os nomes e CPFs dos visitantes que estarão com você, separados por vírgula"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reservation-notes">Observações</label>
+                    <textarea id="reservation-notes" placeholder="Alguma necessidade especial ou informação adicional"></textarea>
+                </div>
+                
+                <div class="form-group" style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
+                    <p><strong>Resumo da Reserva:</strong></p>
+                    <p>Quiosque: <span id="reservation-summary-kiosk"></span></p>
+                    <p>Valor: <span id="reservation-summary-price"></span></p>
+                </div>
+                
+                <button type="submit" class="submit-btn">Solicitar Reserva</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="logo">
+            <img src="./img_logo.png" alt="Logo Toca da Onça" style=" width: 100px";>
+            <h1>Toca da <span>Onça</span></h1>
+            <p>Balneário & Pousada</p>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+        </div>
+        
+        <p class="copyright">© 2023 Toca da Onça. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Função para abrir as abas
+        function openTab(evt, tabName) {
+            // Esconde todos os conteúdos de tab
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove a classe active de todas as tabs
+            var tabLinks = document.getElementsByClassName("client-tab");
+            for (var i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+            
+            // Mostra a tab atual e adiciona a classe active ao botão
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Funções para o modal
+        function openModal(kioskName, kioskPrice) {
+            document.getElementById('modalKioskName').textContent = kioskName;
+            document.getElementById('kiosk-type').value = kioskName;
+            document.getElementById('kiosk-price').value = kioskPrice;
+            document.getElementById('reservation-summary-kiosk').textContent = kioskName;
+            document.getElementById('reservation-summary-price').textContent = 'R$ ' + kioskPrice.toFixed(2);
+            
+            // Configurar a data mínima como hoje
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('reservation-date').min = today;
+            
+            document.getElementById('reservationModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('reservationModal').style.display = 'none';
+        }
+        
+        // Fechar modal ao clicar fora do conteúdo
+        window.onclick = function(event) {
+            var modal = document.getElementById('reservationModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // Formulário de reserva
+        document.getElementById('reservation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Sua solicitação de reserva foi enviada com sucesso! Entraremos em contato para confirmação.');
+            this.reset();
+            closeModal();
+        });
+    </script>
+</body>
+</html>
