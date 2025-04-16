@@ -87,7 +87,7 @@ namespace TocaDaOnca.Controllers
 
         #region Post
         [HttpPost]
-        public async Task<ActionResult<Product>> Post([FromBody] ProductCreateDto dto)
+        public async Task<ActionResult<ProductReadDto>> Post([FromBody] ProductCreateDto dto)
         {
             try
             {
