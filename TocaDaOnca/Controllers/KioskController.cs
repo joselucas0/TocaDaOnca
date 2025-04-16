@@ -18,7 +18,7 @@ namespace TocaDaOnca.Controllers
         {
             _context = context;
         }
-        
+
         #region Get
         [HttpGet]
         public async Task<ActionResult<IEnumerable<KioskReadDto>>> Get()
@@ -38,6 +38,7 @@ namespace TocaDaOnca.Controllers
                     Title = k.Title,
                     MaxPeople = k.MaxPeople,
                     Description = k.Description,
+                    Value = k.Value,
                     CreatedAt = k.CreatedAt,
                     UpdatedAt = k.UpdatedAt
                 });
@@ -67,6 +68,7 @@ namespace TocaDaOnca.Controllers
                     Title = kiosk.Title,
                     MaxPeople = kiosk.MaxPeople,
                     Description = kiosk.Description,
+                    Value = kiosk.Value,
                     CreatedAt = kiosk.CreatedAt,
                     UpdatedAt = kiosk.UpdatedAt
                 };
@@ -89,7 +91,8 @@ namespace TocaDaOnca.Controllers
                 {
                     Title = dto.Title,
                     MaxPeople = dto.MaxPeople,
-                    Description = dto.Description
+                    Description = dto.Description,
+                    Value = dto.Value,
                 };
 
                 _context.Kiosks.Add(kiosk);
@@ -101,10 +104,11 @@ namespace TocaDaOnca.Controllers
                     Title = kiosk.Title,
                     MaxPeople = kiosk.MaxPeople,
                     Description = kiosk.Description,
+                    Value = kiosk.Value,
                     CreatedAt = kiosk.CreatedAt,
                     UpdatedAt = kiosk.UpdatedAt
                 };
-                
+
                 return Ok(dto);
             }
 
@@ -120,37 +124,39 @@ namespace TocaDaOnca.Controllers
         {
             try
             {
-                var existente = await _context.Kiosks.FindAsync(id);
-                if (existente == null)
+                var kiosk = await _context.Kiosks.FindAsync(id);
+                if (kiosk == null)
                 {
                     return NotFound("Nenhum quiosque encontrado.");
                 }
 
                 if (dto.MaxPeople.HasValue)
                 {
-                    existente.MaxPeople = dto.MaxPeople.Value;
+                    kiosk.MaxPeople = dto.MaxPeople.Value;
                 }
                 if (dto.Title != null)
                 {
-                    existente.Title = dto.Title;
+                    kiosk.Title = dto.Title;
                 }
                 if (dto.Description != null)
                 {
-                    existente.Description = dto.Description;
+                    kiosk.Description = dto.Description;
                 }
 
-                existente.UpdatedAt = DateTime.UtcNow;
+                kiosk.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
-                
+
                 var readDto = new KioskReadDto
                 {
 
-                Title = existente.Title,
-                MaxPeople = existente.MaxPeople,
-                Description = existente.Description,
-                CreatedAt = existente.CreatedAt,
-                UpdatedAt = existente.UpdatedAt
+                    Id = kiosk.Id,
+                    Title = kiosk.Title,
+                    MaxPeople = kiosk.MaxPeople,
+                    Description = kiosk.Description,
+                    Value = kiosk.Value,
+                    CreatedAt = kiosk.CreatedAt,
+                    UpdatedAt = kiosk.UpdatedAt
                 };
 
                 return Ok(readDto);
@@ -167,12 +173,12 @@ namespace TocaDaOnca.Controllers
         {
             try
             {
-                var existente = await _context.Kiosks.FindAsync(id);
-                if (existente == null)
+                var kiosk = await _context.Kiosks.FindAsync(id);
+                if (kiosk == null)
                 {
                     return NotFound("Nenhum quiosque encontrado.");
                 }
-                _context.Kiosks.Remove(existente);
+                _context.Kiosks.Remove(kiosk);
                 await _context.SaveChangesAsync();
                 return NoContent();
             }

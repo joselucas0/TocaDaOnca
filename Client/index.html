@@ -89,59 +89,6 @@
             <p>Conheça nossas opções de quiosques e escolha o ideal para seu grupo.</p>
             
             <div class="kiosks-grid">
-                <div class="kiosk-card">
-                    <div class="kiosk-image">
-                        <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 1">
-                    </div>
-                    <div class="kiosk-info">
-                        <h3>Quiosque 1</h3>
-                        <p>Quiosque padrão com mesa, bancos e churrasqueira.</p>
-                        <div class="kiosk-price">R$ 150,00 / dia</div>
-                        <div class="kiosk-features">
-                            <span>Até 6 pessoas</span>
-                            <span>Churrasqueira</span>
-                            <span>Área coberta</span>
-                        </div>
-                        <button class="reserve-btn" onclick="openModal('Quiosque 1', 150)">Reservar</button>
-                    </div>
-                </div>
-                
-                <div class="kiosk-card">
-                    <div class="kiosk-image">
-                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 2">
-                    </div>
-                    <div class="kiosk-info">
-                        <h3>Quiosque 2</h3>
-                        <p>Quiosque amplo com mesa de madeira rústica.</p>
-                        <div class="kiosk-price">R$ 180,00 / dia</div>
-                        <div class="kiosk-features">
-                            <span>Até 8 pessoas</span>
-                            <span>Churrasqueira</span>
-                            <span>Área coberta</span>
-                            <span>Vista para o rio</span>
-                        </div>
-                        <button class="reserve-btn" onclick="openModal('Quiosque 2', 180)">Reservar</button>
-                    </div>
-                </div>
-                
-                <div class="kiosk-card">
-                    <div class="kiosk-image">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Quiosque 3">
-                    </div>
-                    <div class="kiosk-info">
-                        <h3>Quiosque Premium</h3>
-                        <p>Nosso quiosque mais exclusivo, com área privativa.</p>
-                        <div class="kiosk-price">R$ 250,00 / dia</div>
-                        <div class="kiosk-features">
-                            <span>Até 10 pessoas</span>
-                            <span>Churrasqueira</span>
-                            <span>Área coberta</span>
-                            <span>Vista privilegiada</span>
-                            <span>Próximo ao bar</span>
-                        </div>
-                        <button class="reserve-btn" onclick="openModal('Quiosque Premium', 250)">Reservar</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -182,8 +129,12 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="reservation-date">Data</label>
+                        <label for="reservation-date">Data Check-in</label>
                         <input type="date" id="reservation-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reservation-date">Data Check-out</label>
+                        <input type="date" id="reservation-date-out" required>
                     </div>
                     <div class="form-group">
                         <label for="reservation-people">Número de Pessoas</label>
@@ -271,6 +222,10 @@
             kiosks.forEach(kiosk => {
                 // Usar imagens placeholder baseadas no id do quiosque (para manter as imagens atuais)
                 const imageUrl = getKioskImage(kiosk.id);
+                const tags = kiosk.description.split(',').map(tag => tag.trim());
+                const tagElements = tags.map(tag => `<span>${tag}</span>`).join('');
+
+                console.table(kiosk)
                 
                 const kioskCard = `
                 <div class="kiosk-card">
@@ -279,12 +234,10 @@
                     </div>
                     <div class="kiosk-info">
                         <h3>${kiosk.title}</h3>
-                        <p>${kiosk.description || 'Quiosque com mesa, bancos e churrasqueira.'}</p>
-                        <div class="kiosk-price">R$ 150,00 / dia</div>
+                        <p style='font-size: 1rem'>Comporta até ${kiosk.maxPeople} pessoas</p>
+                        <div class="kiosk-price">R$ ${kiosk.value} / dia</div>
                         <div class="kiosk-features">
-                            <span>Até ${kiosk.maxPeople} pessoas</span>
-                            <span>Churrasqueira</span>
-                            <span>Área coberta</span>
+                            ${tagElements}
                         </div>
                         <button class="reserve-btn" onclick="openModal('${kiosk.title}', 150, ${kiosk.id})">Reservar</button>
                     </div>
@@ -306,6 +259,15 @@
         
         // Funções para o modal
         function openModal(kioskName, kioskPrice, kioskId) {
+            
+            // See if the user is logged
+            const user = JSON.parse(localStorage.getItem('userId'));
+            if (!user) {
+                alert("Faça login para realizar reservas!");
+                window.location.href = "./loginUsuario.html";
+                return;
+            };
+
             document.getElementById('modalKioskName').textContent = kioskName;
             document.getElementById('kiosk-type').value = kioskName;
             document.getElementById('kiosk-id').value = kioskId; // Adicionando o ID do quiosque

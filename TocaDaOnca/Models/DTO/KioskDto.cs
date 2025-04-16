@@ -11,6 +11,7 @@ namespace TocaDaOnca.Models.DTO
         public string Title { get; set; } = string.Empty;
         public int MaxPeople { get; set; }
         public string Description { get; set; } = string.Empty;
+        public float Value { get; set;}
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -20,6 +21,7 @@ namespace TocaDaOnca.Models.DTO
         public string Title { get; set; } = string.Empty;
         public int MaxPeople { get; set; }
         public string Description { get; set; } = string.Empty;
+        public float Value { get; set;}
     }
 
     public class KioskUpdateDto
@@ -27,6 +29,7 @@ namespace TocaDaOnca.Models.DTO
         public string? Title { get; set; }
         public int? MaxPeople { get; set; }
         public string? Description { get; set; }
+        public float? Value { get; set;}
     }
 
 }

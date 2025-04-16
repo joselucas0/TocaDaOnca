@@ -28,6 +28,10 @@ namespace TocaDaOnca.Models
         [Required]
         public string Description { get; set;} = string.Empty;
 
+        [Column("value")]
+        [Required]
+        public float Value { get; set; }
+
         [Column("created_at")]
         [Required]
         public DateTime CreatedAt { get; set; }

@@ -12,8 +12,8 @@ using TocaDaOnca.AppDbContext;
 namespace TocaDaOnca.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250414171511_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250416174850_FixingKiosk")]
+    partial class FixingKiosk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,7 +100,7 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<int>("Max_people")
+                    b.Property<int>("MaxPeople")
                         .HasColumnType("integer")
                         .HasColumnName("max_people");
 
@@ -115,6 +115,10 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("real")
+                        .HasColumnName("value");
 
                     b.HasKey("Id");
 
@@ -429,7 +433,7 @@ namespace TocaDaOnca.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("email");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")

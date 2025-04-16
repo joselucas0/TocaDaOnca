@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Função para lidar com o envio do formulário de login
  */
 async function handleEmployeeLogin(event) {
+    localStorage.clear();
     event.preventDefault();
 
     const email = event.target[0].value;
