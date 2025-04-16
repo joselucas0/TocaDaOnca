@@ -11,11 +11,11 @@ namespace TocaDaOnca.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ReservationVisorController : ControllerBase
+    public class ReservationVisitorController : ControllerBase
     {
         private readonly Context _context;
 
-        public ReservationVisorController(Context context)
+        public ReservationVisitorController(Context context)
         {
             _context = context;
         }

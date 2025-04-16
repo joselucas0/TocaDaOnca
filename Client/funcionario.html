@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./css/funcionario_pag.css">
     <link rel="icon" type="imagex/png" href="./assets/img_logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Adicionando o script de login do funcionário -->
+    <script src="js/loginFuncionario.js"></script>
 </head>
 <body>
     <!-- Cabeçalho -->
@@ -125,7 +127,7 @@
         <!-- Seção Registro do Bar -->
         <div id="registro" class="tab-content">
             <h2>Registro do Bar</h2>
-            <p>Cadastre os inten que serão colocados no Bar.</p>
+            <p>Cadastre os itens que serão colocados no Bar.</p>
             
             <div class="form">
                 <form id="form">
@@ -282,6 +284,47 @@
     </footer>
 
     <script>
+        // Verificar autenticação quando a página for carregada
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o funcionário está autenticado
+            if (!isEmployeeAuthenticated()) {
+                alert('Por favor, faça login para acessar a área de funcionário');
+                window.location.href = '/Client/loginFuncionario.html';
+                return;
+            }
+            
+            // Se estiver autenticado, mostrar nome do funcionário
+            const employeeName = localStorage.getItem('employeeName');
+            if (employeeName) {
+                const headerContent = document.querySelector('.header-content');
+                if (headerContent) {
+                    const welcomeText = document.createElement('p');
+                    welcomeText.textContent = `Bem-vindo(a), ${employeeName}!`;
+                    welcomeText.style.fontSize = '1.1rem';
+                    welcomeText.style.marginTop = '0.5rem';
+                    headerContent.appendChild(welcomeText);
+                }
+                
+                // Adicionar botão de logout
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks) {
+                    const logoutItem = document.createElement('li');
+                    const logoutLink = document.createElement('a');
+                    logoutLink.href = '#';
+                    logoutLink.textContent = 'Sair';
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        employeeLogout();
+                    });
+                    logoutItem.appendChild(logoutLink);
+                    navLinks.appendChild(logoutItem);
+                }
+            }
+            
+            // Carregar as reservas
+            loadReservations();
+        });
+        
         function openTab(evt, tabName) {
             // Esconde todos os conteúdos de tab
             var tabContents = document.getElementsByClassName("tab-content");
@@ -303,7 +346,7 @@
         // Formulário de visitante
         document.getElementById('form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Visitante registrado com sucesso!');
+            alert('Produto registrado com sucesso!');
             this.reset();
         });
         
@@ -323,6 +366,204 @@
                     alert('Venda registrada com sucesso!');
                 }
             });
+        }
+
+        // Função para carregar as reservas
+        async function loadReservations() {
+            try {
+                // Verificar se há token de autenticação de funcionário
+                const token = localStorage.getItem('employeeToken');
+                if (!token) {
+                    alert('Você precisa estar autenticado para ver as reservas.');
+                    window.location.href = '/Client/loginFuncionario.html';
+                    return;
+                }
+
+                // Fazer a requisição para a API
+                const response = await fetch('http://localhost:5050/api/Reservation', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar reservas: ' + response.statusText);
+                }
+
+                const reservations = await response.json();
+                displayReservations(reservations);
+            } catch (error) {
+                console.error('Erro ao carregar reservas:', error);
+                alert('Não foi possível carregar as reservas. Por favor, tente novamente mais tarde.');
+            }
+        }
+
+        // Função para exibir as reservas na página
+        async function displayReservations(reservations) {
+            const reservationList = document.querySelector('.reservations-list');
+            reservationList.innerHTML = ''; // Limpar a lista atual
+
+            // Se não houver reservas, mostrar mensagem
+            if (!reservations || reservations.length === 0) {
+                reservationList.innerHTML = '<p class="no-reservations">Não há reservas para mostrar.</p>';
+                return;
+            }
+
+            // Ordenar reservas pela data (da mais recente para a mais distante)
+            reservations.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+            
+            // Para cada reserva, criar um card
+            for (const reservation of reservations) {
+                try {
+                    // Formatar data e hora
+                    const startDate = new Date(reservation.startTime);
+                    const endDate = new Date(reservation.endTime);
+                    const formattedDate = startDate.toLocaleDateString('pt-BR');
+                    const formattedStartTime = startDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    const formattedEndTime = endDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+                    // Buscar informações do quiosque
+                    const kioskResponse = await fetch(`http://localhost:5050/api/Kiosk/${reservation.kioskId}`, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('employeeToken')
+                        }
+                    });
+                    const kiosk = await kioskResponse.json();
+
+                    // Buscar informações do usuário
+                    const userResponse = await fetch(`http://localhost:5050/api/User/${reservation.userId}`, {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('employeeToken')
+                        }
+                    });
+                    const user = await userResponse.json();
+
+                    // Determinar o status da reserva (baseado na data)
+                    let status = 'pending';
+                    const now = new Date();
+                    if (startDate < now && endDate > now) {
+                        status = 'confirmed';
+                    } else if (endDate < now) {
+                        status = 'completed';
+                    }
+
+                    // Criar o card da reserva
+                    const card = document.createElement('div');
+                    card.className = 'reservation-card';
+                    card.innerHTML = `
+                        <div class="reservation-header">
+                            <div>
+                                <span class="reservation-id">#RESERVA-${reservation.id}</span>
+                                <span>${kiosk.title}</span>
+                            </div>
+                            <span class="reservation-status status-${status}">${status === 'confirmed' ? 'CONFIRMADO' : status === 'pending' ? 'PENDENTE' : 'FINALIZADO'}</span>
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Cliente</h4>
+                                <p>${user.fullName}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Data</h4>
+                                <p>${formattedDate}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Horário</h4>
+                                <p>${formattedStartTime} às ${formattedEndTime}</p>
+                            </div>
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Quantidade de Pessoas</h4>
+                                <p>1 pessoa</p>
+                            </div>
+                        </div>
+                        <div class="reservation-actions">
+                            ${status === 'pending' ? '<button class="action-btn confirm-btn" data-id="' + reservation.id + '">Confirmar</button>' : ''}
+                            <button class="action-btn cancel-btn" data-id="${reservation.id}">Cancelar</button>
+                            <button class="action-btn edit-btn" data-id="${reservation.id}">Editar</button>
+                        </div>
+                    `;
+
+                    reservationList.appendChild(card);
+                } catch (error) {
+                    console.error('Erro ao processar reserva:', error);
+                }
+            }
+
+            // Adicionar event listeners para os botões
+            setupReservationButtons();
+        }
+
+        // Configurar os botões nas reservas
+        function setupReservationButtons() {
+            // Botões de confirmar
+            const confirmButtons = document.querySelectorAll('.confirm-btn');
+            confirmButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const reservationId = this.getAttribute('data-id');
+                    if (confirm('Deseja confirmar esta reserva?')) {
+                        updateReservationStatus(reservationId, 'confirmed');
+                    }
+                });
+            });
+
+            // Botões de cancelar
+            const cancelButtons = document.querySelectorAll('.cancel-btn');
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const reservationId = this.getAttribute('data-id');
+                    if (confirm('Tem certeza que deseja cancelar esta reserva?')) {
+                        deleteReservation(reservationId);
+                    }
+                });
+            });
+
+            // Botões de editar
+            const editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const reservationId = this.getAttribute('data-id');
+                    alert('Recurso de edição em desenvolvimento. Reserva ID: ' + reservationId);
+                });
+            });
+        }
+
+        // Função para atualizar o status de uma reserva
+        async function updateReservationStatus(reservationId, status) {
+            try {
+                // Em uma aplicação real, você enviaria o novo status para o backend
+                // Por enquanto, apenas exibimos uma mensagem e recarregamos
+                alert(`Status da reserva #${reservationId} atualizado para: ${status}`);
+                loadReservations();
+            } catch (error) {
+                console.error('Erro ao atualizar status da reserva:', error);
+                alert('Erro ao atualizar o status da reserva');
+            }
+        }
+
+        // Função para deletar uma reserva
+        async function deleteReservation(reservationId) {
+            try {
+                const response = await fetch(`http://localhost:5050/api/Reservation/${reservationId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('employeeToken')
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao cancelar reserva');
+                }
+
+                alert('Reserva cancelada com sucesso!');
+                loadReservations();
+            } catch (error) {
+                console.error('Erro ao cancelar reserva:', error);
+                alert('Erro ao cancelar a reserva');
+            }
         }
     </script>
 </body>

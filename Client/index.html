@@ -156,6 +156,7 @@
             <form id="reservation-form">
                 <input type="hidden" id="kiosk-type">
                 <input type="hidden" id="kiosk-price">
+                <input type="hidden" id="kiosk-id"> <!-- Adicionando campo para o ID do quiosque -->
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -188,11 +189,6 @@
                         <label for="reservation-people">Número de Pessoas</label>
                         <input type="number" id="reservation-people" min="1" required>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reservation-visitors">Visitantes (Nomes e CPFs)</label>
-                    <textarea id="reservation-visitors" placeholder="Liste os nomes e CPFs dos visitantes que estarão com você, separados por vírgula"></textarea>
                 </div>
                 
                 <div class="form-group">
@@ -248,11 +244,71 @@
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
+
+        // Função para carregar os quiosques da API
+        async function loadKiosks() {
+            try {
+                const response = await fetch('http://localhost:5050/api/Kiosk');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar quiosques');
+                }
+                const kiosks = await response.json();
+                displayKiosks(kiosks);
+            } catch (error) {
+                console.error('Erro ao carregar quiosques:', error);
+            }
+        }
+
+        // Função para exibir os quiosques na interface
+        function displayKiosks(kiosks) {
+            const container = document.querySelector('.kiosks-grid');
+            if (!kiosks || kiosks.length === 0) {
+                container.innerHTML = '<p>Nenhum quiosque disponível no momento.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            kiosks.forEach(kiosk => {
+                // Usar imagens placeholder baseadas no id do quiosque (para manter as imagens atuais)
+                const imageUrl = getKioskImage(kiosk.id);
+                
+                const kioskCard = `
+                <div class="kiosk-card">
+                    <div class="kiosk-image">
+                        <img src="${imageUrl}" alt="${kiosk.title}">
+                    </div>
+                    <div class="kiosk-info">
+                        <h3>${kiosk.title}</h3>
+                        <p>${kiosk.description || 'Quiosque com mesa, bancos e churrasqueira.'}</p>
+                        <div class="kiosk-price">R$ 150,00 / dia</div>
+                        <div class="kiosk-features">
+                            <span>Até ${kiosk.maxPeople} pessoas</span>
+                            <span>Churrasqueira</span>
+                            <span>Área coberta</span>
+                        </div>
+                        <button class="reserve-btn" onclick="openModal('${kiosk.title}', 150, ${kiosk.id})">Reservar</button>
+                    </div>
+                </div>`;
+                
+                container.innerHTML += kioskCard;
+            });
+        }
+
+        // Função para obter imagem de acordo com o ID do quiosque (manter as imagens atuais do sistema)
+        function getKioskImage(id) {
+            const images = [
+                'https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+            ];
+            return images[id % images.length];
+        }
         
         // Funções para o modal
-        function openModal(kioskName, kioskPrice) {
+        function openModal(kioskName, kioskPrice, kioskId) {
             document.getElementById('modalKioskName').textContent = kioskName;
             document.getElementById('kiosk-type').value = kioskName;
+            document.getElementById('kiosk-id').value = kioskId; // Adicionando o ID do quiosque
             document.getElementById('kiosk-price').value = kioskPrice;
             document.getElementById('reservation-summary-kiosk').textContent = kioskName;
             document.getElementById('reservation-summary-price').textContent = 'R$ ' + kioskPrice.toFixed(2);
@@ -279,13 +335,88 @@
                 closeModal();
             }
         }
+
+        // Função para verificar se o usuário está autenticado
+        function isAuthenticated() {
+            return localStorage.getItem('token') !== null;
+        }
+
+        // Função para obter o ID do usuário do token
+        function getUserId() {
+            const userId = localStorage.getItem('userId');
+            return userId ? parseInt(userId) : null;
+        }
         
         // Formulário de reserva
-        document.getElementById('reservation-form').addEventListener('submit', function(e) {
+        document.getElementById('reservation-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Sua solicitação de reserva foi enviada com sucesso! Entraremos em contato para confirmação.');
-            this.reset();
-            closeModal();
+
+            if (!isAuthenticated()) {
+                alert('Você precisa estar logado para fazer uma reserva.');
+                window.location.href = '/Client/loginUsuario.html';
+                return;
+            }
+
+            const userId = getUserId();
+            if (!userId) {
+                alert('Erro ao identificar o usuário. Por favor, faça login novamente.');
+                window.location.href = '/Client/loginUsuario.html';
+                return;
+            }
+            
+            const kioskId = document.getElementById('kiosk-id').value;
+            const reservationDate = document.getElementById('reservation-date').value;
+            const numPeople = document.getElementById('reservation-people').value;
+            
+            if (!reservationDate) {
+                alert('Por favor, selecione uma data para a reserva.');
+                return;
+            }
+
+            // Cria objeto de data para a reserva
+            const selectedDate = new Date(reservationDate);
+            // Configura para às 08:00
+            selectedDate.setHours(8, 0, 0, 0);
+            // Configura data final para às 18:00 do mesmo dia
+            const endDate = new Date(selectedDate);
+            endDate.setHours(18, 0, 0, 0);
+            
+            try {
+                // Criar a reserva
+                const reservationData = {
+                    userId: userId,
+                    kioskId: parseInt(kioskId),
+                    startTime: selectedDate.toISOString(),
+                    endTime: endDate.toISOString()
+                };
+
+                const reservationResponse = await fetch('http://localhost:5050/api/Reservation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(reservationData)
+                });
+
+                if (!reservationResponse.ok) {
+                    throw new Error('Erro ao criar reserva');
+                }
+
+                const reservationResult = await reservationResponse.json();
+
+                alert('Sua solicitação de reserva foi enviada com sucesso! Entraremos em contato para confirmação.');
+                this.reset();
+                closeModal();
+            } catch (error) {
+                console.error('Erro ao processar reserva:', error);
+                alert('Erro ao processar reserva: ' + error.message);
+            }
+        });
+
+        // Carregar quiosques quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadKiosks();
         });
     </script>
 </body>

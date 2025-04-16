@@ -155,14 +155,21 @@ namespace TocaDaOnca.Controllers
         {
             try
             {
+                // Verificar se a senha foi fornecida
+                if (string.IsNullOrEmpty(dto.Password))
+                {
+                    return BadRequest("A senha é obrigatória para criar um funcionário");
+                }
+
                 var employee = new Employee
                 {
                     FullName = dto.FullName,
                     Cpf = dto.Cpf,
                     Email = dto.Email,
-                    Manager = dto.Manager
+                    Manager = dto.Manager,
+                    // Aplicar o hash na senha recebida do DTO
+                    Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
                 };
-                string Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
 
                 _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
@@ -189,42 +196,40 @@ namespace TocaDaOnca.Controllers
 
         #region PUT
         [HttpPut("{id}")]
-        public async Task<ActionResult<EmployeeReadDto>> PutEmployee(int id, [FromBody] EmployeeUpdateDto employee)
+        public async Task<ActionResult<EmployeeReadDto>> PutEmployee(int id, [FromBody] EmployeeUpdateDto dto)
         {
             try
             {
                 var existingEmployee = await _context.Employees.FindAsync(id);
                 if (existingEmployee == null)
-                    return NotFound("Not found employeer");
+                    return NotFound("Funcionário não encontrado");
                 
-
-                // Se a senha estiver vazia, manter a senha atual
-                if (string.IsNullOrWhiteSpace(employee.Password))
-                {
-                    employee.Password = existingEmployee.Password;
-                }
-                // Se não, fazer o hash da nova senha
-                else if (employee.Password != existingEmployee.Password)
-                {
-                    employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
-                }
-
-                if (employee.FullName != null)
-                    existingEmployee.FullName = employee.FullName;
+                // Atualizar os campos se fornecidos
+                if (dto.FullName != null)
+                    existingEmployee.FullName = dto.FullName;
                 
-                if (employee.Cpf != null)
-                    existingEmployee.Cpf = employee.Cpf;
+                if (dto.Cpf != null)
+                    existingEmployee.Cpf = dto.Cpf;
 
-                if (employee.Email != null)
-                    existingEmployee.Email = employee.Email;
+                if (dto.Email != null)
+                    existingEmployee.Email = dto.Email;
+                
+                if (dto.Manager.HasValue)
+                    existingEmployee.Manager = dto.Manager.Value;
+
+                // Se a senha foi fornecida, atualizá-la com hash
+                if (!string.IsNullOrWhiteSpace(dto.Password))
+                {
+                    existingEmployee.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+                }
 
                 existingEmployee.UpdatedAt = DateTime.UtcNow;
 
-                // _context.Entry(employee).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
                 var readDto = new EmployeeReadDto
                 {
+                    Id = existingEmployee.Id,
                     FullName = existingEmployee.FullName,
                     Cpf = existingEmployee.Cpf,
                     Email = existingEmployee.Email,
@@ -249,7 +254,6 @@ namespace TocaDaOnca.Controllers
             {
                 return StatusCode(500, "Erro ao atualizar empregado: " + ex.Message);
             }
-
         }
         #endregion
 
