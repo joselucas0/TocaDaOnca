@@ -2,6 +2,7 @@
 
 # 🐆 TOCA DA ONÇA - Sistema de Gestão para Balneário  
 
+> Este projeto foi desenvolvido como um desafio em grupo para desenvolver as habilidades de toda a equipe. Com início no dia 09/04/2025 até 16/04/2025.
 ## 🚀 Introdução  
 O **Toca da Onça** é um sistema de gestão completo para balneários, desenvolvido para modernizar operações como reservas de espaços, controle de vendas e gestão de visitantes. Nosso objetivo é unir **natureza e tecnologia**, oferecendo uma experiência digital intuitiva para clientes e eficiência operacional para gestores.
 
@@ -134,7 +135,7 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
 Use ferramentas como [Postman](https://www.postman.com/) ou `curl`:  
 ```bash
 # Exemplo: Listar quiosques
-curl -X GET https://localhost:5050/api/quiosques
+http://localhost:5050/api/Employee
 ```  
 
 ### Testando o Frontend:  
@@ -158,31 +159,10 @@ curl -X GET https://localhost:5050/api/quiosques
 
 ## 🔗 Links do Projeto  
 - [Quadro no Trello](https://trello.com/invite/b/67f6b300afe50dd31f552fff/ATTI61c4b60fd6926267b41f52e5a44c7fc6E8F94865/toca-da-onca)  
-- [Documentação do ASP.NET Core](https://docs.microsoft.com/pt-br/aspnet/core/)  
+- [Documentação do ASP.NET Core](https://docs.microsoft.com/pt-br/aspnet/core/)
+- [Decisao_Arquitetural](Documentation/Decisao_Arquitetural.pdf)
+- [Dicionario de Dados](Documentation/Dicionario-de-dados-Toca-da-onca-(V2).pdf) 
 - [Guia do Entity Framework](https://docs.microsoft.com/pt-br/ef/core/)
 - [Figma do projeto em alto nível](https://www.figma.com/design/0JhUqmtc8EYWbJABtmBDch/Untitled?node-id=0-1&p=f)
 
----
 
-## 📄 Licença  
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.  
-
-**"Organizando a selva digital! 🐾"**  
-``` 
-
-### Exemplo de Estrutura de Pastas:  
-```plaintext
-toca-da-onca/
-├── backend/                 # ASP.NET Core Web API
-│   ├── Controllers/         # Endpoints (ReservaController.cs)
-│   ├── Models/              # Entidades (Quiosque.cs, Visitante.cs)
-│   ├── Migrations/          # Scripts do Entity Framework
-│   └── appsettings.json     # Configurações
-│
-├── frontend/                # Interface estática
-│   ├── css/                 # Estilos
-│   ├── js/                  # Scripts (login.js, reservas.js)
-│   └── index.html           # Página inicial
-│
-└── README.md                # Você está aqui!
-```
