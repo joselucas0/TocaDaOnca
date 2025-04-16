@@ -97,6 +97,11 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
       }
       ```  
 
+3. **Usando .NET instale o Entity Framework Core - CLI**
+   ```
+   dotnet tool install --global dotnet-ef
+   ```
+
 3. **Restaure as dependências**:  
    ```bash
    dotnet restore
