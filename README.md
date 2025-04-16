@@ -6,6 +6,13 @@
 O **Toca da Onça** é um sistema de gestão completo para balneários, desenvolvido para modernizar operações como reservas de espaços, controle de vendas e gestão de visitantes. Nosso objetivo é unir **natureza e tecnologia**, oferecendo uma experiência digital intuitiva para clientes e eficiência operacional para gestores.
 
 ---
+## 🖼️ Imagem do DER:
+   
+![Imagem do Der](Documentation/Der/DER-TocaDaOnca.pgerd.png)
+
+Esta figura ilustra o funcionamento do nosso sistema, mostrando de forma resumida os principais componentes e sua interação.
+
+---
 
 ## 🛠️ Arquitetura do Projeto  
 O sistema é dividido em **Frontend** (interface do usuário) e **Backend** (API e lógica de negócio), seguindo o padrão RESTful:  
@@ -64,15 +71,15 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
 ## 📥 Instalação e Configuração  
 
 ### Pré-requisitos:  
-- [.NET 6 SDK](https://dotnet.microsoft.com/download)  
+- [.NET 8+](https://dotnet.microsoft.com/download)  
 - [PostgreSQL 14+](https://www.postgresql.org/download/)  
 - Navegador moderno (Chrome, Firefox)  
 
 ### Passos para Executar o Projeto:  
 1. **Clone o repositório**:  
    ```bash
-   git clone https://github.com/seu-usuario/toca-da-onca.git
-   cd toca-da-onca/backend
+   git clone https://github.com/joselucas0/TocaDaOnca
+   cd TocaDaOnca
    ```  
 
 2. **Configure o banco de dados**:  
@@ -127,7 +134,7 @@ Adotamos **Conventional Commits** para rastreabilidade clara:
 Use ferramentas como [Postman](https://www.postman.com/) ou `curl`:  
 ```bash
 # Exemplo: Listar quiosques
-curl -X GET https://localhost:5001/api/quiosques
+curl -X GET https://localhost:5050/api/quiosques
 ```  
 
 ### Testando o Frontend:  
