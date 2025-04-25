@@ -448,15 +448,18 @@
                     );
 
                     try {
-                        const saleResponse = await fetch("http://localhost:5050/api/Sale", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                reservationId,
-                                employeeId,
-                                subtotal,
-                            }),
-                        });
+                        const saleResponse = await fetch(
+                            "http://localhost:5050/api/Sale",
+                            {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    reservationId,
+                                    employeeId,
+                                    subtotal,
+                                }),
+                            }
+                        );
 
                         if (!saleResponse.ok)
                             throw new Error("Erro ao criar venda.");
@@ -464,7 +467,7 @@
                         const saleData = await saleResponse.json();
 
                         for (const product of products) {
-                            await fetch("/api/sales-products", {
+                            await fetch("http://localhost:5050/api/SaleProduct", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -662,7 +665,7 @@
                     quantity: quantity,
                 };
 
-                console.log("Produto com quantidade:", productWithQuantity);
+                // console.log("Produto com quantidade:", productWithQuantity);
 
                 addToCurrentSale(productWithQuantity);
             });
@@ -726,20 +729,32 @@
             async function getReservationIdFromSelectedKiosk() {
                 const selectedKioskId =
                     document.querySelector("#employee-select").value;
-                
-                    console.log(selectedKioskId)
 
-                const response = await fetch("http://localhost:5050/api/Kiosk"); // ou filtrar via query string
+                // console.log(selectedKioskId);
+
+                const response = await fetch(
+                    "http://localhost:5050/api/Reservation"
+                ); // ou filtrar via query string
                 const reservations = await response.json();
 
-                const today = new Date().toISOString().split("T")[0]; // formato yyyy-MM-dd
+                const today = new Date().toISOString(); // formato yyyy-MM-dd
+                // console.log("TODAY:", today);
 
-                const activeReservation = reservations.find(
-                    (r) =>
+                // console.log(reservations);
+
+                const activeReservation = reservations.find((r) => {
+                    const startDateUTC = r.startTime; // Já no formato ISO UTC
+                    const endDateUTC = r.endTime; // Já no formato ISO UTC
+
+                    // Verificar se o quiosque corresponde e a data de hoje está dentro do intervalo
+                    return (
                         r.kioskId == selectedKioskId &&
-                        r.startDate <= today &&
-                        r.endDate >= today
-                );
+                        startDateUTC <= today &&
+                        endDateUTC >= today
+                    );
+                });
+
+                // console.log(activeReservation);
 
                 return activeReservation?.id ?? null;
             }
@@ -799,8 +814,12 @@
                         );
                     }
 
+                    const currentDate = new Date().toISOString();
+
                     const reservations = await response.json();
-                    displayReservations(reservations);
+                    const activeReservations = reservations.filter(r => r.endTime >= currentDate);
+                    console.log(activeReservations)
+                    displayReservations(activeReservations);
                 } catch (error) {
                     displayReservations(null);
                     console.error("Erro ao carregar reservas:", error);

@@ -167,6 +167,8 @@ document.getElementById("reservation-form").addEventListener(
         const kioskId = document.getElementById("kiosk-id").value;
         const reservationDate =
             document.getElementById("reservation-date").value;
+        const reservationDateOut =
+            document.getElementById("reservation-date-out").value;
         const numPeople = document.getElementById("reservation-people").value;
 
         if (!reservationDate) {
@@ -174,13 +176,23 @@ document.getElementById("reservation-form").addEventListener(
             return;
         }
 
+        console.group()
+            console.log("Entrada", reservationDate)
+            console.log("Saída", reservationDateOut)
+        console.groupEnd()
+
         // Cria objeto de data para a reserva
         const selectedDate = new Date(reservationDate);
         // Configura para às 08:00
-        selectedDate.setHours(8, 0, 0, 0);
+        selectedDate.setUTCHours(8, 0, 0, 0);
         // Configura data final para às 18:00 do mesmo dia
-        const endDate = new Date(selectedDate);
-        endDate.setHours(18, 0, 0, 0);
+        const endDate = new Date(reservationDateOut);
+        endDate.setUTCHours(18, 0, 0, 0);
+
+        console.group()
+            console.log("Entrada", selectedDate)
+            console.log("Saída", endDate)
+        console.groupEnd()
 
         try {
             // Criar a reserva
