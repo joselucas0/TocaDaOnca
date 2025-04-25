@@ -49,7 +49,7 @@ async function handleEmployeeLogin(event) {
         localStorage.setItem('employeeIsManager', data.isManager);
 
         alert('Login realizado com sucesso!');
-        window.location.href = '/Client/funcionario.html'; // Redireciona para a área do funcionário
+        window.location.href = './funcionario.html'; // Redireciona para a área do funcionário
     } catch (error) {
         console.error('Erro ao fazer login:', error);
         alert('Erro ao fazer login. Tente novamente mais tarde.');
@@ -72,5 +72,5 @@ function employeeLogout() {
     localStorage.removeItem('employeeId');
     localStorage.removeItem('employeeRole');
     localStorage.removeItem('employeeIsManager');
-    window.location.href = '/Client/loginFuncionario.html';
+    window.location.href = './loginFuncionario.html';
 }

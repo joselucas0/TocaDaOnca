@@ -30,7 +30,9 @@ namespace TocaDaOnca.Services
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.FullName),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("Premium", user.Premium.ToString())
+                    new Claim("Premium", user.Premium.ToString()),
+                    new Claim("CPF", user.Cpf),
+                    new Claim("Phone", user.Phone)
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(

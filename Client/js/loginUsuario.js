@@ -50,7 +50,7 @@ async function handleLogin(event) {
         localStorage.setItem('userEmail', tokenInfo.email || '');
 
         alert('Login realizado com sucesso!');
-        window.location.href = '/Client/index.html'; // Redireciona para a página inicial
+        window.location.href = './index.html'; // Redireciona para a página inicial
     } catch (error) {
         console.error('Erro ao fazer login:', error);
         alert('Erro ao fazer login. Tente novamente mais tarde.');
