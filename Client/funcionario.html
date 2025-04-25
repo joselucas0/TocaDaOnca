@@ -1,630 +1,900 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Área do Funcionário - Toca da Onça</title>
+        <link rel="stylesheet" href="./css/funcionario_pag.css" />
+        <link rel="icon" type="imagex/png" href="./assets/img_logo.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <!-- Adicionando o script de login do funcionário -->
+        <script src="js/loginFuncionario.js"></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Área do Funcionário - Toca da Onça</title>
-    <link rel="stylesheet" href="./css/funcionario_pag.css" />
-    <link rel="icon" type="imagex/png" href="./assets/img_logo.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- Adicionando o script de login do funcionário -->
-    <script src="js/loginFuncionario.js"></script>
-</head>
-
-<body>
-    <!-- Cabeçalho -->
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Toca da <span>Onça</span></h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="./index.html">Home</a></li>
-                <li><a href="/cliente">Área do Cliente</a></li>
-                <li>
-                    <a href="/funcionario" class="active">Área do Funcionário</a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="header-content">
-            <h1>Área do Funcionário</h1>
-            <p>Registro de Reserva e Bar</p>
-        </div>
-    </header>
-
-    <!-- Conteúdo Principal -->
-    <div class="employee-container">
-        <div class="employee-tabs">
-            <div class="employee-tab active" onclick="openTab(event, 'reservations')">
-                Reservas
-            </div>
-            <div class="employee-tab" onclick="openTab(event, 'registro')">
-                Registro
-            </div>
-            <div class="employee-tab" onclick="openTab(event, 'bar')">
-                Bar
-            </div>
-        </div>
-
-        <!-- Seção Reservas -->
-        <div id="reservations" class="tab-content active">
-            <h2>Reservas do Dia</h2>
-            <p>
-                Confira as reservas confirmadas e gerencie novas
-                solicitações.
-            </p>
-
-            <div class="reservations-list">
-                <div class="reservation-card">
-                    <div class="reservation-header">
-                        <div>
-                            <span class="reservation-id">#RESERVA-001</span>
-                            <span>Quiosque 3</span>
-                        </div>
-                        <span class="reservation-status status-confirmed">CONFIRMADO</span>
-                    </div>
-                    <div class="reservation-details">
-                        <div class="detail-group">
-                            <h4>Cliente</h4>
-                            <p>João da Silva</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Data</h4>
-                            <p>15/10/2023</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Horário</h4>
-                            <p>09:00 às 18:00</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Valor</h4>
-                            <p>R$ 250,00</p>
-                        </div>
-                    </div>
-                    <div class="reservation-details">
-                        <div class="detail-group">
-                            <h4>Visitantes</h4>
-                            <p>
-                                João da Silva, Maria Oliveira, Carlos Souza
-                            </p>
-                        </div>
-                    </div>
-                    <div class="reservation-actions">
-                        <button class="action-btn cancel-btn">
-                            Cancelar
-                        </button>
-                        <button class="action-btn edit-btn">Editar</button>
-                    </div>
+    <body>
+        <!-- Cabeçalho -->
+        <header>
+            <nav>
+                <div class="logo">
+                    <h1>Toca da <span>Onça</span></h1>
                 </div>
+                <ul class="nav-links">
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="/cliente">Área do Cliente</a></li>
+                    <li>
+                        <a href="/funcionario" class="active"
+                            >Área do Funcionário</a
+                        >
+                    </li>
+                </ul>
+            </nav>
 
-                <div class="reservation-card">
-                    <div class="reservation-header">
-                        <div>
-                            <span class="reservation-id">#RESERVA-002</span>
-                            <span>Quiosque 1</span>
-                        </div>
-                        <span class="reservation-status status-pending">PENDENTE</span>
-                    </div>
-                    <div class="reservation-details">
-                        <div class="detail-group">
-                            <h4>Cliente</h4>
-                            <p>Ana Paula Costa</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Data</h4>
-                            <p>15/10/2023</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Horário</h4>
-                            <p>10:00 às 17:00</p>
-                        </div>
-                        <div class="detail-group">
-                            <h4>Valor</h4>
-                            <p>R$ 150,00</p>
-                        </div>
-                    </div>
-                    <div class="reservation-details">
-                        <div class="detail-group">
-                            <h4>Visitantes</h4>
-                            <p>
-                                Ana Paula Costa, Pedro Henrique, Juliana
-                                Santos
-                            </p>
-                        </div>
-                    </div>
-                    <div class="reservation-actions">
-                        <button class="action-btn confirm-btn">
-                            Confirmar
-                        </button>
-                        <button class="action-btn cancel-btn">
-                            Cancelar
-                        </button>
-                        <button class="action-btn edit-btn">Editar</button>
-                    </div>
+            <div class="header-content">
+                <h1>Área do Funcionário</h1>
+                <p>Registro de Reserva e Bar</p>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <div class="employee-container">
+            <div class="employee-tabs">
+                <div
+                    class="employee-tab active"
+                    onclick="openTab(event, 'reservations')"
+                >
+                    Reservas
+                </div>
+                <div class="employee-tab" onclick="openTab(event, 'registro')">
+                    Registro
+                </div>
+                <div class="employee-tab" onclick="openTab(event, 'bar')">
+                    Bar
                 </div>
             </div>
+
+            <!-- Seção Reservas -->
+            <div id="reservations" class="tab-content active">
+                <h2>Reservas do Dia</h2>
+                <p>
+                    Confira as reservas confirmadas e gerencie novas
+                    solicitações.
+                </p>
+
+                <div class="reservations-list">
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <div>
+                                <span class="reservation-id">#RESERVA-001</span>
+                                <span>Quiosque 3</span>
+                            </div>
+                            <span class="reservation-status status-confirmed"
+                                >CONFIRMADO</span
+                            >
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Cliente</h4>
+                                <p>João da Silva</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Data</h4>
+                                <p>15/10/2023</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Horário</h4>
+                                <p>09:00 às 18:00</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Valor</h4>
+                                <p>R$ 250,00</p>
+                            </div>
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Visitantes</h4>
+                                <p>
+                                    João da Silva, Maria Oliveira, Carlos Souza
+                                </p>
+                            </div>
+                        </div>
+                        <div class="reservation-actions">
+                            <button class="action-btn cancel-btn">
+                                Cancelar
+                            </button>
+                            <button class="action-btn edit-btn">Editar</button>
+                        </div>
+                    </div>
+
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <div>
+                                <span class="reservation-id">#RESERVA-002</span>
+                                <span>Quiosque 1</span>
+                            </div>
+                            <span class="reservation-status status-pending"
+                                >PENDENTE</span
+                            >
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Cliente</h4>
+                                <p>Ana Paula Costa</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Data</h4>
+                                <p>15/10/2023</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Horário</h4>
+                                <p>10:00 às 17:00</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Valor</h4>
+                                <p>R$ 150,00</p>
+                            </div>
+                        </div>
+                        <div class="reservation-details">
+                            <div class="detail-group">
+                                <h4>Visitantes</h4>
+                                <p>
+                                    Ana Paula Costa, Pedro Henrique, Juliana
+                                    Santos
+                                </p>
+                            </div>
+                        </div>
+                        <div class="reservation-actions">
+                            <button class="action-btn confirm-btn">
+                                Confirmar
+                            </button>
+                            <button class="action-btn cancel-btn">
+                                Cancelar
+                            </button>
+                            <button class="action-btn edit-btn">Editar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Registro do Bar -->
+            <div id="registro" class="tab-content">
+                <h2>Registro do Bar</h2>
+                <p>Cadastre os itens que serão colocados no Bar.</p>
+
+                <div class="form">
+                    <form id="productForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <input type="text" id="productName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Preço</label>
+                                <input type="number" id="price" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stock">Quantidade</label>
+                                <input type="number" id="stock" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="cost">Custo</label>
+                                <input type="text" id="cost" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Descrição</label>
+                            <input
+                                type="text"
+                                id="description"
+                                placeholder="Descrição do produto"
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            Registrar Produto
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Seção Bar -->
+            <div id="bar" class="tab-content">
+                <h2>Operações do Bar</h2>
+                <p>Registre as vendas de produtos do bar do balneário.</p>
+                <select
+                    id="employee-select"
+                    style="width: 100%; padding: 10px; margin-bottom: 20px"
+                >
+                    <option value="" disabled selected>
+                        Selecione o Quiosque
+                    </option>
+                </select>
+
+                <h3 style="margin-top: 30px">Produtos Disponíveis</h3>
+                <div class="products-grid"></div>
+
+                <div class="current-sale">
+                    <div id="header-sales">
+                        <h3>Venda Atual</h3>
+                        <button id="clear-sales">Limpar Venda</button>
+                    </div>
+                    <hr style="margin-top: 1em" />
+                    <div class="sale-items"></div>
+                    <div class="sale-total">Total: R$ 00,00</div>
+                    <button class="complete-sale">Finalizar Venda</button>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- Seção Registro do Bar -->
-        <div id="registro" class="tab-content">
-            <h2>Registro do Bar</h2>
-            <p>Cadastre os itens que serão colocados no Bar.</p>
+        <!-- Modal de Agendamento -->
+        <div id="reservationModal" class="modal" style="display: none">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal()">
+                    &times;
+                </button>
+                <h2>Agendar <span id="modalKioskName"></span></h2>
+                <p>
+                    Preencha o formulário abaixo para reservar seu quiosque no
+                    Balneário Toca da Onça.
+                </p>
 
-            <div class="form">
-                <form id="productForm">
+                <form id="reservation-form">
+                    <input type="hidden" id="kiosk-type" />
+                    <input type="hidden" id="kiosk-price" />
+                    <input type="hidden" id="kiosk-id" />
+
+                    <!-- Nome e CPF -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="name">Nome</label>
-                            <input type="text" id="productName" required />
+                            <label for="reservation-name">Nome Completo</label>
+                            <input type="text" id="reservation-name" required />
                         </div>
                         <div class="form-group">
-                            <label for="price">Preço</label>
-                            <input type="number" id="price" required />
+                            <label for="reservation-cpf">CPF</label>
+                            <input type="text" id="reservation-cpf" required />
                         </div>
                     </div>
 
+                    <!-- Email e Telefone -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="stock">Quantidade</label>
-                            <input type="number" id="stock" required />
+                            <label for="reservation-email">E-mail</label>
+                            <input
+                                type="email"
+                                id="reservation-email"
+                                required
+                            />
                         </div>
                         <div class="form-group">
-                            <label for="cost">Custo</label>
-                            <input type="text" id="cost" required />
+                            <label for="reservation-phone">Telefone</label>
+                            <input type="tel" id="reservation-phone" required />
                         </div>
                     </div>
 
+                    <!-- Datas e Pessoas -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reservation-date">Data Check-in</label>
+                            <input type="date" id="reservation-date" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="reservation-date-out"
+                                >Data Check-out</label
+                            >
+                            <input
+                                type="date"
+                                id="reservation-date-out"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="reservation-people"
+                                >Número de Pessoas</label
+                            >
+                            <input
+                                type="number"
+                                id="reservation-people"
+                                min="1"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Observações -->
                     <div class="form-group">
-                        <label for="description">Descrição</label>
-                        <input type="text" id="description" placeholder="Descrição do produto" required />
+                        <label for="reservation-notes">Observações</label>
+                        <textarea
+                            id="reservation-notes"
+                            placeholder="Alguma necessidade especial ou informação adicional"
+                        ></textarea>
                     </div>
 
-                    <button type="submit" class="submit-btn">
-                        Registrar Produto
+                    <!-- Resumo -->
+                    <div
+                        class="form-group"
+                        style="
+                            background-color: #f9f9f9;
+                            padding: 15px;
+                            border-radius: 5px;
+                        "
+                    >
+                        <p><strong>Resumo da Reserva:</strong></p>
+                        <p>
+                            Quiosque:
+                            <span id="reservation-summary-kiosk"></span>
+                        </p>
+                        <p>
+                            Valor: <span id="reservation-summary-price"></span>
+                        </p>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                        style="display: none"
+                    >
+                        Solicitar Reserva
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- Seção Bar -->
-        <div id="bar" class="tab-content">
-            <h2>Operações do Bar</h2>
-            <p>Registre as vendas de produtos do bar do balneário.</p>
-            <select id="employee-select" style="width: 100%; padding: 10px; margin-bottom: 20px">
-                <option value="" disabled selected>
-                    Selecione o Quiosque
-                </option>
-                <option value="kiosk1">kiosk 1</option>
-                <option value="kiosk2">kiosk 2</option>
-            </select>
-
-            <h3 style="margin-top: 30px">Produtos Disponíveis</h3>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="" alt="Cerveja" />
-                    </div>
-                    <div class="product-name">Cerveja Artesanal</div>
-                    <div class="product-price">R$ 12,00</div>
-                    <div class="product-stock">Estoque: 50 unidades</div>
-                    <form class="sale-form">
-                        <input type="number" min="1" value="1" class="quantity-input" />
-                        <button type="button" class="add-to-sale">
-                            Adicionar
-                        </button>
-                    </form>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="" alt="Refrigerante" />
-                    </div>
-                    <div class="product-name">Refrigerante Lata</div>
-                    <div class="product-price">R$ 6,00</div>
-                    <div class="product-stock">Estoque: 100 unidades</div>
-                    <form class="sale-form">
-                        <input type="number" min="1" value="1" class="quantity-input" />
-                        <button type="button" class="add-to-sale">
-                            Adicionar
-                        </button>
-                    </form>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="" alt="Água" />
-                    </div>
-                    <div class="product-name">Água Mineral</div>
-                    <div class="product-price">R$ 4,00</div>
-                    <div class="product-stock">Estoque: 80 unidades</div>
-                    <form class="sale-form">
-                        <input type="number" min="1" value="1" class="quantity-input" />
-                        <button type="button" class="add-to-sale">
-                            Adicionar
-                        </button>
-                    </form>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="" alt="Porção" />
-                    </div>
-                    <div class="product-name">Porção de Batata</div>
-                    <div class="product-price">R$ 25,00</div>
-                    <div class="product-stock">Estoque: 30 unidades</div>
-                    <form class="sale-form">
-                        <input type="number" min="1" value="1" class="quantity-input" />
-                        <button type="button" class="add-to-sale">
-                            Adicionar
-                        </button>
-                    </form>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="" alt="Gelo" />
-                    </div>
-                    <div class="product-name">Saco de Gelo</div>
-                    <div class="product-price">R$ 10,00</div>
-                    <div class="product-stock">Estoque: 40 unidades</div>
-                    <form class="sale-form">
-                        <input type="number" min="1" value="1" class="quantity-input" />
-                        <button type="button" class="add-to-sale">
-                            Adicionar
-                        </button>
-                    </form>
-                </div>
+        <!-- Rodapé -->
+        <footer>
+            <div class="logo">
+                <img
+                    src="./img_logo.png"
+                    alt="Logo Toca da Onça"
+                    style="width: 100px"
+                    ;
+                />
+                <h1>Toca da <span>Onça</span></h1>
+                <p>Balneário & Pousada</p>
             </div>
 
-            <div class="current-sale">
-                <h3>Venda Atual</h3>
-                <div class="sale-items">
-                    <div class="sale-item">
-                        <span>2x Cerveja Artesanal</span>
-                        <span>R$ 24,00</span>
-                    </div>
-                    <div class="sale-item">
-                        <span>1x Porção de Batata</span>
-                        <span>R$ 25,00</span>
-                    </div>
-                </div>
-                <div class="sale-total">Total: R$ 49,00</div>
-                <button class="complete-sale">Finalizar Venda</button>
-                <div style="clear: both"></div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-tripadvisor"></i></a>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal de Agendamento -->
-    <div id="reservationModal" class="modal" style="display: none">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">
-                &times;
-            </button>
-            <h2>Agendar <span id="modalKioskName"></span></h2>
-            <p>
-                Preencha o formulário abaixo para reservar seu quiosque no
-                Balneário Toca da Onça.
+            <p class="copyright">
+                © 2025 Toca da Onça. Todos os direitos reservados.
             </p>
+        </footer>
 
-            <form id="reservation-form">
-                <input type="hidden" id="kiosk-type" />
-                <input type="hidden" id="kiosk-price" />
-                <input type="hidden" id="kiosk-id" />
-
-                <!-- Nome e CPF -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reservation-name">Nome Completo</label>
-                        <input type="text" id="reservation-name" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-cpf">CPF</label>
-                        <input type="text" id="reservation-cpf" required />
-                    </div>
-                </div>
-
-                <!-- Email e Telefone -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reservation-email">E-mail</label>
-                        <input type="email" id="reservation-email" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-phone">Telefone</label>
-                        <input type="tel" id="reservation-phone" required />
-                    </div>
-                </div>
-
-                <!-- Datas e Pessoas -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reservation-date">Data Check-in</label>
-                        <input type="date" id="reservation-date" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-date-out">Data Check-out</label>
-                        <input type="date" id="reservation-date-out" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="reservation-people">Número de Pessoas</label>
-                        <input type="number" id="reservation-people" min="1" required />
-                    </div>
-                </div>
-
-                <!-- Observações -->
-                <div class="form-group">
-                    <label for="reservation-notes">Observações</label>
-                    <textarea id="reservation-notes"
-                        placeholder="Alguma necessidade especial ou informação adicional"></textarea>
-                </div>
-
-                <!-- Resumo -->
-                <div class="form-group" style="
-                            background-color: #f9f9f9;
-                            padding: 15px;
-                            border-radius: 5px;
-                        ">
-                    <p><strong>Resumo da Reserva:</strong></p>
-                    <p>
-                        Quiosque:
-                        <span id="reservation-summary-kiosk"></span>
-                    </p>
-                    <p>
-                        Valor: <span id="reservation-summary-price"></span>
-                    </p>
-                </div>
-
-                <button type="submit" class="submit-btn" style="display: none;">
-                    Solicitar Reserva
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Rodapé -->
-    <footer>
-        <div class="logo">
-            <img src="./img_logo.png" alt="Logo Toca da Onça" style="width: 100px" ; />
-            <h1>Toca da <span>Onça</span></h1>
-            <p>Balneário & Pousada</p>
-        </div>
-
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-            <a href="#"><i class="fab fa-tripadvisor"></i></a>
-        </div>
-
-        <p class="copyright">
-            © 2025 Toca da Onça. Todos os direitos reservados.
-        </p>
-    </footer>
-
-    <script>
-        // Verificar autenticação quando a página for carregada
-        document.addEventListener("DOMContentLoaded", function () {
-            // Verificar se o funcionário está autenticado
-            if (!isEmployeeAuthenticated()) {
-                alert(
-                    "Por favor, faça login para acessar a área de funcionário"
-                );
-                window.location.href = "/Client/loginFuncionario.html";
-                return;
-            }
-
-            // Se estiver autenticado, mostrar nome do funcionário
-            const employeeName = localStorage.getItem("employeeName");
-            if (employeeName) {
-                const headerContent =
-                    document.querySelector(".header-content");
-                if (headerContent) {
-                    const welcomeText = document.createElement("p");
-                    welcomeText.textContent = `Bem-vindo(a), ${employeeName}!`;
-                    welcomeText.style.fontSize = "1.1rem";
-                    welcomeText.style.marginTop = "0.5rem";
-                    headerContent.appendChild(welcomeText);
-                }
-
-                // Adicionar botão de logout
-                const navLinks = document.querySelector(".nav-links");
-                if (navLinks) {
-                    const logoutItem = document.createElement("li");
-                    const logoutLink = document.createElement("a");
-                    logoutLink.href = "#";
-                    logoutLink.textContent = "Sair";
-                    logoutLink.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        employeeLogout();
-                    });
-                    logoutItem.appendChild(logoutLink);
-                    navLinks.appendChild(logoutItem);
-                }
-            }
-
-            // Carregar as reservas
-            loadReservations();
-        });
-
-        function employeeLogout() {
-            localStorage.clear();
-            window.location.href = "./index.html";
-        }
-
-        function openTab(evt, tabName) {
-            // Esconde todos os conteúdos de tab
-            var tabContents =
-                document.getElementsByClassName("tab-content");
-            for (var i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
-            }
-
-            // Remove a classe active de todas as tabs
-            var tabLinks = document.getElementsByClassName("employee-tab");
-            for (var i = 0; i < tabLinks.length; i++) {
-                tabLinks[i].classList.remove("active");
-            }
-
-            // Mostra a tab atual e adiciona a classe active ao botão
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-
-        // Formulário de visitante
-        document
-            .getElementById("form")
-            .addEventListener("submit", function (e) {
-                e.preventDefault();
-                alert("Produto registrado com sucesso!");
-                this.reset();
-            });
-
-        // Simulação de adicionar produto à venda
-        var addButtons = document.getElementsByClassName("add-to-sale");
-        for (var i = 0; i < addButtons.length; i++) {
-            addButtons[i].addEventListener("click", function () {
-                alert("Produto adicionado à venda atual");
-            });
-        }
-
-        // Finalizar venda
-        var completeSale = document.querySelector(".complete-sale");
-        if (completeSale) {
-            completeSale.addEventListener("click", function () {
-                if (confirm("Deseja finalizar esta venda?")) {
-                    alert("Venda registrada com sucesso!");
-                }
-            });
-        }
-
-        // Função para carregar as reservas
-        async function loadReservations() {
-            try {
-                // Verificar se há token de autenticação de funcionário
-                const token = localStorage.getItem("employeeToken");
-                if (!token) {
+        <script>
+            // Verificar autenticação quando a página for carregada
+            document.addEventListener("DOMContentLoaded", function () {
+                // Verificar se o funcionário está autenticado
+                if (!isEmployeeAuthenticated()) {
                     alert(
-                        "Você precisa estar autenticado para ver as reservas."
+                        "Por favor, faça login para acessar a área de funcionário"
                     );
                     window.location.href = "/Client/loginFuncionario.html";
                     return;
                 }
 
-                // Fazer a requisição para a API
-                const response = await fetch(
-                    "http://localhost:5050/api/Reservation",
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: "Bearer " + token,
-                        },
+                // Se estiver autenticado, mostrar nome do funcionário
+                const employeeName = localStorage.getItem("employeeName");
+                if (employeeName) {
+                    const headerContent =
+                        document.querySelector(".header-content");
+                    if (headerContent) {
+                        const welcomeText = document.createElement("p");
+                        welcomeText.textContent = `Bem-vindo(a), ${employeeName}!`;
+                        welcomeText.style.fontSize = "1.1rem";
+                        welcomeText.style.marginTop = "0.5rem";
+                        headerContent.appendChild(welcomeText);
                     }
-                );
 
-                if (!response.ok) {
-                    throw new Error(
-                        "Erro ao buscar reservas: " + response.statusText
-                    );
+                    // Adicionar botão de logout
+                    const navLinks = document.querySelector(".nav-links");
+                    if (navLinks) {
+                        const logoutItem = document.createElement("li");
+                        const logoutLink = document.createElement("a");
+                        logoutLink.href = "#";
+                        logoutLink.textContent = "Sair";
+                        logoutLink.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            employeeLogout();
+                        });
+                        logoutItem.appendChild(logoutLink);
+                        navLinks.appendChild(logoutItem);
+                    }
                 }
 
-                const reservations = await response.json();
-                displayReservations(reservations);
-            } catch (error) {
-                displayReservations(null);
-                console.error("Erro ao carregar reservas:", error);
-                alert(
-                    "Não foi possível carregar as reservas. Por favor, tente novamente mais tarde."
-                );
-            }
-        }
+                // Carregar as reservas
+                loadReservations();
+                loadBar();
+                loadProducts();
+                renderSaleItems();
+            });
 
-        // Função para exibir as reservas na página
-        async function displayReservations(reservations) {
-            const reservationList =
-                document.querySelector(".reservations-list");
-            reservationList.innerHTML = ""; // Limpar a lista atual
+            document
+                .querySelector(".complete-sale")
+                .addEventListener("click", async () => {
+                    const products = getSaleProducts();
 
-            // Se não houver reservas, mostrar mensagem
-            if (!reservations || reservations.length === 0) {
-                reservationList.innerHTML =
-                    '<p class="no-reservations">Não há reservas para mostrar.</p>';
-                return;
-            }
-
-            // Ordenar reservas pela data (da mais recente para a mais distante)
-            reservations.sort(
-                (a, b) => new Date(a.startTime) - new Date(b.startTime)
-            );
-
-            // Para cada reserva, criar um card
-            for (const reservation of reservations) {
-                try {
-                    // Formatar data e hora
-                    const startDate = new Date(reservation.startTime);
-                    const endDate = new Date(reservation.endTime);
-                    const formattedDate =
-                        startDate.toLocaleDateString("pt-BR");
-                    const formattedStartTime = startDate.toLocaleTimeString(
-                        "pt-BR",
-                        { hour: "2-digit", minute: "2-digit" }
-                    );
-                    const formattedEndTime = endDate.toLocaleTimeString(
-                        "pt-BR",
-                        { hour: "2-digit", minute: "2-digit" }
-                    );
-
-                    // Buscar informações do quiosque
-                    const kioskResponse = await fetch(
-                        `http://localhost:5050/api/Kiosk/${reservation.kioskId}`,
-                        {
-                            headers: {
-                                Authorization:
-                                    "Bearer " +
-                                    localStorage.getItem("employeeToken"),
-                            },
-                        }
-                    );
-                    const kiosk = await kioskResponse.json();
-
-                    // Buscar informações do usuário
-                    const userResponse = await fetch(
-                        `http://localhost:5050/api/User/${reservation.userId}`,
-                        {
-                            headers: {
-                                Authorization:
-                                    "Bearer " +
-                                    localStorage.getItem("employeeToken"),
-                            },
-                        }
-                    );
-                    const user = await userResponse.json();
-
-                    // Determinar o status da reserva (baseado na data)
-                    let status = "pending";
-                    const now = new Date();
-                    if (startDate < now && endDate > now) {
-                        status = "confirmed";
-                    } else if (endDate < now) {
-                        status = "completed";
+                    if (products.length === 0) {
+                        alert("Nenhum produto adicionado.");
+                        return;
                     }
 
-                    // Criar o card da reserva
-                    const card = document.createElement("div");
-                    card.className = "reservation-card";
-                    card.innerHTML = `
+                    const reservationId =
+                        await getReservationIdFromSelectedKiosk();
+                    if (!reservationId) {
+                        alert(
+                            "Nenhuma reserva ativa encontrada para o quiosque selecionado."
+                        );
+                        return;
+                    }
+
+                    const employeeId = parseInt(
+                        localStorage.getItem("employeeId")
+                    );
+                    const subtotal = products.reduce(
+                        (acc, item) => acc + item.price * item.quantity,
+                        0
+                    );
+
+                    try {
+                        const saleResponse = await fetch("http://localhost:5050/api/Sale", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                reservationId,
+                                employeeId,
+                                subtotal,
+                            }),
+                        });
+
+                        if (!saleResponse.ok)
+                            throw new Error("Erro ao criar venda.");
+
+                        const saleData = await saleResponse.json();
+
+                        for (const product of products) {
+                            await fetch("/api/sales-products", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    saleId: saleData.id,
+                                    productId: product.id,
+                                    quantity: product.quantity,
+                                }),
+                            });
+                        }
+
+                        alert("Venda finalizada com sucesso!");
+                        localStorage.removeItem("currentSaleProducts");
+                        location.reload();
+                    } catch (error) {
+                        console.error(error);
+                        alert("Erro ao finalizar venda: " + error.message);
+                    }
+                });
+
+            async function loadBar() {
+                try {
+                    // Verificar se há token de autenticação de funcionário
+                    const token = localStorage.getItem("employeeToken");
+                    if (!token) {
+                        alert(
+                            "Você precisa estar autenticado para ver as reservas."
+                        );
+                        window.location.href = "/Client/loginFuncionario.html";
+                        return;
+                    }
+
+                    // Fazer a requisição para a API
+                    const response = await fetch(
+                        "http://localhost:5050/api/Kiosk",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + token,
+                            },
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "Erro ao buscar quiosques: " + response.statusText
+                        );
+                    }
+
+                    const kiosks = await response.json();
+                    console.table(kiosks);
+
+                    const select = document.getElementById("employee-select");
+                    kiosks.forEach((kiosk) => {
+                        select.innerHTML += `
+                        <option value="${kiosk.id}"> ${kiosk.title}</option>
+                    `;
+                    });
+
+                    // Carregar os produtos disponíveis
+                    // <div class="product-card">
+                    //     <div class="product-image">
+                    //         <img src="" alt="Cerveja" />
+                    //     </div>
+                    //     <div class="product-name">Cerveja Artesanal</div>
+                    //     <div class="product-price">R$ 12,00</div>
+                    //     <div class="product-stock">Estoque: 50 unidades</div>
+                    //     <form class="sale-form">
+                    //         <input type="number" min="1" value="1" class="quantity-input" />
+                    //         <button type="button" class="add-to-sale">
+                    //             Adicionar
+                    //         </button>
+                    //     </form>
+                    // </div>
+                } catch (error) {
+                    console.error("Erro ao carregar reservas:", error);
+                    alert(
+                        "Não foi possível carregar as reservas. Por favor, tente novamente mais tarde."
+                    );
+                }
+            }
+
+            function getSaleProducts() {
+                const data = localStorage.getItem("currentSaleProducts");
+                return data ? JSON.parse(data) : [];
+            }
+
+            function setSaleProducts(products) {
+                localStorage.setItem(
+                    "currentSaleProducts",
+                    JSON.stringify(products)
+                );
+            }
+
+            async function loadProducts() {
+                try {
+                    // Verificar se há token de autenticação de funcionário
+                    const token = localStorage.getItem("employeeToken");
+                    if (!token) {
+                        alert(
+                            "Você precisa estar autenticado para ver as reservas."
+                        );
+                        window.location.href = "/Client/loginFuncionario.html";
+                        return;
+                    }
+
+                    // Fazer a requisição para a API
+                    const response = await fetch(
+                        "http://localhost:5050/api/Product",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + token,
+                            },
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "Erro ao buscar produtos: " + response.statusText
+                        );
+                    }
+
+                    const products = await response.json();
+                    console.table(products);
+
+                    const select = document.querySelector(".products-grid");
+                    products.forEach((product) => {
+                        select.innerHTML += `
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="" alt="${product.productName}" />
+                                </div>
+                                <div class="product-name">${
+                                    product.productName
+                                }</div>
+                                <div class="product-price">R$ ${
+                                    product.price
+                                }</div>
+                                <div class="product-stock">Estoque: ${
+                                    product.stock
+                                } unidades</div>
+                                <form class="sale-form" data-product='${JSON.stringify(
+                                    product
+                                )}'>
+                                    <input type="number" min="1" value="1" class="quantity-input" />
+                                    <button type="submit" class="add-to-sale">
+                                        Adicionar
+                                    </button>
+                                </form>
+                            </div>
+                        `;
+                    });
+
+                    // Carregar os produtos disponíveis
+                    // <div class="product-card">
+                    //     <div class="product-image">
+                    //         <img src="" alt="Cerveja" />
+                    //     </div>
+                    //     <div class="product-name">Cerveja Artesanal</div>
+                    //     <div class="product-price">R$ 12,00</div>
+                    //     <div class="product-stock">Estoque: 50 unidades</div>
+                    //     <form class="sale-form">
+                    //         <input type="number" min="1" value="1" class="quantity-input" />
+                    //         <button type="button" class="add-to-sale">
+                    //             Adicionar
+                    //         </button>
+                    //     </form>
+                    // </div>
+                } catch (error) {
+                    console.error("Erro ao carregar produtos:", error);
+                    alert(
+                        "Não foi possível carregar as produtos. Por favor, tente novamente mais tarde."
+                    );
+                }
+            }
+
+            document.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const form = event.target;
+                const product = JSON.parse(form.dataset.product);
+                const quantity = parseInt(
+                    form.querySelector(".quantity-input").value
+                );
+
+                if (isNaN(quantity) || quantity < 1) {
+                    alert("Quantidade inválida");
+                    return;
+                }
+
+                const productWithQuantity = {
+                    ...product,
+                    quantity: quantity,
+                };
+
+                console.log("Produto com quantidade:", productWithQuantity);
+
+                addToCurrentSale(productWithQuantity);
+            });
+
+            function addToCurrentSale(productWithQuantity) {
+                const products = getSaleProducts();
+                const index = products.findIndex(
+                    (p) => p.id === productWithQuantity.id
+                );
+
+                if (index !== -1) {
+                    products[index].quantity += productWithQuantity.quantity;
+                } else {
+                    products.push({ ...productWithQuantity });
+                }
+
+                setSaleProducts(products);
+                renderSaleItems(); // atualiza a visualização
+            }
+
+            function renderSaleItems() {
+                const saleItemsContainer =
+                    document.querySelector(".sale-items");
+                saleItemsContainer.innerHTML = ""; // limpa tudo
+
+                const products = getSaleProducts();
+
+                products.forEach((product) => {
+                    const itemHTML = `
+            <div class="sale-item" data-id="${product.id}">
+                <span class="item-name">${product.quantity}x ${
+                        product.productName
+                    }</span>
+                <span class="item-price">R$ ${(product.price * product.quantity)
+                    .toFixed(2)
+                    .replace(".", ",")}</span>
+            </div>
+        `;
+                    saleItemsContainer.insertAdjacentHTML(
+                        "beforeend",
+                        itemHTML
+                    );
+                });
+
+                updateTotal();
+            }
+
+            function updateTotal() {
+                const products = getSaleProducts();
+                const total = products.reduce(
+                    (sum, p) => sum + p.price * p.quantity,
+                    0
+                );
+                document.querySelector(
+                    ".sale-total"
+                ).textContent = `Total: R$ ${total
+                    .toFixed(2)
+                    .replace(".", ",")}`;
+            }
+
+            async function getReservationIdFromSelectedKiosk() {
+                const selectedKioskId =
+                    document.querySelector("#employee-select").value;
+                
+                    console.log(selectedKioskId)
+
+                const response = await fetch("http://localhost:5050/api/Kiosk"); // ou filtrar via query string
+                const reservations = await response.json();
+
+                const today = new Date().toISOString().split("T")[0]; // formato yyyy-MM-dd
+
+                const activeReservation = reservations.find(
+                    (r) =>
+                        r.kioskId == selectedKioskId &&
+                        r.startDate <= today &&
+                        r.endDate >= today
+                );
+
+                return activeReservation?.id ?? null;
+            }
+
+            function employeeLogout() {
+                localStorage.clear();
+                window.location.href = "./index.html";
+            }
+
+            function openTab(evt, tabName) {
+                // Esconde todos os conteúdos de tab
+                var tabContents =
+                    document.getElementsByClassName("tab-content");
+                for (var i = 0; i < tabContents.length; i++) {
+                    tabContents[i].classList.remove("active");
+                }
+
+                // Remove a classe active de todas as tabs
+                var tabLinks = document.getElementsByClassName("employee-tab");
+                for (var i = 0; i < tabLinks.length; i++) {
+                    tabLinks[i].classList.remove("active");
+                }
+
+                // Mostra a tab atual e adiciona a classe active ao botão
+                document.getElementById(tabName).classList.add("active");
+                evt.currentTarget.classList.add("active");
+            }
+
+            // Função para carregar as reservas
+            async function loadReservations() {
+                try {
+                    // Verificar se há token de autenticação de funcionário
+                    const token = localStorage.getItem("employeeToken");
+                    if (!token) {
+                        alert(
+                            "Você precisa estar autenticado para ver as reservas."
+                        );
+                        window.location.href = "/Client/loginFuncionario.html";
+                        return;
+                    }
+
+                    // Fazer a requisição para a API
+                    const response = await fetch(
+                        "http://localhost:5050/api/Reservation",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: "Bearer " + token,
+                            },
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "Erro ao buscar reservas: " + response.statusText
+                        );
+                    }
+
+                    const reservations = await response.json();
+                    displayReservations(reservations);
+                } catch (error) {
+                    displayReservations(null);
+                    console.error("Erro ao carregar reservas:", error);
+                    alert(
+                        "Não foi possível carregar as reservas. Por favor, tente novamente mais tarde."
+                    );
+                }
+            }
+
+            // Função para exibir as reservas na página
+            async function displayReservations(reservations) {
+                const reservationList =
+                    document.querySelector(".reservations-list");
+                reservationList.innerHTML = ""; // Limpar a lista atual
+
+                // Se não houver reservas, mostrar mensagem
+                if (!reservations || reservations.length === 0) {
+                    reservationList.innerHTML =
+                        '<p class="no-reservations">Não há reservas para mostrar.</p>';
+                    return;
+                }
+
+                // Ordenar reservas pela data (da mais recente para a mais distante)
+                reservations.sort(
+                    (a, b) => new Date(a.startTime) - new Date(b.startTime)
+                );
+
+                // Para cada reserva, criar um card
+                for (const reservation of reservations) {
+                    try {
+                        // Formatar data e hora
+                        const startDate = new Date(reservation.startTime);
+                        const endDate = new Date(reservation.endTime);
+                        const formattedDate =
+                            startDate.toLocaleDateString("pt-BR");
+                        const formattedStartTime = startDate.toLocaleTimeString(
+                            "pt-BR",
+                            { hour: "2-digit", minute: "2-digit" }
+                        );
+                        const formattedEndTime = endDate.toLocaleTimeString(
+                            "pt-BR",
+                            { hour: "2-digit", minute: "2-digit" }
+                        );
+
+                        // Buscar informações do quiosque
+                        const kioskResponse = await fetch(
+                            `http://localhost:5050/api/Kiosk/${reservation.kioskId}`,
+                            {
+                                headers: {
+                                    Authorization:
+                                        "Bearer " +
+                                        localStorage.getItem("employeeToken"),
+                                },
+                            }
+                        );
+                        const kiosk = await kioskResponse.json();
+
+                        // Buscar informações do usuário
+                        const userResponse = await fetch(
+                            `http://localhost:5050/api/User/${reservation.userId}`,
+                            {
+                                headers: {
+                                    Authorization:
+                                        "Bearer " +
+                                        localStorage.getItem("employeeToken"),
+                                },
+                            }
+                        );
+                        const user = await userResponse.json();
+
+                        // Determinar o status da reserva (baseado na data)
+                        let status = "pending";
+                        const now = new Date();
+                        if (startDate < now && endDate > now) {
+                            status = "confirmed";
+                        } else if (endDate < now) {
+                            status = "completed";
+                        }
+
+                        // Criar o card da reserva
+                        const card = document.createElement("div");
+                        card.className = "reservation-card";
+                        card.innerHTML = `
                         <div class="reservation-header">
                             <div>
-                                <span class="reservation-id">#RESERVA-${reservation.id
-                        }</span>
+                                <span class="reservation-id">#RESERVA-${
+                                    reservation.id
+                                }</span>
                                 <span>${kiosk.title}</span>
                             </div>
-                            <span class="reservation-status status-${status}">${status === "confirmed"
-                            ? "CONFIRMADO"
-                            : status === "pending"
+                            <span class="reservation-status status-${status}">${
+                            status === "confirmed"
+                                ? "CONFIRMADO"
+                                : status === "pending"
                                 ? "PENDENTE"
                                 : "FINALIZADO"
                         }</span>
@@ -650,299 +920,310 @@
                             </div>
                         </div>
                         <div class="reservation-actions">
-                            ${status === "pending"
-                            ? '<button class="action-btn confirm-btn" data-id="' +
-                            reservation.id +
-                            '">Confirmar</button>'
-                            : ""
-                        }
-                            <button class="action-btn cancel-btn" data-id="${reservation.id
-                        }">Cancelar</button>
-                            <button class="action-btn edit-btn" data-id="${reservation.id
-                        }">Editar</button>
+                            ${
+                                status === "pending"
+                                    ? '<button class="action-btn confirm-btn" data-id="' +
+                                      reservation.id +
+                                      '">Confirmar</button>'
+                                    : ""
+                            }
+                            <button class="action-btn cancel-btn" data-id="${
+                                reservation.id
+                            }">Cancelar</button>
+                            <button class="action-btn edit-btn" data-id="${
+                                reservation.id
+                            }">Editar</button>
                         </div>
                     `;
 
-                    reservationList.appendChild(card);
+                        reservationList.appendChild(card);
+                    } catch (error) {
+                        console.error("Erro ao processar reserva:", error);
+                    }
+                }
+
+                // Adicionar event listeners para os botões
+                setupReservationButtons();
+            }
+
+            // Configurar os botões nas reservas
+            function setupReservationButtons() {
+                // Botões de confirmar
+                const confirmButtons =
+                    document.querySelectorAll(".confirm-btn");
+                confirmButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const reservationId = this.getAttribute("data-id");
+                        if (confirm("Deseja confirmar esta reserva?")) {
+                            updateReservationStatus(reservationId, "confirmed");
+                        }
+                    });
+                });
+
+                // Botões de cancelar
+                const cancelButtons = document.querySelectorAll(".cancel-btn");
+                cancelButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const reservationId = this.getAttribute("data-id");
+                        if (
+                            confirm(
+                                "Tem certeza que deseja cancelar esta reserva?"
+                            )
+                        ) {
+                            deleteReservation(reservationId);
+                        }
+                    });
+                });
+
+                // Botões de editar
+                const editButtons = document.querySelectorAll(".edit-btn");
+                editButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const reservationId = this.getAttribute("data-id");
+                        editReservationModal(reservationId); // Nova função que abre o modal preenchido
+                    });
+                });
+            }
+
+            // Função para atualizar o status de uma reserva
+            async function updateReservationStatus(reservationId, status) {
+                try {
+                    // Em uma aplicação real, você enviaria o novo status para o backend
+                    // Por enquanto, apenas exibimos uma mensagem e recarregamos
+                    alert(
+                        `Status da reserva #${reservationId} atualizado para: ${status}`
+                    );
+                    loadReservations();
                 } catch (error) {
-                    console.error("Erro ao processar reserva:", error);
+                    console.error(
+                        "Erro ao atualizar status da reserva:",
+                        error
+                    );
+                    alert("Erro ao atualizar o status da reserva");
                 }
             }
 
-            // Adicionar event listeners para os botões
-            setupReservationButtons();
-        }
+            // Função para deletar uma reserva
+            async function deleteReservation(reservationId) {
+                try {
+                    const response = await fetch(
+                        `http://localhost:5050/api/Reservation/${reservationId}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    localStorage.getItem("employeeToken"),
+                            },
+                        }
+                    );
 
-        // Configurar os botões nas reservas
-        function setupReservationButtons() {
-            // Botões de confirmar
-            const confirmButtons =
-                document.querySelectorAll(".confirm-btn");
-            confirmButtons.forEach((button) => {
-                button.addEventListener("click", function () {
-                    const reservationId = this.getAttribute("data-id");
-                    if (confirm("Deseja confirmar esta reserva?")) {
-                        updateReservationStatus(reservationId, "confirmed");
+                    if (!response.ok) {
+                        throw new Error("Erro ao cancelar reserva");
                     }
-                });
-            });
 
-            // Botões de cancelar
-            const cancelButtons = document.querySelectorAll(".cancel-btn");
-            cancelButtons.forEach((button) => {
-                button.addEventListener("click", function () {
-                    const reservationId = this.getAttribute("data-id");
-                    if (
-                        confirm(
-                            "Tem certeza que deseja cancelar esta reserva?"
-                        )
-                    ) {
-                        deleteReservation(reservationId);
-                    }
-                });
-            });
-
-            // Botões de editar
-            const editButtons = document.querySelectorAll(".edit-btn");
-            editButtons.forEach((button) => {
-                button.addEventListener("click", function () {
-                    const reservationId = this.getAttribute("data-id");
-                    editReservationModal(reservationId); // Nova função que abre o modal preenchido
-                });
-            });
-        }
-
-        // Função para atualizar o status de uma reserva
-        async function updateReservationStatus(reservationId, status) {
-            try {
-                // Em uma aplicação real, você enviaria o novo status para o backend
-                // Por enquanto, apenas exibimos uma mensagem e recarregamos
-                alert(
-                    `Status da reserva #${reservationId} atualizado para: ${status}`
-                );
-                loadReservations();
-            } catch (error) {
-                console.error(
-                    "Erro ao atualizar status da reserva:",
-                    error
-                );
-                alert("Erro ao atualizar o status da reserva");
-            }
-        }
-
-        // Função para deletar uma reserva
-        async function deleteReservation(reservationId) {
-            try {
-                const response = await fetch(
-                    `http://localhost:5050/api/Reservation/${reservationId}`,
-                    {
-                        method: "DELETE",
-                        headers: {
-                            Authorization:
-                                "Bearer " +
-                                localStorage.getItem("employeeToken"),
-                        },
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error("Erro ao cancelar reserva");
+                    alert("Reserva cancelada com sucesso!");
+                    loadReservations();
+                } catch (error) {
+                    console.error("Erro ao cancelar reserva:", error);
+                    alert("Erro ao cancelar a reserva");
                 }
-
-                alert("Reserva cancelada com sucesso!");
-                loadReservations();
-            } catch (error) {
-                console.error("Erro ao cancelar reserva:", error);
-                alert("Erro ao cancelar a reserva");
             }
-        }
 
-        function openModal(
-            kioskName,
-            kioskPrice,
-            kioskId,
-            kioskCheckin,
-            kioskCheckout
-        ) {
-            // Preencher os campos do modal
-            document.getElementById("modalKioskName").textContent =
-                kioskName;
-            document.getElementById("kiosk-type").value = kioskName;
-            document.getElementById("kiosk-id").value = kioskId;
-
-            document.getElementById(
-                "reservation-summary-kiosk"
-            ).textContent = kioskName;
-
-            // Converter para objeto Date se necessário
-            const checkinDate = new Date(kioskCheckin);
-            const checkoutDate = new Date(kioskCheckout);
-
-            // Preencher as datas no formulário
-            document.getElementById("reservation-date").value = checkinDate
-                .toISOString()
-                .split("T")[0];
-            document.getElementById("reservation-date-out").value =
-                checkoutDate.toISOString().split("T")[0];
-
-            if (typeof kioskPrice === "number") {
-                document.getElementById("kiosk-price").value = kioskPrice;
-
-                // Calcular número de dias
-                const timeDiff = checkoutDate - checkinDate;
-                const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-                const totalPrice = kioskPrice * days;
+            function openModal(
+                kioskName,
+                kioskPrice,
+                kioskId,
+                kioskCheckin,
+                kioskCheckout
+            ) {
+                // Preencher os campos do modal
+                document.getElementById("modalKioskName").textContent =
+                    kioskName;
+                document.getElementById("kiosk-type").value = kioskName;
+                document.getElementById("kiosk-id").value = kioskId;
 
                 document.getElementById(
-                    "reservation-summary-price"
-                ).textContent = "R$ " + totalPrice.toFixed(2);
-            } else {
-                document.getElementById("kiosk-price").value = "";
-                document.getElementById(
-                    "reservation-summary-price"
-                ).textContent = "Valor não definido";
-            }
+                    "reservation-summary-kiosk"
+                ).textContent = kioskName;
 
-            // Exibe o modal
-            document.getElementById("reservationModal").style.display =
-                "flex";
-        }
+                // Converter para objeto Date se necessário
+                const checkinDate = new Date(kioskCheckin);
+                const checkoutDate = new Date(kioskCheckout);
 
-        function closeModal() {
-            document.getElementById("reservationModal").style.display =
-                "none";
-        }
+                // Preencher as datas no formulário
+                document.getElementById("reservation-date").value = checkinDate
+                    .toISOString()
+                    .split("T")[0];
+                document.getElementById("reservation-date-out").value =
+                    checkoutDate.toISOString().split("T")[0];
 
-        // Fechar modal ao clicar fora do conteúdo
-        window.onclick = function (event) {
-            const modal = document.getElementById("reservationModal");
-            if (event.target === modal) {
-                closeModal();
-            }
-        };
+                if (typeof kioskPrice === "number") {
+                    document.getElementById("kiosk-price").value = kioskPrice;
 
-        async function editReservationModal(reservationId) {
-            try {
-                const res = await fetch(
-                    `http://localhost:5050/api/Reservation/${reservationId}`,
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " +
-                                localStorage.getItem("employeeToken"),
-                        },
-                    }
-                );
-                const reservation = await res.json();
-                console.table(reservation);
+                    // Calcular número de dias
+                    const timeDiff = checkoutDate - checkinDate;
+                    const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
-                const userRes = await fetch(
-                    `http://localhost:5050/api/User/${reservation.userId}`,
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " +
-                                localStorage.getItem("employeeToken"),
-                        },
-                    }
-                );
-                const user = await userRes.json();
+                    const totalPrice = kioskPrice * days;
 
-                const kioskRes = await fetch(
-                    `http://localhost:5050/api/Kiosk/${reservation.kioskId}`,
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " +
-                                localStorage.getItem("employeeToken"),
-                        },
-                    }
-                );
-                const kiosk = await kioskRes.json();
-                console.table(kiosk);
-
-                // Abrir modal com dados preenchidos
-                openModal(
-                    kiosk.title,
-                    kiosk.value,
-                    kiosk.id,
-                    reservation.startTime,
-                    reservation.endTime
-                );
-
-                // Preencher os campos do formulário
-                document.getElementById("reservation-name").value =
-                    user.fullName;
-                document.getElementById("reservation-cpf").value = user.cpf;
-                document.getElementById("reservation-email").value =
-                    user.email;
-                document.getElementById("reservation-phone").value =
-                    user.phone;
-
-                document.getElementById("reservation-people").value =
-                    kiosk.maxPeople;
-                document.getElementById("reservation-notes").value =
-                    reservation.description || "";
-
-                // Você pode guardar o reservationId em um campo oculto, se quiser usar depois para salvar as edições
-                const hiddenIdField =
-                    document.getElementById("reservation-id");
-                if (!hiddenIdField) {
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.id = "reservation-id";
-                    input.value = reservation.id;
-                    document
-                        .getElementById("reservation-form")
-                        .appendChild(input);
+                    document.getElementById(
+                        "reservation-summary-price"
+                    ).textContent = "R$ " + totalPrice.toFixed(2);
                 } else {
-                    hiddenIdField.value = reservation.id;
+                    document.getElementById("kiosk-price").value = "";
+                    document.getElementById(
+                        "reservation-summary-price"
+                    ).textContent = "Valor não definido";
                 }
-            } catch (error) {
-                console.error(
-                    "Erro ao carregar reserva para edição:",
-                    error
-                );
-                alert("Erro ao carregar dados da reserva.");
+
+                // Exibe o modal
+                document.getElementById("reservationModal").style.display =
+                    "flex";
             }
-        }
-    </script>
 
-    <script>
-        document.getElementById('productForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
+            function closeModal() {
+                document.getElementById("reservationModal").style.display =
+                    "none";
+            }
 
-            const product = {
-                productName: document.getElementById('productName').value,
-                description: document.getElementById('description').value,
-                cost: parseFloat(document.getElementById('cost').value),
-                price: parseFloat(document.getElementById('price').value),
-                stock: parseInt(document.getElementById('stock').value)
+            // Fechar modal ao clicar fora do conteúdo
+            window.onclick = function (event) {
+                const modal = document.getElementById("reservationModal");
+                if (event.target === modal) {
+                    closeModal();
+                }
             };
 
-            try {
-                const response = await fetch('http://localhost:5050/api/Product', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(product)
-                });
+            async function editReservationModal(reservationId) {
+                try {
+                    const res = await fetch(
+                        `http://localhost:5050/api/Reservation/${reservationId}`,
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    localStorage.getItem("employeeToken"),
+                            },
+                        }
+                    );
+                    const reservation = await res.json();
+                    console.table(reservation);
 
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    const userRes = await fetch(
+                        `http://localhost:5050/api/User/${reservation.userId}`,
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    localStorage.getItem("employeeToken"),
+                            },
+                        }
+                    );
+                    const user = await userRes.json();
+
+                    const kioskRes = await fetch(
+                        `http://localhost:5050/api/Kiosk/${reservation.kioskId}`,
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    localStorage.getItem("employeeToken"),
+                            },
+                        }
+                    );
+                    const kiosk = await kioskRes.json();
+                    console.table(kiosk);
+
+                    // Abrir modal com dados preenchidos
+                    openModal(
+                        kiosk.title,
+                        kiosk.value,
+                        kiosk.id,
+                        reservation.startTime,
+                        reservation.endTime
+                    );
+
+                    // Preencher os campos do formulário
+                    document.getElementById("reservation-name").value =
+                        user.fullName;
+                    document.getElementById("reservation-cpf").value = user.cpf;
+                    document.getElementById("reservation-email").value =
+                        user.email;
+                    document.getElementById("reservation-phone").value =
+                        user.phone;
+
+                    document.getElementById("reservation-people").value =
+                        kiosk.maxPeople;
+                    document.getElementById("reservation-notes").value =
+                        reservation.description || "";
+
+                    // Você pode guardar o reservationId em um campo oculto, se quiser usar depois para salvar as edições
+                    const hiddenIdField =
+                        document.getElementById("reservation-id");
+                    if (!hiddenIdField) {
+                        const input = document.createElement("input");
+                        input.type = "hidden";
+                        input.id = "reservation-id";
+                        input.value = reservation.id;
+                        document
+                            .getElementById("reservation-form")
+                            .appendChild(input);
+                    } else {
+                        hiddenIdField.value = reservation.id;
+                    }
+                } catch (error) {
+                    console.error(
+                        "Erro ao carregar reserva para edição:",
+                        error
+                    );
+                    alert("Erro ao carregar dados da reserva.");
                 }
-                console.table(response)
-                const result = await response.json();
-                alert('Produto cadastrado com sucesso!');
-                this.reset();
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao cadastrar produto');
             }
-        });
-    </script>
-</body>
+        </script>
 
+        <script>
+            document
+                .getElementById("productForm")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+
+                    const product = {
+                        productName:
+                            document.getElementById("productName").value,
+                        description:
+                            document.getElementById("description").value,
+                        cost: parseFloat(document.getElementById("cost").value),
+                        price: parseFloat(
+                            document.getElementById("price").value
+                        ),
+                        stock: parseInt(document.getElementById("stock").value),
+                    };
+
+                    try {
+                        const response = await fetch(
+                            "http://localhost:5050/api/Product",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(product),
+                            }
+                        );
+
+                        if (!response.ok) {
+                            throw new Error(`Erro HTTP: ${response.status}`);
+                        }
+                        console.table(response);
+                        const result = await response.json();
+                        alert("Produto cadastrado com sucesso!");
+                        this.reset();
+                    } catch (error) {
+                        console.error("Erro:", error);
+                        alert("Erro ao cadastrar produto");
+                    }
+                });
+        </script>
+    </body>
 </html>

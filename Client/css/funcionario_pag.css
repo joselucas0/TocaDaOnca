@@ -453,6 +453,27 @@ footer {
     font-size: 1rem;
 }
 
+#header-sales {
+    display: flex;
+    justify-content: space-between;
+}
+
+#clear-sales {
+    background-color: #eb361e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+    float: right;
+}
+
+#clear-sales:hover {
+    background-color: #970808;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     header {
